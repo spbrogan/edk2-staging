@@ -32,7 +32,7 @@ LIBRARY_CLASS   = UnitTestLib
 
 [Packages]
   MdePkg/MdePkg.dec
-  UnitTestPkg/UnitTestPkg.dec
+  UefiHostUnitTestPkg/UefiHostUnitTestPkg.dec
 
 
 [Guids]

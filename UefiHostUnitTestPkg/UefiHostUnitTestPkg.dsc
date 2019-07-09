@@ -56,10 +56,10 @@
 
   CpuLib|UefiHostTestPkg/Library/BaseCpuLibHost/BaseCpuLibHost.inf
 
-  PciHostBridgeStubLib|UefiHostUnitTestCasePkg/TestStub/PciHostBridgeStubLib/PciHostBridgeStubLib.inf
-  PciSegmentLib|UefiHostUnitTestCasePkg/TestStub/PciSegmentStubLib/PciSegmentStubLib.inf
-  PciSegmentStubLib|UefiHostUnitTestCasePkg/TestStub/PciSegmentStubLib/PciSegmentStubLib.inf
-  MtrrStubLib|UefiHostUnitTestCasePkg/TestStub/MtrrStubLib/MtrrStubLib.inf
+  # PciHostBridgeStubLib|UefiHostUnitTestCasePkg/TestStub/PciHostBridgeStubLib/PciHostBridgeStubLib.inf
+  # PciSegmentLib|UefiHostUnitTestCasePkg/TestStub/PciSegmentStubLib/PciSegmentStubLib.inf
+  # PciSegmentStubLib|UefiHostUnitTestCasePkg/TestStub/PciSegmentStubLib/PciSegmentStubLib.inf
+  # MtrrStubLib|UefiHostUnitTestCasePkg/TestStub/MtrrStubLib/MtrrStubLib.inf
 
   OsServiceLib|UefiHostTestPkg/Library/OsServiceLibHost/OsServiceLibHost.inf
 

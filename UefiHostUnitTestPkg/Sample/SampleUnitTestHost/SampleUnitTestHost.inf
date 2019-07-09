@@ -21,7 +21,7 @@
 
 [Packages]
   MdePkg/MdePkg.dec
-  UnitTestPkg/UnitTestPkg.dec
+  UefiHostUnitTestPkg/UefiHostUnitTestPkg.dec
 
 [Protocols]
 

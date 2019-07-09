@@ -19,7 +19,6 @@
 
 [Packages]
   MdePkg/MdePkg.dec
-  UnitTestPkg/UnitTestPkg.dec
   UefiHostUnitTestPkg/UefiHostUnitTestPkg.dec
   CmockaHostUnitTestPkg/CmockaHostUnitTestPkg.dec
   

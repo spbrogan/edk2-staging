@@ -21,7 +21,7 @@ LIBRARY_CLASS   = UnitTestBootLib
 
 [Packages]
   MdePkg/MdePkg.dec
-  UnitTestPkg/UnitTestPkg.dec
+  UefiHostUnitTestPkg/UefiHostUnitTestPkg.dec
 
 [Guids]
 

@@ -12,6 +12,7 @@
   PACKAGE_VERSION                = 0.1
 
 [Includes.common]
+  Include
   
 [Guids]
   gUefiHostUnitTestPkgTokenSpaceGuid = { 0xa5254af1, 0x6b9, 0x483f, { 0xa5, 0xf5, 0xc, 0x6f, 0xbf, 0x66, 0x48, 0xd6 } }
