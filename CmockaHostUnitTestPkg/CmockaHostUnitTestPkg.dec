@@ -1,0 +1,16 @@
+## @file  CmockaHostUnitTestPkg.dec
+#
+# Copyright (c) 2019, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = CmockaHostUnitTestPkg
+  PACKAGE_GUID                   = 09566709-F1CA-4365-BB99-FC7869BE4E1C
+  PACKAGE_VERSION                = 0.1
+
+[Includes]
+  Library/CmockaLib/cmocka/include
+  Library/CmockaLib/cmocka/include/cmockery
