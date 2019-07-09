@@ -50,7 +50,7 @@
 [Packages]
   MdePkg/MdePkg.dec
   UefiHostTestPkg/UefiHostTestPkg.dec
-  UnitTestPkg/UnitTestPkg.dec
+  UefiHostUnitTestPkg/UefiHostUnitTestPkg.dec
 
 [LibraryClasses]
   BaseLib
