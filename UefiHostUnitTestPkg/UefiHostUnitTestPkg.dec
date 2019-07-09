@@ -1,0 +1,23 @@
+## @file  UefiHostUnitTestPkg.dec
+#
+# Copyright (c) 2018, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = UefiHostUnitTestPkg
+  PACKAGE_GUID                   = 9A5DFF3F-A1F3-4F45-BD21-79009EA1F6E7
+  PACKAGE_VERSION                = 0.1
+
+[Includes.common]
+  
+[Guids]
+  gUefiHostUnitTestPkgTokenSpaceGuid = { 0xa5254af1, 0x6b9, 0x483f, { 0xa5, 0xf5, 0xc, 0x6f, 0xbf, 0x66, 0x48, 0xd6 } }
+
+[PcdsFixedAtBuild]
+   # 0: Normal mode
+   # 1: XML mode
+  gUefiHostUnitTestPkgTokenSpaceGuid.HostUnitTestMode|0x00|UINT8|0x00000001
+  

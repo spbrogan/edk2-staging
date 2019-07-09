@@ -1,0 +1,44 @@
+## @file
+# Library to support Unit Testing from UEFI shell
+# 
+#
+# @copyright
+# Copyright (c) 2016 Microsoft Corporation. All rights reserved
+#
+# @par Specification Reference:
+#
+##
+
+
+[Defines]
+INF_VERSION     = 0x00010017
+BASE_NAME       = UnitTestLibHost
+FILE_GUID       = 71B9ADA9-ACE0-40D7-902A-BEAE05C08A39
+VERSION_STRING  = 1.0
+MODULE_TYPE     = BASE
+LIBRARY_CLASS   = UnitTestLib
+
+
+[LibraryClasses]
+  DebugLib
+  MemoryAllocationLib
+  BaseMemoryLib
+  BaseLib
+  UnitTestLogLib
+  UnitTestPersistenceLib
+  UnitTestBootLib
+  UnitTestResultReportLib
+
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UnitTestPkg/UnitTestPkg.dec
+
+
+[Guids]
+
+
+[Sources]
+  UnitTestLib.c
+  UnitTestLibHost.c
+  Md5.c

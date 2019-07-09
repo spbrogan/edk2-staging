@@ -1,0 +1,44 @@
+## @file
+## Copyright (c) 2016, Microsoft Corporation. All rights reserved.<BR>
+##
+
+
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = SampleUnitTestcmocka
+  FILE_GUID                      = 03C8824C-0F69-42EF-9C42-D38C84F7AA4E
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64 IPF EBC
+#
+
+[Sources]
+  SampleUnitTestcmocka.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UnitTestPkg/UnitTestPkg.dec
+  UefiHostUnitTestPkg/UefiHostUnitTestPkg.dec
+  CmockaHostUnitTestPkg/CmockaHostUnitTestPkg.dec
+
+[Protocols]
+
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  UnitTestLib
+  UnitTestAssertLib
+  PrintLib
+  CmockaLib
+
+[Guids]
+
+[Pcd]
+  gUefiHostUnitTestPkgTokenSpaceGuid.HostUnitTestMode
+
+

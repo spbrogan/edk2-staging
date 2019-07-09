@@ -1,0 +1,29 @@
+## @file
+# NULL library for UnitTestBootUsb
+# 
+#
+# @copyright
+# Copyright (c) 2018 Microsoft Corporation. All rights reserved
+#
+##
+
+
+[Defines]
+INF_VERSION     = 0x00010017
+BASE_NAME       = UnitTestBootLibHost
+FILE_GUID       = 6D8877A1-2AB7-4ECC-93DF-627FA58328B3
+VERSION_STRING  = 1.0
+MODULE_TYPE     = BASE
+LIBRARY_CLASS   = UnitTestBootLib
+
+
+[LibraryClasses]
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UnitTestPkg/UnitTestPkg.dec
+
+[Guids]
+
+[Sources]
+  UnitTestBootLibHost.c
