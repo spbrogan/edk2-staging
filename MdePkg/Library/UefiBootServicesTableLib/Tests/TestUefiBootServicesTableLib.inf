@@ -1,0 +1,36 @@
+## @file
+# Component description file for TestPartition module.
+#
+# Copyright (c) 2019, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = TestUefiBootServicesTableLib
+  FILE_GUID                      = 571925B7-FF23-4941-8B26-9A21A1A2EEE7
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64
+#
+
+[Sources]
+  TestUefiBootServicesTableLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiHostTestPkg/UefiHostTestPkg.dec
+  UnitTestPkg/UnitTestPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  UefiBootServicesTableLib
+  UnitTestLib
+  UnitTestAssertLib
+
