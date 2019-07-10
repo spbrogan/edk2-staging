@@ -1,0 +1,46 @@
+## @file
+# Component description file for TestPartition module.
+#
+# Copyright (c) 2019, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = TestRegularExpressionDxe
+  FILE_GUID                      = EFD7193D-0CDC-4E19-A2EB-1AA6E9933DC3
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64
+#
+
+[Sources]
+  TestRegularExpressionDxe.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  UefiHostTestPkg/UefiHostTestPkg.dec
+  UnitTestPkg/UnitTestPkg.dec
+
+[LibraryClasses]
+  UefiBootServicesTableLib
+  MemoryAllocationLib
+  BaseMemoryLib
+  BaseLib
+  DebugLib
+  PrintLib
+  UnitTestLib
+  UnitTestAssertLib
+
+[Guids]
+  gEfiRegexSyntaxTypePosixExtendedGuid    ## CONSUMES  ## GUID
+  gEfiRegexSyntaxTypePerlGuid             ## CONSUMES  ## GUID
+
+[Protocols]
+  gEfiRegularExpressionProtocolGuid       ## PRODUCES
