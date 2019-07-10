@@ -28,7 +28,7 @@
 [Packages]
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
-  UefiHostUnitTestCasePkg/UefiHostUnitTestCasePkg.dec
+  UefiHostTestPkg/UefiHostTestPkg.dec
 
 [LibraryClasses]
   BaseLib
