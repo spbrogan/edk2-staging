@@ -64,4 +64,19 @@
   MdePkg/Library/UefiMemoryAllocationLib/Tests/TestMemoryAllocationLib.inf
   MdePkg/Library/UefiRuntimeServicesTableLib/Tests/TestUefiRuntimeServicesTableLib.inf
 
+  MdePkg/Library/BasePcdLibNull/Tests/TestPcdLibStatic.inf {
+  <LibraryClasses>
+    PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
+  <PcdsPatchableInModule>
+    gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidStrAsc|"StrAsc"|VOID*|12
+    gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidStrUni|L"StrUni"|VOID*|28
+    gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidBufAll0|{0x0, 0x0, 0x0}|VOID*|5
+    gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidBufAll1|{0xFF, 0xFF, 0xFF}|VOID*|5
+  }
+  MdePkg/Library/BasePcdLibNull/Tests/TestPcdLibDynamic.inf {
+  <LibraryClasses>
+    PcdLib|UefiHostTestPkg/Library/BasePcdLibHost/BasePcdLibHost.inf
+  }
+
+
 !include UefiHostUnitTestPkg/UefiHostUnitTestBuildOption.dsc
