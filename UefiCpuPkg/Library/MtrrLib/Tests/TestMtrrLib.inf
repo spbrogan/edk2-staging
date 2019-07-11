@@ -1,0 +1,40 @@
+## @file
+# Component description file for TestPartition module.
+#
+# Copyright (c) 2019, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = TestMtrrLib
+  FILE_GUID                      = 5830D8AD-54E7-4797-BF4D-F8D266979D75
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64
+#
+
+[Sources]
+  TestMtrrLib.c
+  Support.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiCpuPkg/UefiCpuPkg.dec
+  UefiHostTestPkg/UefiHostTestPkg.dec
+  UnitTestPkg/UnitTestPkg.dec
+  UefiHostUnitTestCasePkg/UefiHostUnitTestCasePkg.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  CpuLib
+  MtrrStubLib
+  UnitTestLib
+  UnitTestAssertLib
+
