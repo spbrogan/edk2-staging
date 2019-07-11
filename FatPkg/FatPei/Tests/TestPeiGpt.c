@@ -28,6 +28,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #define UNIT_TEST_VERSION     L"0.1"
 #define MAX_STRING_SIZE  1025
 
+#define GPT_TEST_BIN_PATH	  "GptTestBin/"
 
 /**
 Simple test.
@@ -190,7 +191,7 @@ TestFatFindGptPartitionsNormal(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 	
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/Gpt.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/Gpt.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -230,7 +231,7 @@ TestFatFindGptPartitionsPrimaryBreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptPrimaryBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptPrimaryBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -271,7 +272,7 @@ TestFatFindGptPartitionsPrimaryBackupBreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptPrimaryBackupBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptPrimaryBackupBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -312,7 +313,7 @@ TestFatFindGptPartitionsBlockNo(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptBlockNo.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptBlockNo.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBufferNotFixCRC (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -353,7 +354,7 @@ TestFatFindGptPartitionsPartEntryArrayCRC(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptPartEntryArrayCRC.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptPartEntryArrayCRC.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBufferNotFixCRC (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -394,7 +395,7 @@ TestFatFindGptPartitionsCRC(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptCRC.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptCRC.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBufferNotFixCRC (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -435,7 +436,7 @@ TestFatFindGptPartitionsSizeOfPartitionEntry(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptSizeOfPartEntry.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptSizeOfPartEntry.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -476,7 +477,7 @@ TestFatFindGptPartitionsRevisionBreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptRevisionBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptRevisionBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -517,7 +518,7 @@ TestFatFindGptPartitionsHeaderSizeBreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptHeaderSizeBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptHeaderSizeBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -558,7 +559,7 @@ TestFatFindGptPartitionsReservedBreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptReservedBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptReservedBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -599,7 +600,7 @@ TestFatFindGptPartitionsMyLBABreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptMyLBABreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptMyLBABreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -640,7 +641,7 @@ TestFatFindGptPartitionsAlternateLBABreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptAlternateLBABreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptAlternateLBABreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -681,7 +682,7 @@ TestFatFindGptPartitionsFirstUsableLBABreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptFirstUsableLBABreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptFirstUsableLBABreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -722,7 +723,7 @@ TestFatFindGptPartitionsLastUsableLBABreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptLastUsableLBABreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptLastUsableLBABreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -763,7 +764,7 @@ TestFatFindGptPartitionsDiskGUIDBreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptDiskGuidBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptDiskGuidBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -804,7 +805,7 @@ TestFatFindGptPartitionsPartitionEntryLBABreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptPartitionEntryLBABreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptPartitionEntryLBABreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -845,7 +846,7 @@ TestFatFindGptPartitionsLastReservedBreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptLastReservedBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptLastReservedBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -886,7 +887,7 @@ TestFatFindGptPartitionsPartitionEntrySizeOverflow(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptPartitionEntrySizeOverflow.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptPartitionEntrySizeOverflow.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -927,7 +928,7 @@ TestFatFindGptPartitionsBackupBreak(
 	}
 	memset (TestBuffer, 0, TOTAL_SIZE);
 
-	ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptBackupBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+	ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptBackupBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
 	FixBuffer (TestBuffer, TestBufferSize);
 
 	ParentBlockDevNo = 0;
@@ -967,7 +968,7 @@ TestFatFindGptPartitionsBlockDeviceCountOverflow(
     }
     memset (TestBuffer, 0, TOTAL_SIZE);
 
-    ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/Gpt.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+    ReadSeedBuffer (GPT_TEST_BIN_PATH"/Gpt.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
     FixBuffer (TestBuffer, TestBufferSize);
 
     ParentBlockDevNo = 0;
@@ -1009,7 +1010,7 @@ TestFatFindGptPartitionsMBRBreak(
     }
     memset (TestBuffer, 0, TOTAL_SIZE);
 
-    ReadSeedBuffer ("../../../../UefiHostUnitTestCasePkg/TestCase/FatPkg/FatPei/GptTestBin/GptMBRBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
+    ReadSeedBuffer (GPT_TEST_BIN_PATH"/GptMBRBreak.bin", TestBuffer, TOTAL_SIZE, &TestBufferSize);
     FixBuffer (TestBuffer, TestBufferSize);
 
     ParentBlockDevNo = 0;
