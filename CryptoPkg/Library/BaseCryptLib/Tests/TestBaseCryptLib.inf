@@ -38,7 +38,7 @@
 
 [Packages]
   MdePkg/MdePkg.dec
-  UnitTestPkg/UnitTestPkg.dec
+  UefiHostUnitTestPkg/UefiHostUnitTestPkg.dec
   CryptoPkg/CryptoPkg.dec
 
 [LibraryClasses]
