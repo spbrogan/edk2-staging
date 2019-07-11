@@ -32,6 +32,7 @@
   PeCoffExtraActionLib|MdePkg/Library/BasePeCoffExtraActionLibNull/BasePeCoffExtraActionLibNull.inf
   PerformanceLib|MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull.inf
   PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
+  RngLib|MdePkg/Library/BaseRngLib/BaseRngLib.inf
   UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
 
   SecurityManagementLib|MdeModulePkg/Library/DxeSecurityManagementLib/DxeSecurityManagementLib.inf
@@ -45,6 +46,7 @@
   OsServiceLib|UefiHostTestPkg/Library/OsServiceLibHost/OsServiceLibHost.inf
   TimerLib|UefiHostTestPkg/Library/BaseTimerLibHost/BaseTimerLibHost.inf
   UefiBootServicesTableLib|UefiHostTestPkg/Library/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
+  UefiDriverEntryPoint|UefiHostTestPkg/Library/UefiDriverEntryPointHost/UefiDriverEntryPointHost.inf
   UefiRuntimeServicesTableLib|UefiHostTestPkg/Library/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
   UnitTestAssertLib|UefiHostUnitTestPkg/Library/UnitTestAssertLibcmocka/UnitTestAssertLibcmocka.inf
   UnitTestLib|UefiHostUnitTestPkg/Library/UnitTestLibcmocka/UnitTestLibcmocka.inf
@@ -141,6 +143,12 @@
   SecurityPkg/Library/DxeImageVerificationLib/Tests/TestDxeImageVerificationLib.inf {
   <LibraryClasses>
     NULL|SecurityPkg/Library/DxeImageVerificationLib/DxeImageVerificationLib.inf
+  }
+
+  SecurityPkg/RandomNumberGenerator/RngDxe/Tests/TestRngDxe.inf {
+  <LibraryClasses>
+    NULL|UefiHostTestPkg/Library/BaseLibNullCpuid/BaseLibNullCpuid.inf
+    NULL|SecurityPkg/RandomNumberGenerator/RngDxe/RngDxe.inf
   }
 
 !include UefiHostUnitTestPkg/UefiHostUnitTestBuildOption.dsc
