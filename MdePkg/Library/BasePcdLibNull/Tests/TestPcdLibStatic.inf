@@ -1,0 +1,73 @@
+## @file
+# Component description file for TestPartition module.
+#
+# Copyright (c) 2019, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = TestPcdLibStatic
+  FILE_GUID                      = 3AB3A2BE-E5C3-451F-9BD7-1AE16A5840B0
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64
+#
+
+[Sources]
+  TestPcdLibStatic.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UnitTestPkg/UnitTestPkg.dec
+  UefiHostTestPkg/UefiHostTestPkg.dec
+  UefiHostUnitTestCasePkg/UefiHostUnitTestCasePkg.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  PcdLib
+  UnitTestLib
+  UnitTestAssertLib
+
+[FeaturePcd]
+  gTestCasePkgTokenSpaceGuid.PcdTestFeaturePlagTrue
+  gTestCasePkgTokenSpaceGuid.PcdTestFeaturePlagFalse
+
+[Pcd]
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildBoolTrue
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildBoolFalse
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildUint8All0
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildUint8All1
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildUint16All0
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildUint16All1
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildUint32All0
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildUint32All1
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildUint64All0
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildUint64All1
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildVoidStrAsc
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildVoidStrUni
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildVoidBufAll0
+  gTestCasePkgTokenSpaceGuid.PcdTestFixedAtBuildVoidBufAll1
+
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleBoolTrue
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleBoolFalse
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleUint8All0
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleUint8All1
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleUint16All0
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleUint16All1
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleUint32All0
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleUint32All1
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleUint64All0
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleUint64All1
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidStrAsc
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidStrUni
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidBufAll0
+  gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidBufAll1
+
+

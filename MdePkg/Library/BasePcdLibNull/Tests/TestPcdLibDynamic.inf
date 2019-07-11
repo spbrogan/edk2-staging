@@ -1,0 +1,72 @@
+## @file
+# Component description file for TestPartition module.
+#
+# Copyright (c) 2019, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = TestPcdLibDynamic
+  FILE_GUID                      = 4FC3C8A2-FAC1-4C5B-B52E-DAFD663D1A02
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64
+#
+
+[Sources]
+  TestPcdLibDynamic.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UnitTestPkg/UnitTestPkg.dec
+  UefiHostTestPkg/UefiHostTestPkg.dec
+  UefiHostUnitTestCasePkg/UefiHostUnitTestCasePkg.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  PcdLib
+  UnitTestLib
+  UnitTestAssertLib
+
+[Guids]
+  gTestCasePkgTokenSpaceGuid
+
+[Pcd]
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicBoolTrue
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicBoolFalse
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicUint8All0
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicUint8All1
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicUint16All0
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicUint16All1
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicUint32All0
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicUint32All1
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicUint64All0
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicUint64All1
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicVoidStrAsc
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicVoidStrUni
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicVoidBufAll0
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicVoidBufAll1
+
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExBoolTrue
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExBoolFalse
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExUint8All0
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExUint8All1
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExUint16All0
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExUint16All1
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExUint32All0
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExUint32All1
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExUint64All0
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExUint64All1
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExVoidStrAsc
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExVoidStrUni
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExVoidBufAll0
+  gTestCasePkgTokenSpaceGuid.PcdTestDynamicExVoidBufAll1
+
+
