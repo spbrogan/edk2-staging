@@ -1,0 +1,46 @@
+## @file
+#    Lite Fat driver only used in Pei Phase.
+#
+#  Copyright (c) 2006 - 2018, Intel Corporation. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = TestPeiGpt
+  FILE_GUID                      = 7A7054E4-6920-49C5-8AE8-2CFAB10E8700
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64 EBC
+#
+
+[Sources]
+  TestPeiGpt.c
+  FatPkg/FatPei/FatLiteApi.h
+  FatPkg/FatPei/FatLitePeim.h
+  FatPkg/FatPei/FatLiteFmt.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  UefiHostTestPkg/UefiHostTestPkg.dec
+  UnitTestPkg/UnitTestPkg.dec
+
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  MemoryAllocationLib
+  DebugLib
+  UnitTestLib
+  UnitTestAssertLib
+
+
+[Guids]
+  gEfiPartTypeUnusedGuid
