@@ -10,7 +10,7 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = TestDxeServicesTableLib
   FILE_GUID                      = C1EFB476-069B-47E7-A128-0139CEA92BD8
-  MODULE_TYPE                    = USER_DEFINED
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
 
 #

@@ -7,7 +7,7 @@
   INF_VERSION                    = 0x00010006
   BASE_NAME                      = SampleUnitTestcmocka
   FILE_GUID                      = 03C8824C-0F69-42EF-9C42-D38C84F7AA4E
-  MODULE_TYPE                    = USER_DEFINED
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
 
 #

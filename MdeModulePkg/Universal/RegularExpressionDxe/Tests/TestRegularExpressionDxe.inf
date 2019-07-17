@@ -10,7 +10,7 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = TestRegularExpressionDxe
   FILE_GUID                      = EFD7193D-0CDC-4E19-A2EB-1AA6E9933DC3
-  MODULE_TYPE                    = USER_DEFINED
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
 
 #

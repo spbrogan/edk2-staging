@@ -4,7 +4,7 @@
 #  This application can print out the supported RNG algorithm in UEFI RNG Protocol. 
 #  And then it will do a generation test on the supported RNG algorithm.  
 #
-#  Copyright (c) 2013 - 2014, Intel Corporation. All rights reserved.<BR>
+#  Copyright (c) 2013 - 2019, Intel Corporation. All rights reserved.<BR>
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
 ##
@@ -13,7 +13,7 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = TestRngDxe
   FILE_GUID                      = 5C774CE4-3195-49E5-BBD3-381E96518572
-  MODULE_TYPE                    = USER_DEFINED
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
 
 #

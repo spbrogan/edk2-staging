@@ -10,7 +10,7 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = TestPcdLibStatic
   FILE_GUID                      = 3AB3A2BE-E5C3-451F-9BD7-1AE16A5840B0
-  MODULE_TYPE                    = USER_DEFINED
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
 
 #

@@ -10,7 +10,7 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = TestUefiBootServicesTableLib
   FILE_GUID                      = 571925B7-FF23-4941-8B26-9A21A1A2EEE7
-  MODULE_TYPE                    = USER_DEFINED
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
 
 #
