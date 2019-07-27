@@ -109,4 +109,9 @@
     XCODE:*_*_*_CC_FLAGS =
   }
 
+  MdeModulePkg/Library/UefiVariablePolicyLib/UefiVariablePolicyUnitTest/UefiVariablePolicyUnitTest.inf {
+    <LibraryClasses>
+      UefiVariablePolicyLib|MdeModulePkg/Library/UefiVariablePolicyLib/UefiVariablePolicyLib.inf
+  }
+
 !include UefiHostUnitTestPkg/UefiHostUnitTestBuildOption.dsc
