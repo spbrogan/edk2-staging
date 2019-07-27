@@ -1,16 +1,23 @@
 # RFC TODOs:
 
-- CmockaHostUnitTestPkg and UnitTestPkg (mostly pieces of the UefiHostTestPkg) should move to their own repo
+- CmockaHostUnitTestPkg, UefiHostTestPkg, and UefiHostUnitTestPkg should move to their own repo
+  - What is the logic behind the split between UefiHostTestPkg and UefiHostUnitTestPkg? Is there an assumption that UefiHostTestPkg contents could be used for things beyond UnitTesting?
 
 - Document all file types and locations
   - Library Stubs
+    - Host implementations should live alongside the Null implementation which should live in the package that defines the library
+    - True stubs and shared mocks can live in the UnitTest package with "Mock" or "Stub" in the name.
   - Fuzz Tests
   - Functional Tests
+    - UnitTest package with "Functional" in the name
   - Library interface tests
+    - Should live in a package-level "Test" directory in the package that defines the interface
   - Library implementation tests
+    - Should live in a UnitTest directory within the specific implementation
   - Protocol interface tests
+    - Should live in a package-level "Test" directory in the package that defines the interface
 
-# Remaining Testing TODOs
+# Unsorted TODOs Against HBFA
 
 - UefiHostFuzzTestCasePkg
   - Should move these into their packages as described for test cases and stubs.  
@@ -21,25 +28,13 @@
 
 - UefiHostFuzzTestPkg - seems like it would go to edk2-test repo
 
-- UefiHostTestPkg - Would these be library instances for type HOST_APPLICATION.  Should they just go in the normal library instance folder of the package which declares the library class.  Just like LibNull means an empty instance should these but LibHostApp or should their INF only target HOST_APPLICATION type?  Maybe both would be needed to make it easy to find?
-
 - UefiHostTestTools - Move to edk2-test repo but should be called HBFATestTools?  
-
-- UefiHostUnitTestCasePkg - 
-  - TestCases should be reviewed and decided if they test an implementation and moved to the a UnitTest folder in the implementation.  If they test an interface like protocol then they should be moved to the package in which the protocol is defined.  
-  - TestStubs should be evaluated.  How are they different from the = LibHostApps in the UefiHostTestPkg above?  Are they used by multiple test modules?  Should the code just be added to the test using it or should the library classes be declared like standard library classes?  Why is it different than https://github.com/tianocore/edk2-staging/blob/HBFA/HBFA/UefiHostTestPkg/Include/Library/OsServiceLib.h
-
-- UefiHostUnitTestPkg - Do we need this?  Should we just write Host based unit tests against cmocka?  @Bret Barkelew?   Compare sample cmocka against sample?  Less code in cmocka format?  Lacks custom asserts like EFI_ERROR aware but those could be added to cmocka?   If there are extra things to cmocka I would suggest adding to cmockahsotunittestpkg.  
 
 - UefiInstrumentTestCasePkg - Like the FuzzTestCasePkg?
 
 - UefiInstrumentTestPkg - Like the FuzzTestPkg?  
 
-- UefiTestingPkg - Move contents to packages.  If doesn’t belong because it is system test then maybe this package moves to edk2-test
-
-- UnitTestPkg - Move to Edk2-test as UefiShellBasedUnitTestPkg?  
-
-- XmlSupportPkg 
+- XmlSupportPkg
   - Move to edk2
   - Move UnitTestResultReportLibJunitFormat to UefiTestPkg
 
