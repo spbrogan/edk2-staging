@@ -1,15 +1,15 @@
 # RFC TODOs:
 
 - CmockaHostUnitTestPkg, UefiHostTestPkg, and UefiHostUnitTestPkg should move to their own repo
-  - What is the logic behind the split between UefiHostTestPkg and UefiHostUnitTestPkg? Is there an assumption that UefiHostTestPkg contents could be used for things beyond UnitTesting?
 
 - Document all file types and locations
   - Library Stubs
     - Host implementations should live alongside the Null implementation which should live in the package that defines the library
     - True stubs and shared mocks can live in the UnitTest package with "Mock" or "Stub" in the name.
   - Fuzz Tests
+    - UnitTest repo/package with "Fuzz" in the name
   - Functional Tests
-    - UnitTest package with "Functional" in the name
+    - UnitTest repo/package with "Functional" in the name
   - Library interface tests
     - Should live in a package-level "Test" directory in the package that defines the interface
   - Library implementation tests
@@ -41,25 +41,50 @@
 
 # Testing
 
-Project Mu supports a few types of testing and this page will help provide some high level info and links for more information.  
+Project Mu supports a few types of testing and this page will help provide some high level info and links for more information.
 
-## Types of Tests
+## Testing Infrastructure - Definitions and Descriptions
 
-### Edk2/UEFI specific code base analysis
+### Host-Based Unit Tests (cmocka)
 
-*Mu_Build* provides a framework for running static tests on the code base.  Simple tests like character encoding are examples.  In Project Mu we are working to expand this set of tests to include checking guids, checking for library classes, etc.
+Host-based unit tests let you compile your unit tests to run as an application in the host.  This method can also leverage "mocking" objects/functions so that unit tests can validate functionality in isolation and force unexpected edge cases.  These unit tests call C functions directly with known parameter sets to force good and bad conditions.  They are linked directly against C code in either a library instance or module. These tests leverage a UnitTest Library.  For Project Mu we have chosen cmocka.
 
-* *LOCATION* can vary as it uses the Plugin Model so they are located anywhere within the code tree.  For Open Source common functionality tests we have added numerous to MU_Basecore/BaseTools/*PluginName*
+There are a few different types of these tests...
 
-### Basic compilation
+#### Library/Protocol Interface
+
+An interface unit test should be written such that it would be valid against any implementation of the library or protocol. For example, an interface test of DxeImageVerification lib should produce valid results for both an OpenSSL implementation and an implementation using another crypto provider. This is not going to always be true for proprietary implementations of certain libraries, such as libraries that intentionally remove some defined functionality, but it should be the ultimate goal of all interface tests.
+
+*Note:* This assertion may not hold true for Null library implementations, which will usually return fixed values.
+
+#### Library/Protocol Implementation
+
+These tests expect a particular implementation of a library or protocol interface and may have far more detailed test cases. For example, an implementation test could be written for both a Null instance and/or a proprietary implementation of a given library.
+
+#### Functionality Tests
+
+These tests are written against larger chunks of business logic and may not have obvious divisions along a single library or protocol interface. Most of these will likely be UEFI shell-based tests, rather than host-based tests, but it's conceivable that some host-based examples may exist.
+
+**Location**
+: These should be checked in a "UnitTest" folder found within the folder containing the INF of the code being tested (module or library)
+
+### Edk2- and UEFI-specific Codebase Analysis
+
+_Mu_Build_ provides a framework for running static tests on the code base.  Simple tests like character encoding are examples.  In Project Mu we are working to expand this set of tests to include checking guids, checking for library classes, etc.
+
+**Location**
+: Can vary, as it uses the Plugin Model, so they are located anywhere within the code tree.  For Open Source common functionality tests we have added numerous to MU_Basecore/BaseTools/*PluginName*
+
+### Basic Compilation
 
 Each package must have a _*Pkg.ci.dsc_ file.  This DSC should list every module and library instance inf in the components section for the appropriate architectures.  This forces compilation when doing a CI build.  Since this is only to validate code builds successfully the library classes used to resolve dependencies should leverage null library instances whenever possible.  These null libs should minimize dependencies and make DSC management minimal. 
 
-* *LOCATION* At the root of each package there should be a complete \<*PackageName*\>.ci.dsc file.  
+**Location**
+: At the root of each package there should be a complete \<*PackageName*\>.ci.dsc file.  
 
-### Compile time asserts
+### Compile-Time Asserts
 
-Compile time asserts can be used to check assertions in the code for build time defined data.  An example could be confirming the size of a pixel array for an image matches the width x length.  
+Compile-time asserts can be used to check assertions in the code for build-time defined data.  An example could be confirming the size of a pixel array for an image matches the width x length.  
 
 * C code (header and code)
   * Leverage C11 Static Assert feature for compile time verification in C code.
@@ -68,62 +93,71 @@ Compile time asserts can be used to check assertions in the code for build time 
 
 Another great reason for these types of tests is that many IDEs will verify inline and show issues without the compiler.  
 
-* *LOCATION* These changes go in your C and H code.  
-  
-### Runtime asserts
+### Runtime Debug Asserts
 
-Not really a "testing" tool but more of a debug and development practice.  Describe more here about best practices and usage.  
+Not really a "testing" tool but more of a debug and development practice.
 
-### Host-Based Unit Tests (cmocka)
-
-Host based unit tests let you compile your unit tests to run as an application in the host.  This method can also leverage "mocking" objects/functions so that unit tests can validate functionality in isolation and force unexpected edge cases.  These unit tests call c functions directly with known parameter sets to force good and bad conditions.  They are linked directly against C code in either a library instance or module. These tests leverage a UnitTest Library.  For Project Mu we have chosen cmocka.
-
-* *LOCATION* These should be checked in a "UnitTest" folder found within the folder containing the INF of the code being tested (module or library)
+> Describe more here about best practices and usage.  
 
 ### HBFA Based Unit Tests (INTEL)
 
-These tests leverage the HBFA system to connect stubs and test cases.  
-Intel to describe more
+> This section may not actually exist, and may entirely be the cmocka tests.
 
-* *LOCATION* The stubs and test cases should reside in the package in which the stub interface or test case target API is defined.  
-  * Common Stubs: \*Pkg/Test/HBFA/Stub
-  * Test Cases: \*Pkg/Test/HBFA/TestCases
+> Intel to describe more
+
+**Location**
+: The stubs and test cases should reside in the package in which the stub interface or test case target API is defined.  
+  Common Stubs: \*Pkg/Test/HBFA/Stub
+  Test Cases: \*Pkg/Test/HBFA/TestCases
 
 ### Host-Based Instrument Tests (INTEL)
 
+> Intel to describe more
+
 ### Host-Based Fuzz Testing (INTEL)
 
-I don't know much about this except what Intel has published.
+> I don't know much about this except what Intel has published.
 
-* Read here for some intel information. https://firmware.intel.com/sites/default/files/Intel_UsingHBFAtoImprovePlatformResiliency.pdf
-* First iteration from Intel: https://github.com/tianocore/edk2-staging/tree/HBFA/HBFA 
+> * Read here for some intel information. https://firmware.intel.com/sites/default/files/Intel_UsingHBFAtoImprovePlatformResiliency.pdf
+> * First iteration from Intel: https://github.com/tianocore/edk2-staging/tree/HBFA/HBFA 
 
-* *LOCATION* The fuzz test cases should reside in the package in which the test case target API is defined.  
-  * Test Cases: \*Pkg/Test/HBFA/FuzzTestCases
+**Location**
+: The fuzz test cases should reside in the package in which the test case target API is defined.  
+  Test Cases: \*Pkg/Test/HBFA/FuzzTestCases
 
-### UEFI Shell Based Functional Tests
+### UEFI Shell-Based Functional Tests
 
 Some tests are best run from within the UEFI environment.  These tests might be for APIs that leverage platform and global state.
 
-* Review Project Mu Unit Test framework: https://github.com/Microsoft/mu_basecore/tree/release/201903/MsUnitTestPkg
+> Review Project Mu Unit Test framework: https://github.com/Microsoft/mu_basecore/tree/release/201903/MsUnitTestPkg
 
-### UEFI Shell Based Audit Tests
+### UEFI Shell-Based Audit Tests
 
-These tests are run from UEFI to collect information in a machine parsable format and then post processed to compare against a "Golden Copy".  These tests often contain a UEFI shell application as well as a script for intelligent comparison against a known good "Golden Copy".  The "Golden Copy" could be device specific and is often curated and managed by a developer of that platform.
-
-### SCT Test cases
-
-Todo: collect more info
-
-## Test Infrastructure
-
-### HBFA
-
-### Host Based Unit Tests
-
-### UEFI Shell Based Unit Tests
+These tests are run from UEFI to collect information in a machine-parsible format and then post-processed to compare against a "Golden Copy".  These tests often contain a UEFI shell application as well as a script for intelligent comparison against a known good "Golden Copy".  The "Golden Copy" could be device specific and is often curated and managed by a developer of that platform.
 
 ### SCT Framework
+
+> Documented elsewhere.
+
+### Shared Artifacts
+
+Some testing formats -- especially the host-based unit tests, the fuzzing tests, and the shell-based functional tests -- may find it convenient to share logic in the form of libraries and helpers. These libraries may include mocks and stubs.
+
+#### Shared Mocks (proposed definition)
+
+A true mock is a functional interface that has almost no internal logic and is entirely scripted by the testing engine. An example of this might be a mocked version of GetVariable. When this mocked function is called by the business logic (the logic under test), all it does is ask the test what values it should return. Each test can script the order and content of the return values. As such, this is not an actual variable store, but can easily be used to force certain code paths.
+
+#### Shared Stubs and Other Host Libs (proposed definition)
+
+Stubs are a little more complicated than mocks. Rather than blindly returning values, stubs might have shorthand implementations behind them. In the example above, instead of GetVariable being entirely scripted, you might have an entire VariableServices interface (GetVariable, SetVariable, GetNextVariableName) that is backed by a simple array or other data structure. This stubbed version would behave very similarly to a real variable store, but can be pre-populated with specific contents prior to each test to demonstrate and excercise desired behaviors. Stubs and Mocks can also be combined in some instances to produce intricate behaviors.
+
+## Where Should Things Live?
+
+Code/Test                                 | Location 
+---------                                 | --------
+Host-Based Test for a library interface   | Something Elses
+Compile-Time Asserts                      | These are placed inline in module code (H and C files)
+Host-Based Fuzz Tests                     | Fuzz tests should follow a pattern similar to the Host-Based Unit Tests. They should live according to whether they fuzz an interface, and implementation, or a function/feature.
 
 ## Testing Python
 
