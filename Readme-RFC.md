@@ -1,44 +1,3 @@
-# RFC TODOs:
-
-- CmockaHostUnitTestPkg, UefiHostTestPkg, and UefiHostUnitTestPkg should move to their own repo
-
-- Document all file types and locations
-  - Library Stubs
-    - Host implementations should live alongside the Null implementation which should live in the package that defines the library
-    - True stubs and shared mocks can live in the UnitTest package with "Mock" or "Stub" in the name.
-  - Fuzz Tests
-    - UnitTest repo/package with "Fuzz" in the name
-  - Functional Tests
-    - UnitTest repo/package with "Functional" in the name
-  - Library interface tests
-    - Should live in a package-level "Test" directory in the package that defines the interface
-  - Library implementation tests
-    - Should live in a UnitTest directory within the specific implementation
-  - Protocol interface tests
-    - Should live in a package-level "Test" directory in the package that defines the interface
-
-# Unsorted TODOs Against HBFA
-
-- UefiHostFuzzTestCasePkg
-  - Should move these into their packages as described for test cases and stubs.  
-  - Common python in Seed should move into “edk2-pytools-library”
-  - Seed files.  Are these test cases?  
-
-- UefiHostCryptoPkg -  Should move necessary library instance into CryptoPkg
-
-- UefiHostFuzzTestPkg - seems like it would go to edk2-test repo
-
-- UefiHostTestTools - Move to edk2-test repo but should be called HBFATestTools?  
-
-- UefiInstrumentTestCasePkg - Like the FuzzTestCasePkg?
-
-- UefiInstrumentTestPkg - Like the FuzzTestPkg?  
-
-- XmlSupportPkg
-  - Move to edk2
-  - Move UnitTestResultReportLibJunitFormat to UefiTestPkg
-
-
 # Testing
 
 Project Mu supports a few types of testing and this page will help provide some high level info and links for more information.
@@ -105,11 +64,6 @@ Not really a "testing" tool but more of a debug and development practice.
 
 > Intel to describe more
 
-**Location**
-: The stubs and test cases should reside in the package in which the stub interface or test case target API is defined.  
-  Common Stubs: \*Pkg/Test/HBFA/Stub
-  Test Cases: \*Pkg/Test/HBFA/TestCases
-
 ### Host-Based Instrument Tests (INTEL)
 
 > Intel to describe more
@@ -120,10 +74,6 @@ Not really a "testing" tool but more of a debug and development practice.
 
 > * Read here for some intel information. https://firmware.intel.com/sites/default/files/Intel_UsingHBFAtoImprovePlatformResiliency.pdf
 > * First iteration from Intel: https://github.com/tianocore/edk2-staging/tree/HBFA/HBFA 
-
-**Location**
-: The fuzz test cases should reside in the package in which the test case target API is defined.  
-  Test Cases: \*Pkg/Test/HBFA/FuzzTestCases
 
 ### UEFI Shell-Based Functional Tests
 
@@ -153,13 +103,47 @@ Stubs are a little more complicated than mocks. Rather than blindly returning va
 
 ## Where Should Things Live?
 
-Code/Test                                 | Location 
----------                                 | --------
-Host-Based Test for a library interface   | Something Elses
-Compile-Time Asserts                      | These are placed inline in module code (H and C files)
-Host-Based Fuzz Tests                     | Fuzz tests should follow a pattern similar to the Host-Based Unit Tests. They should live according to whether they fuzz an interface, and implementation, or a function/feature.
+Code/Test                                   | Location 
+---------                                   | --------
+Host-Based Test for a library interface     | In the package that declares the library interface in its .DEC file. Should be located in the `*Pkg/Test/UnitTest/Library` directory.
+Host-Based Test for a protocol interface    | In the package that declares the library interface in its .DEC file. Should be located in the `*Pkg/Test/UnitTest/Protocol` directory.
+Host-Based Test for a library implementation   | In the directory that contains the library implementation, in a `UnitTest` subdirectory.
+Host-Based Test for a function or feature   | In the either: the package that contains the feature code under the `*Pkg/Test/UnitTest/Functional` directory, or the `UefiHostUnitTestPkg/TestCases/Functional` directory if the feature spans multiple packages.
+Compile-Time Asserts                        | These are placed inline in module code (H and C files)
+Host-Based Fuzz Tests                       | Fuzz tests should follow a pattern similar to the Host-Based Unit Tests. They should live in the package most closely aligned with the interface or implementation being fuzzed in the `*Pkg/Test/FuzzTest` directory, optionally under `Library` or `Protocol` subdirectories, if it makes sense.
+Shell-Based Test for a function or feature  | Should follow a pattern similar to the Host-Based Fuzz Tests. Directory should be `*Pkg/Test/ShellTest`.
+Host-Based Library Implementations          | Host-Based Implementations of common libraries (eg. MemoryAllocationLibHost) should live in the same package that declares the library interface in its .DEC file in the `*Pkg/Library` directory. Should have 'Host' in the name.
+Mocks and Stubs                             | Mock and Stub libraries should live in the `UefiHostTestPkg/Helpers` or the `UefiHostUnitTestPkg/Helpers` directory with either 'Mock' or 'Stub' in the library name.
 
 ## Testing Python
 
 * Create pytest and/or python unit-test compatible tests.
 * Make sure the python code passes the `flake8` "linter"
+
+> Need to finish this documentation.
+
+## RFC and Misc TODOs:
+
+- CmockaHostUnitTestPkg, UefiHostTestPkg, and UefiHostUnitTestPkg should move to their own repo
+
+- UefiHostFuzzTestCasePkg
+  - Should move these into their packages as described for test cases and stubs.  
+  - Common python in Seed should move into “edk2-pytools-library”
+  - Seed files.  Are these test cases?  
+
+- UefiHostCryptoPkg -  Should move necessary library instance into CryptoPkg
+
+- UefiHostFuzzTestPkg - seems like it would go to edk2-test repo
+
+- UefiHostTestTools - Move to edk2-test repo but should be called HBFATestTools?  
+
+- UefiInstrumentTestCasePkg - Like the FuzzTestCasePkg?
+
+- UefiInstrumentTestPkg - Like the FuzzTestPkg?  
+
+- XmlSupportPkg
+  - Move to edk2
+  - Move UnitTestResultReportLibJunitFormat to UefiTestPkg
+
+
+
