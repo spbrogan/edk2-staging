@@ -32,16 +32,16 @@
   PeiServicesLib|MdePkg/Library/PeiServicesLib/PeiServicesLib.inf
   PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf\
 
-  BaseLib|UefiHostTestPkg/Library/BaseLibHost/BaseLibHost.inf
-  BaseMemoryLib|UefiHostTestPkg/Library/BaseMemoryLibHost/BaseMemoryLibHost.inf
-  DebugLib|UefiHostTestPkg/Library/DebugLibHost/DebugLibHost.inf
-  MemoryAllocationLib|UefiHostTestPkg/Library/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  BaseLib|MdePkg/Library/BaseLibHost/BaseLibHost.inf
+  BaseMemoryLib|MdePkg/Library/BaseMemoryLibHost/BaseMemoryLibHost.inf
+  DebugLib|MdePkg/Library/DebugLibHost/DebugLibHost.inf
+  MemoryAllocationLib|MdePkg/Library/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
   OsServiceLib|UefiHostTestPkg/Library/OsServiceLibHost/OsServiceLibHost.inf
 
-  PeiServicesTablePointerLib|UefiHostTestPkg/Library/PeiServicesTablePointerLibHost/PeiServicesTablePointerLibHost.inf
-  PeimEntryPoint|UefiHostTestPkg/Library/PeimEntryPointHost/PeimEntryPointHost.inf
-  UnitTestAssertLib|UefiHostUnitTestPkg/Library/UnitTestAssertLibcmocka/UnitTestAssertLibcmocka.inf
-  UnitTestLib|UefiHostUnitTestPkg/Library/UnitTestLibcmocka/UnitTestLibcmocka.inf
+  PeiServicesTablePointerLib|MdePkg/Library/PeiServicesTablePointerLibHost/PeiServicesTablePointerLibHost.inf
+  PeimEntryPoint|MdePkg/Library/PeimEntryPointHost/PeimEntryPointHost.inf
+  UnitTestAssertLib|CmockaHostUnitTestPkg/Library/UnitTestAssertLibcmocka/UnitTestAssertLibcmocka.inf
+  UnitTestLib|CmockaHostUnitTestPkg/Library/UnitTestLibcmocka/UnitTestLibcmocka.inf
 
 [Components]
 

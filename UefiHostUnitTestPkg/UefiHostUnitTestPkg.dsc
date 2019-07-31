@@ -26,19 +26,19 @@
 !endif
 
 [LibraryClasses]
-  BaseLib|UefiHostTestPkg/Library/BaseLibHost/BaseLibHost.inf
-  CacheMaintenanceLib|UefiHostTestPkg/Library/BaseCacheMaintenanceLibHost/BaseCacheMaintenanceLibHost.inf
-  BaseMemoryLib|UefiHostTestPkg/Library/BaseMemoryLibHost/BaseMemoryLibHost.inf
-  MemoryAllocationLib|UefiHostTestPkg/Library/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
-  DebugLib|UefiHostTestPkg/Library/DebugLibHost/DebugLibHost.inf
-  UefiBootServicesTableLib|UefiHostTestPkg/Library/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
-  HobLib|UefiHostTestPkg/Library/HobLibHost/HobLibHost.inf
-  DevicePathLib|UefiHostTestPkg/Library/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
-  DxeServicesTableLib|UefiHostTestPkg/Library/DxeServicesTableLibHost/DxeServicesTableLibHost.inf
-  UefiRuntimeServicesTableLib|UefiHostTestPkg/Library/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
-  SmmServicesTableLib|UefiHostTestPkg/Library/SmmServicesTableLibHost/SmmServicesTableLibHost.inf
+    BaseLib|MdePkg/Library/BaseLibHost/BaseLibHost.inf
+  CacheMaintenanceLib|MdePkg/Library/BaseCacheMaintenanceLibHost/BaseCacheMaintenanceLibHost.inf
+  BaseMemoryLib|MdePkg/Library/BaseMemoryLibHost/BaseMemoryLibHost.inf
+  MemoryAllocationLib|MdePkg/Library/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  DebugLib|MdePkg/Library/DebugLibHost/DebugLibHost.inf
+  UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
+  HobLib|MdePkg/Library/HobLibHost/HobLibHost.inf
+  DevicePathLib|MdePkg/Library/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
+  DxeServicesTableLib|MdePkg/Library/DxeServicesTableLibHost/DxeServicesTableLibHost.inf
+  UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
+  SmmServicesTableLib|MdePkg/Library/SmmServicesTableLibHost/SmmServicesTableLibHost.inf
   PeiServicesLib|MdePkg/Library/PeiServicesLib/PeiServicesLib.inf
-  PeiServicesTablePointerLib|UefiHostTestPkg/Library/PeiServicesTablePointerLibHost/PeiServicesTablePointerLibHost.inf
+  PeiServicesTablePointerLib|MdePkg/Library/PeiServicesTablePointerLibHost/PeiServicesTablePointerLibHost.inf
 
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   PerformanceLib|MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull.inf
@@ -54,7 +54,7 @@
   PeCoffExtraActionLib|MdePkg/Library/BasePeCoffExtraActionLibNull/BasePeCoffExtraActionLibNull.inf
   DxeServicesLib|MdePkg/Library/DxeServicesLib/DxeServicesLib.inf
 
-  CpuLib|UefiHostTestPkg/Library/BaseCpuLibHost/BaseCpuLibHost.inf
+  CpuLib|MdePkg/Library/BaseCpuLibHost/BaseCpuLibHost.inf
 
   # PciHostBridgeStubLib|UefiHostUnitTestCasePkg/TestStub/PciHostBridgeStubLib/PciHostBridgeStubLib.inf
   # PciSegmentLib|UefiHostUnitTestCasePkg/TestStub/PciSegmentStubLib/PciSegmentStubLib.inf
@@ -77,8 +77,8 @@
 !endif
 
 !if $(UNIT_TEST_FRAMEWORK_MODE) == CMOCKA
-  UnitTestLib|UefiHostUnitTestPkg/Library/UnitTestLibcmocka/UnitTestLibcmocka.inf
-  UnitTestAssertLib|UefiHostUnitTestPkg/Library/UnitTestAssertLibcmocka/UnitTestAssertLibcmocka.inf
+  UnitTestLib|CmockaHostUnitTestPkg/Library/UnitTestLibcmocka/UnitTestLibcmocka.inf
+  UnitTestAssertLib|CmockaHostUnitTestPkg/Library/UnitTestAssertLibcmocka/UnitTestAssertLibcmocka.inf
   CmockaLib|CmockaHostUnitTestPkg/Library/CmockaLib/CmockaLib.inf
 !endif
 
