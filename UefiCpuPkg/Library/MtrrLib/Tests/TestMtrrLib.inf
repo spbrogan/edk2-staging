@@ -10,7 +10,7 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = TestMtrrLib
   FILE_GUID                      = 5830D8AD-54E7-4797-BF4D-F8D266979D75
-  MODULE_TYPE                    = USER_DEFINED
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
 
 #
