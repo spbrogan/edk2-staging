@@ -37,21 +37,23 @@
 
   SecurityManagementLib|MdeModulePkg/Library/DxeSecurityManagementLib/DxeSecurityManagementLib.inf
 
-  BaseLib|MdePkg/Library/BaseLibHost/BaseLibHost.inf
-  BaseMemoryLib|MdePkg/Library/BaseMemoryLibHost/BaseMemoryLibHost.inf
-  DebugLib|MdePkg/Library/DebugLibHost/DebugLibHost.inf
-  DevicePathLib|MdePkg/Library/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
-  HobLib|MdePkg/Library/HobLibHost/HobLibHost.inf
-  MemoryAllocationLib|MdePkg/Library/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  BaseLib|MdePkg/HostLibrary/BaseLibHost/BaseLibHost.inf
+  BaseMemoryLib|MdePkg/HostLibrary/BaseMemoryLibHost/BaseMemoryLibHost.inf
+  DebugLib|MdePkg/HostLibrary/DebugLibHost/DebugLibHost.inf
+  DevicePathLib|MdePkg/HostLibrary/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
+  HobLib|MdePkg/HostLibrary/HobLibHost/HobLibHost.inf
+  MemoryAllocationLib|MdePkg/HostLibrary/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+
+  TimerLib|MdePkg/HostLibrary/BaseTimerLibHost/BaseTimerLibHost.inf
+  UefiBootServicesTableLib|MdePkg/HostLibrary/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
+  UefiDriverEntryPoint|MdePkg/HostLibrary/UefiDriverEntryPointHost/UefiDriverEntryPointHost.inf
+  UefiRuntimeServicesTableLib|MdePkg/HostLibrary/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
+
   OsServiceLib|UefiHostTestPkg/Library/OsServiceLibHost/OsServiceLibHost.inf
-  TimerLib|MdePkg/Library/BaseTimerLibHost/BaseTimerLibHost.inf
-  UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
-  UefiDriverEntryPoint|MdePkg/Library/UefiDriverEntryPointHost/UefiDriverEntryPointHost.inf
-  UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
   UnitTestAssertLib|CmockaHostUnitTestPkg/Library/UnitTestAssertLibcmocka/UnitTestAssertLibcmocka.inf
   UnitTestLib|CmockaHostUnitTestPkg/Library/UnitTestLibcmocka/UnitTestLibcmocka.inf
 
-  BaseCryptLib|CryptoPkg/Library/BaseCryptLib/Tests/Override/BaseCryptLib.inf
+  BaseCryptLib|CryptoPkg/HostLibrary/BaseCryptLibHost/BaseCryptLibHost.inf
   OpensslLib|CryptoPkg/Library/OpensslLib/OpensslLib.inf
   IntrinsicLib|CryptoPkg/Library/IntrinsicLib/IntrinsicLib.inf
 
@@ -140,12 +142,12 @@
     GCC:*_*_AARCH64_CC_XIPFLAGS ==
   }
 
-  SecurityPkg/Library/DxeImageVerificationLib/Tests/TestDxeImageVerificationLib.inf {
+  SecurityPkg/Library/DxeImageVerificationLib/UnitTest/TestDxeImageVerificationLib.inf {
   <LibraryClasses>
     NULL|SecurityPkg/Library/DxeImageVerificationLib/DxeImageVerificationLib.inf
   }
 
-  SecurityPkg/RandomNumberGenerator/RngDxe/Tests/TestRngDxe.inf {
+  SecurityPkg/Test/UnitTest/Protocol/RngDxe/TestRngDxe.inf {
   <LibraryClasses>
     NULL|UefiHostTestPkg/Library/BaseLibNullCpuid/BaseLibNullCpuid.inf
     NULL|SecurityPkg/RandomNumberGenerator/RngDxe/RngDxe.inf
