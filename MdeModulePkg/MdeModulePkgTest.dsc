@@ -32,22 +32,23 @@
   ReportStatusCodeLib|MdePkg/Library/BaseReportStatusCodeLibNull/BaseReportStatusCodeLibNull.inf
   UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
 
-  BaseLib|MdePkg/Library/BaseLibHost/BaseLibHost.inf
-  BaseMemoryLib|MdePkg/Library/BaseMemoryLibHost/BaseMemoryLibHost.inf
-  DebugLib|MdePkg/Library/DebugLibHost/DebugLibHost.inf
-  DevicePathLib|MdePkg/Library/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
-  DxeServicesTableLib|MdePkg/Library/DxeServicesTableLibHost/DxeServicesTableLibHost.inf
-  MemoryAllocationLib|MdePkg/Library/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  BaseLib|MdePkg/HostLibrary/BaseLibHost/BaseLibHost.inf
+  BaseMemoryLib|MdePkg/HostLibrary/BaseMemoryLibHost/BaseMemoryLibHost.inf
+  DebugLib|MdePkg/HostLibrary/DebugLibHost/DebugLibHost.inf
+  DevicePathLib|MdePkg/HostLibrary/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
+  DxeServicesTableLib|MdePkg/HostLibrary/DxeServicesTableLibHost/DxeServicesTableLibHost.inf
+  MemoryAllocationLib|MdePkg/HostLibrary/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  UefiBootServicesTableLib|MdePkg/HostLibrary/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
+  UefiDriverEntryPoint|MdePkg/HostLibrary/UefiDriverEntryPointHost/UefiDriverEntryPointHost.inf
+  UefiRuntimeServicesTableLib|MdePkg/HostLibrary/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
+
   OsServiceLib|UefiHostTestPkg/Library/OsServiceLibHost/OsServiceLibHost.inf
-  UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
-  UefiDriverEntryPoint|MdePkg/Library/UefiDriverEntryPointHost/UefiDriverEntryPointHost.inf
-  UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
   UnitTestAssertLib|CmockaHostUnitTestPkg/Library/UnitTestAssertLibcmocka/UnitTestAssertLibcmocka.inf
   UnitTestLib|CmockaHostUnitTestPkg/Library/UnitTestLibcmocka/UnitTestLibcmocka.inf
 
-  PciHostBridgeStubLib|UefiHostTestPkg/Library/PciHostBridgeStubLib/PciHostBridgeStubLib.inf
-  PciSegmentLib|UefiHostTestPkg/Library/PciSegmentStubLib/PciSegmentStubLib.inf
-  PciSegmentStubLib|UefiHostTestPkg/Library/PciSegmentStubLib/PciSegmentStubLib.inf
+  PciHostBridgeStubLib|UefiHostTestPkg/Helpers/PciHostBridgeStubLib/PciHostBridgeStubLib.inf
+  PciSegmentLib|UefiHostTestPkg/Helpers/PciSegmentStubLib/PciSegmentStubLib.inf
+  PciSegmentStubLib|UefiHostTestPkg/Helpers/PciSegmentStubLib/PciSegmentStubLib.inf
 [Components]
 
   CmockaHostUnitTestPkg/Library/CmockaLib/CmockaLib.inf {
@@ -58,12 +59,12 @@
     GCC:*_*_X64_CC_FLAGS     == -m64 -O0 -g -fprofile-arcs -ftest-coverage -std=gnu99 -Wpedantic -Wall -Wshadow -Wmissing-prototypes -Wcast-align -Werror=address -Wstrict-prototypes -Werror=strict-prototypes -Wwrite-strings -Werror=write-strings -Werror-implicit-function-declaration -Wpointer-arith -Werror=pointer-arith -Wdeclaration-after-statement -Werror=declaration-after-statement -Wreturn-type -Werror=return-type -Wuninitialized -Werror=uninitialized -Werror=strict-overflow -Wstrict-overflow=2 -Wno-format-zero-length -Wmissing-field-initializers -Wformat-security -Werror=format-security -fno-common -Wformat -fno-common -fstack-protector-strong -DHAVE_SIGNAL_H
   }
 
-  MdeModulePkg/Bus/Pci/PciBusDxe/Tests/TestPciBusDxe.inf {
+  MdeModulePkg/Bus/Pci/PciBusDxe/UnitTest/TestPciBusDxe.inf {
   <LibraryClasses>
     NULL|MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
   }
 
-  MdeModulePkg/Universal/RegularExpressionDxe/Tests/TestRegularExpressionDxe.inf {
+  MdeModulePkg/Universal/RegularExpressionDxe/UnitTest/TestRegularExpressionDxe.inf {
     <LibraryClasses>
     NULL|MdeModulePkg/Universal/RegularExpressionDxe/RegularExpressionDxe.inf
   }
@@ -109,7 +110,7 @@
     XCODE:*_*_*_CC_FLAGS =
   }
 
-  MdeModulePkg/Library/UefiVariablePolicyLib/UefiVariablePolicyUnitTest\UefiVariablePolicyUnitTest.inf {
+  MdeModulePkg/Library/UefiVariablePolicyLib/UnitTest/UefiVariablePolicyUnitTest.inf {
     <LibraryClasses>
       UefiVariablePolicyLib|MdeModulePkg/Library/UefiVariablePolicyLib/UefiVariablePolicyLib.inf
       SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
