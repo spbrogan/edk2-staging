@@ -28,31 +28,30 @@
 
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   PeCoffGetEntryPointLib|MdePkg/Library/BasePeCoffGetEntryPointLib/BasePeCoffGetEntryPointLib.inf
-#  PeiServicesLib|MdePkg/Library/PeiServicesLib/PeiServicesLib.inf
   PerformanceLib|MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull.inf
   PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
   ReportStatusCodeLib|MdePkg/Library/BaseReportStatusCodeLibNull/BaseReportStatusCodeLibNull.inf
-#  SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
   SerialPortLib|MdePkg/Library/BaseSerialPortLibNull/BaseSerialPortLibNull.inf
   SynchronizationLib|MdePkg/Library/BaseSynchronizationLib/BaseSynchronizationLib.inf
   UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
 
-  BaseLib|MdePkg/Library/BaseLibHost/BaseLibHost.inf
-  BaseMemoryLib|MdePkg/Library/BaseMemoryLibHost/BaseMemoryLibHost.inf
-  CpuLib|MdePkg/Library/BaseCpuLibHost/BaseCpuLibHost.inf
-  DebugLib|MdePkg/Library/DebugLibHost/DebugLibHost.inf
-  DevicePathLib|MdePkg/Library/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
-  DxeServicesTableLib|MdePkg/Library/DxeServicesTableLibHost/DxeServicesTableLibHost.inf
-  HobLib|MdePkg/Library/HobLibHost/HobLibHost.inf
-  MemoryAllocationLib|MdePkg/Library/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
-  MtrrStubLib|UefiHostTestPkg/Library/MtrrStubLib/MtrrStubLib.inf
+  BaseLib|MdePkg/HostLibrary/BaseLibHost/BaseLibHost.inf
+  BaseMemoryLib|MdePkg/HostLibrary/BaseMemoryLibHost/BaseMemoryLibHost.inf
+  CpuLib|MdePkg/HostLibrary/BaseCpuLibHost/BaseCpuLibHost.inf
+  DebugLib|MdePkg/HostLibrary/DebugLibHost/DebugLibHost.inf
+  DevicePathLib|MdePkg/HostLibrary/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
+  DxeServicesTableLib|MdePkg/HostLibrary/DxeServicesTableLibHost/DxeServicesTableLibHost.inf
+  HobLib|MdePkg/HostLibrary/HobLibHost/HobLibHost.inf
+  MemoryAllocationLib|MdePkg/HostLibrary/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  MtrrStubLib|UefiHostTestPkg/Helpers/MtrrStubLib/MtrrStubLib.inf
+
+  SmmServicesTableLib|MdePkg/HostLibrary/SmmServicesTableLibHost/SmmServicesTableLibHost.inf
+  TimerLib|MdePkg/HostLibrary/BaseTimerLibHost/BaseTimerLibHost.inf
+  UefiBootServicesTableLib|MdePkg/HostLibrary/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
+  UefiDriverEntryPoint|MdePkg/HostLibrary/UefiDriverEntryPointHost/UefiDriverEntryPointHost.inf
+  UefiRuntimeServicesTableLib|MdePkg/HostLibrary/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
+
   OsServiceLib|UefiHostTestPkg/Library/OsServiceLibHost/OsServiceLibHost.inf
-#  PeiServicesTablePointerLib|MdePkg/Library/PeiServicesTablePointerLibHost/PeiServicesTablePointerLibHost.inf
-  SmmServicesTableLib|MdePkg/Library/SmmServicesTableLibHost/SmmServicesTableLibHost.inf
-  TimerLib|MdePkg/Library/BaseTimerLibHost/BaseTimerLibHost.inf
-  UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
-  UefiDriverEntryPoint|MdePkg/Library/UefiDriverEntryPointHost/UefiDriverEntryPointHost.inf
-  UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
   UnitTestAssertLib|CmockaHostUnitTestPkg/Library/UnitTestAssertLibcmocka/UnitTestAssertLibcmocka.inf
   UnitTestLib|CmockaHostUnitTestPkg/Library/UnitTestLibcmocka/UnitTestLibcmocka.inf
 
@@ -68,7 +67,7 @@
     GCC:*_*_X64_CC_FLAGS     == -m64 -O0 -g -fprofile-arcs -ftest-coverage -std=gnu99 -Wpedantic -Wall -Wshadow -Wmissing-prototypes -Wcast-align -Werror=address -Wstrict-prototypes -Werror=strict-prototypes -Wwrite-strings -Werror=write-strings -Werror-implicit-function-declaration -Wpointer-arith -Werror=pointer-arith -Wdeclaration-after-statement -Werror=declaration-after-statement -Wreturn-type -Werror=return-type -Wuninitialized -Werror=uninitialized -Werror=strict-overflow -Wstrict-overflow=2 -Wno-format-zero-length -Wmissing-field-initializers -Wformat-security -Werror=format-security -fno-common -Wformat -fno-common -fstack-protector-strong -DHAVE_SIGNAL_H
   }
 
-  UefiCpuPkg/Library/MtrrLib/Tests/TestMtrrLib.inf {
+  UefiCpuPkg/Test/UnitTest/Library/MtrrLib/TestMtrrLib.inf {
   <LibraryClasses>
     NULL|UefiCpuPkg/Library/MtrrLib/MtrrLib.inf
   }
@@ -76,9 +75,9 @@
 [Components.IA32]
   # BUGBUG: Need change SmmInitPageTable() to return UINTN.
   # BUGBUG: Need enable allocate <4G memory in X64 build.
-  UefiCpuPkg/PiSmmCpuDxeSmm/Tests/TestSmmCpuMemoryManagement.inf {
+  UefiCpuPkg/PiSmmCpuDxeSmm/UnitTest/TestSmmCpuMemoryManagement.inf {
   <LibraryClasses>
-    NULL|UefiCpuPkg/PiSmmCpuDxeSmm/Tests/Override/PiSmmCpuDxeSmm.inf
+    NULL|UefiCpuPkg/HostLibrary/PiSmmCpuDxeSmmHost/PiSmmCpuDxeSmm.inf
     NULL|UefiHostTestPkg/Library/BaseLibNullCpuid/BaseLibNullCpuid.inf
     NULL|UefiHostTestPkg/Library/BaseLibNullMsr/BaseLibNullMsr.inf
     MtrrLib|UefiCpuPkg/Library/MtrrLib/MtrrLib.inf
