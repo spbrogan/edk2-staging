@@ -14,6 +14,7 @@
   SUPPORTED_ARCHITECTURES        = IA32|X64
   BUILD_TARGETS                  = DEBUG|RELEASE
   SKUID_IDENTIFIER               = DEFAULT
+  FLASH_DEFINITION               = MdePkg/MdePkgTest.fdf
 
   DEFINE UNIT_TEST_FRAMEWORK_MODE = HOST
   DEFINE UNIT_TEST_XML_MODE = FALSE
@@ -28,15 +29,22 @@
 
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   PeiServicesLib|MdePkg/Library/PeiServicesLib/PeiServicesLib.inf
+  PerformanceLib|MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull.inf
   PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
   SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
 
-  BaseLib|MdePkg/Library/BaseLibHost/BaseLibHost.inf
-  BaseMemoryLib|MdePkg/Library/BaseMemoryLibHost/BaseMemoryLibHost.inf
-  DebugLib|MdePkg/Library/DebugLibHost/DebugLibHost.inf
-  MemoryAllocationLib|MdePkg/Library/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  BaseLib|MdePkg/HostLibrary/BaseLibHost/BaseLibHost.inf
+  BaseMemoryLib|MdePkg/HostLibrary/BaseMemoryLibHost/BaseMemoryLibHost.inf
+  DebugLib|MdePkg/HostLibrary/DebugLibHost/DebugLibHost.inf
+  DevicePathLib|MdePkg/HostLibrary/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
+  DxeServicesTableLib|MdePkg/HostLibrary/DxeServicesTableLibHost/DxeServicesTableLibHost.inf
+  MemoryAllocationLib|MdePkg/HostLibrary/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  PeiServicesTablePointerLib|MdePkg/HostLibrary/PeiServicesTablePointerLibHost/PeiServicesTablePointerLibHost.inf
+  SmmServicesTableLib|MdePkg/HostLibrary/SmmServicesTableLibHost/SmmServicesTableLibHost.inf
+  UefiBootServicesTableLib|MdePkg/HostLibrary/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
+  UefiRuntimeServicesTableLib|MdePkg/HostLibrary/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
+
   OsServiceLib|UefiHostTestPkg/Library/OsServiceLibHost/OsServiceLibHost.inf
-  PeiServicesTablePointerLib|MdePkg/Library/PeiServicesTablePointerLibHost/PeiServicesTablePointerLibHost.inf
   UnitTestAssertLib|CmockaHostUnitTestPkg/Library/UnitTestAssertLibcmocka/UnitTestAssertLibcmocka.inf
   UnitTestLib|CmockaHostUnitTestPkg/Library/UnitTestLibcmocka/UnitTestLibcmocka.inf
 
@@ -50,7 +58,26 @@
     GCC:*_*_X64_CC_FLAGS     == -m64 -O0 -g -fprofile-arcs -ftest-coverage -std=gnu99 -Wpedantic -Wall -Wshadow -Wmissing-prototypes -Wcast-align -Werror=address -Wstrict-prototypes -Werror=strict-prototypes -Wwrite-strings -Werror=write-strings -Werror-implicit-function-declaration -Wpointer-arith -Werror=pointer-arith -Wdeclaration-after-statement -Werror=declaration-after-statement -Wreturn-type -Werror=return-type -Wuninitialized -Werror=uninitialized -Werror=strict-overflow -Wstrict-overflow=2 -Wno-format-zero-length -Wmissing-field-initializers -Wformat-security -Werror=format-security -fno-common -Wformat -fno-common -fstack-protector-strong -DHAVE_SIGNAL_H
   }
 
-  MdePkg/Library/BaseSafeIntLib/Tests/TestBaseSafeIntLib.inf
-  MdePkg/Library/PeiServicesLib/Tests/TestPeiServicesLib.inf
+  MdePkg/Test/UnitTest/Library/BaseSafeIntLib/TestBaseSafeIntLib.inf
+  MdePkg/Test/UnitTest/Library/PeiServicesLib/TestPeiServicesLib.inf
+  MdePkg/Test/UnitTest/Library/DxeServicesTableLib/TestDxeServicesTableLib.inf
+  MdePkg/Test/UnitTest/Library/SmmServicesTableLib/TestSmmServicesTableLib.inf
+  MdePkg/Test/UnitTest/Library/UefiBootServicesTableLib/TestUefiBootServicesTableLib.inf
+  MdePkg/Test/UnitTest/Library/MemoryAllocationLib/TestMemoryAllocationLib.inf
+  MdePkg/Test/UnitTest/Library/UefiRuntimeServicesTableLib/TestUefiRuntimeServicesTableLib.inf
+
+  MdePkg/Test/UnitTest/Library/BasePcdLib/TestPcdLibStatic.inf {
+  <LibraryClasses>
+    PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
+  <PcdsPatchableInModule>
+    gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidStrAsc|"StrAsc"|VOID*|12
+    gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidStrUni|L"StrUni"|VOID*|28
+    gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidBufAll0|{0x0, 0x0, 0x0}|VOID*|5
+    gTestCasePkgTokenSpaceGuid.PcdTestPatchableInModuleVoidBufAll1|{0xFF, 0xFF, 0xFF}|VOID*|5
+  }
+  MdePkg/Test/UnitTest/Library/BasePcdLib/TestPcdLibDynamic.inf {
+  <LibraryClasses>
+    PcdLib|MdePkg/HostLibrary/BasePcdLibHost/BasePcdLibHost.inf
+  }
 
 !include UefiHostUnitTestPkg/UefiHostUnitTestBuildOption.dsc
