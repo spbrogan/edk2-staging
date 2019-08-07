@@ -33,22 +33,21 @@
   #SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
   UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
 
-  BaseLib|MdePkg/Library/BaseLibHost/BaseLibHost.inf
-  BaseMemoryLib|MdePkg/Library/BaseMemoryLibHost/BaseMemoryLibHost.inf
-  DebugLib|MdePkg/Library/DebugLibHost/DebugLibHost.inf
-  DevicePathLib|MdePkg/Library/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
-  #DxeServicesTableLib|MdePkg/Library/DxeServicesTableLibHost/DxeServicesTableLibHost.inf
-  MemoryAllocationLib|MdePkg/Library/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  BaseLib|MdePkg/HostLibrary/BaseLibHost/BaseLibHost.inf
+  BaseMemoryLib|MdePkg/HostLibrary/BaseMemoryLibHost/BaseMemoryLibHost.inf
+  DebugLib|MdePkg/HostLibrary/DebugLibHost/DebugLibHost.inf
+  DevicePathLib|MdePkg/HostLibrary/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
+  MemoryAllocationLib|MdePkg/HostLibrary/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  
+  TimerLib|MdePkg/HostLibrary/BaseTimerLibHost/BaseTimerLibHost.inf
+  UefiBootServicesTableLib|MdePkg/HostLibrary/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
+  UefiRuntimeServicesTableLib|MdePkg/HostLibrary/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
+  
   OsServiceLib|UefiHostTestPkg/Library/OsServiceLibHost/OsServiceLibHost.inf
-  #PeiServicesTablePointerLib|MdePkg/Library/PeiServicesTablePointerLibHost/PeiServicesTablePointerLibHost.inf
-  #SmmServicesTableLib|MdePkg/Library/SmmServicesTableLibHost/SmmServicesTableLibHost.inf
-  TimerLib|MdePkg/Library/BaseTimerLibHost/BaseTimerLibHost.inf
-  UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
-  UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
   UnitTestAssertLib|CmockaHostUnitTestPkg/Library/UnitTestAssertLibcmocka/UnitTestAssertLibcmocka.inf
   UnitTestLib|CmockaHostUnitTestPkg/Library/UnitTestLibcmocka/UnitTestLibcmocka.inf
 
-  BaseCryptLib|CryptoPkg/Library/BaseCryptLib/Tests/Override/BaseCryptLib.inf
+  BaseCryptLib|CryptoPkg/HostLibrary/BaseCryptLibHost/BaseCryptLibHost.inf
   OpensslLib|CryptoPkg/Library/OpensslLib/OpensslLib.inf
   IntrinsicLib|CryptoPkg/Library/IntrinsicLib/IntrinsicLib.inf
 
@@ -135,6 +134,6 @@
     GCC:*_*_AARCH64_CC_XIPFLAGS ==
   }
 
-  CryptoPkg/Library/BaseCryptLib/Tests/TestBaseCryptLib.inf
+  CryptoPkg/Test/UnitTest/Library/BaseCryptLib/TestBaseCryptLib.inf
 
 !include UefiHostUnitTestPkg/UefiHostUnitTestBuildOption.dsc
