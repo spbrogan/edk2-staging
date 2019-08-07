@@ -16,41 +16,38 @@
   SKUID_IDENTIFIER               = DEFAULT
 
 [LibraryClasses]
-  BaseLib|MdePkg/Library/BaseLibHost/BaseLibHost.inf
-  CacheMaintenanceLib|MdePkg/Library/BaseCacheMaintenanceLibHost/BaseCacheMaintenanceLibHost.inf
-  BaseMemoryLib|MdePkg/Library/BaseMemoryLibHost/BaseMemoryLibHost.inf
-  MemoryAllocationLib|MdePkg/Library/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
-  DebugLib|MdePkg/Library/DebugLibHost/DebugLibHost.inf
-  UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
-  HobLib|MdePkg/Library/HobLibHost/HobLibHost.inf
-  SmmMemLib|MdePkg/Library/SmmMemLibHost/SmmMemLibHost.inf
-  DevicePathLib|MdePkg/Library/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
+  BaseLib|MdePkg/HostLibrary/BaseLibHost/BaseLibHost.inf
+  CacheMaintenanceLib|MdePkg/HostLibrary/BaseCacheMaintenanceLibHost/BaseCacheMaintenanceLibHost.inf
+  BaseMemoryLib|MdePkg/HostLibrary/BaseMemoryLibHost/BaseMemoryLibHost.inf
+  MemoryAllocationLib|MdePkg/HostLibrary/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  DebugLib|MdePkg/HostLibrary/DebugLibHost/DebugLibHost.inf
+  UefiBootServicesTableLib|MdePkg/HostLibrary/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
+  HobLib|MdePkg/HostLibrary/HobLibHost/HobLibHost.inf
+  SmmMemLib|MdePkg/HostLibrary/SmmMemLibHost/SmmMemLibHost.inf
+  DevicePathLib|MdePkg/HostLibrary/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
 
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   PerformanceLib|MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull.inf
 
-[LibraryClasses.common.USER_DEFINED]
-
 [Components]
-  MdePkg/Library/BaseLibHost/BaseLibHost.inf
-  UefiHostTestPkg/Library/BaseLibNullCpuid/BaseLibNullCpuid.inf
-  UefiHostTestPkg/Library/BaseLibNullMsr/BaseLibNullMsr.inf
-  MdePkg/Library/BaseCacheMaintenanceLibHost/BaseCacheMaintenanceLibHost.inf
-  MdePkg/Library/BaseCpuLibHost/BaseCpuLibHost.inf
-  MdePkg/Library/BaseMemoryLibHost/BaseMemoryLibHost.inf
-  MdePkg/Library/BaseTimerLibHost/BaseTimerLibHost.inf
-  MdePkg/Library/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
-  MdePkg/Library/DebugLibHost/DebugLibHost.inf
-  MdePkg/Library/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
-  MdePkg/Library/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
-  MdePkg/Library/DxeServicesTableLibHost/DxeServicesTableLibHost.inf
-  MdePkg/Library/PeiServicesTablePointerLibHost/PeiServicesTablePointerLibHost.inf
-  MdePkg/Library/HobLibHost/HobLibHost.inf
-  MdePkg/Library/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
-  MdePkg/Library/SmmMemLibHost/SmmMemLibHost.inf
-  MdePkg/Library/UefiLibHost/UefiLibHost.inf
-  MdePkg/Library/PeimEntryPointHost/PeimEntryPointHost.inf
-  MdePkg/Library/UefiDriverEntryPointHost/UefiDriverEntryPointHost.inf
-  UefiHostTestPkg/Library/OsServiceLibHost/OsServiceLibHost.inf
+  MdePkg/HostLibrary/BaseCacheMaintenanceLibHost/BaseCacheMaintenanceLibHost.inf
+  MdePkg/HostLibrary/BaseCpuLibHost/BaseCpuLibHost.inf
+  MdePkg/HostLibrary/BaseLibHost/BaseLibHost.inf
+  MdePkg/HostLibrary/BaseMemoryLibHost/BaseMemoryLibHost.inf
+  MdePkg/HostLibrary/BasePcdLibHost/BasePcdLibHost.inf
+  MdePkg/HostLibrary/BaseTimerLibHost/BaseTimerLibHost.inf
+  MdePkg/HostLibrary/DebugLibHost/DebugLibHost.inf
+  MdePkg/HostLibrary/DxeServicesTableLibHost/DxeServicesTableLibHost.inf
+  MdePkg/HostLibrary/HobLibHost/HobLibHost.inf
+  MdePkg/HostLibrary/MemoryAllocationLibHost/MemoryAllocationLibHost.inf
+  MdePkg/HostLibrary/PeimEntryPointHost/PeimEntryPointHost.inf
+  MdePkg/HostLibrary/PeiServicesTablePointerLibHost/PeiServicesTablePointerLibHost.inf
+  MdePkg/HostLibrary/SmmMemLibHost/SmmMemLibHost.inf
+  MdePkg/HostLibrary/SmmServicesTableLibHost/SmmServicesTableLibHost.inf
+  MdePkg/HostLibrary/UefiBootServicesTableLibHost/UefiBootServicesTableLibHost.inf
+  MdePkg/HostLibrary/UefiDevicePathLibHost/UefiDevicePathLibHost.inf
+  MdePkg/HostLibrary/UefiDriverEntryPointHost/UefiDriverEntryPointHost.inf
+  MdePkg/HostLibrary/UefiLibHost/UefiLibHost.inf
+  MdePkg/HostLibrary/UefiRuntimeServicesTableLibHost/UefiRuntimeServicesTableLibHost.inf
 
 !include UefiHostUnitTestPkg/UefiHostUnitTestBuildOption.dsc
