@@ -103,17 +103,15 @@ Stubs are a little more complicated than mocks. Rather than blindly returning va
 
 ## Where Should Things Live?
 
-Code/Test                                   | Location 
+Code/Test                                   | Location
 ---------                                   | --------
-Host-Based Test for a library interface     | In the package that declares the library interface in its .DEC file. Should be located in the `*Pkg/Test/UnitTest/Library` directory.
-Host-Based Test for a protocol interface    | In the package that declares the library interface in its .DEC file. Should be located in the `*Pkg/Test/UnitTest/Protocol` directory.
-Host-Based Test for a library implementation   | In the directory that contains the library implementation, in a `UnitTest` subdirectory.
-Host-Based Test for a function or feature   | In the either: the package that contains the feature code under the `*Pkg/Test/UnitTest/Functional` directory, or the `UefiHostUnitTestPkg/TestCases/Functional` directory if the feature spans multiple packages.
-Compile-Time Asserts                        | These are placed inline in module code (H and C files)
-Host-Based Fuzz Tests                       | Fuzz tests should follow a pattern similar to the Host-Based Unit Tests. They should live in the package most closely aligned with the interface or implementation being fuzzed in the `*Pkg/Test/FuzzTest` directory, optionally under `Library` or `Protocol` subdirectories, if it makes sense.
-Shell-Based Test for a function or feature  | Should follow a pattern similar to the Host-Based Fuzz Tests. Directory should be `*Pkg/Test/ShellTest`.
-Host-Based Library Implementations          | Host-Based Implementations of common libraries (eg. MemoryAllocationLibHost) should live in the same package that declares the library interface in its .DEC file in the `*Pkg/Library` directory. Should have 'Host' in the name.
-Mocks and Stubs                             | Mock and Stub libraries should live in the `UefiHostTestPkg/Helpers` or the `UefiHostUnitTestPkg/Helpers` directory with either 'Mock' or 'Stub' in the library name.
+`1)`  Host-Based Test for a library/protocol/ppi/guid interface     | In the package that declares the library interface in its .DEC file. Should be located in the `*Pkg/Test/UnitTest/[Library|protocol|ppi|guid]` directory.
+`2)` Host-Based Test for a library/driver(PEI/DXE/SMM) implementation   | In the directory that contains the library/driver implementation, in a UnitTest subdirectory. <br /><br /> ============= <br /> Module Example: *Pkg/Universal/EsrtFmpDxe/UnitTest/ <br /> Library Example:  *Pkg/Library/BaseMemoryLib/UnitTest/ <br /> ============= <br /><br />
+`3)` Host-Based Fuzz Tests  | Fuzz tests should follow a pattern similar to the Host-Based Unit Tests. They should live in the package most closely aligned with the interface or implementation being fuzzed in the `*Pkg/Test/FuzzTest` directory, optionally under Library/Protocol/Ppi/Guid subdirectories, if it makes sense.
+`4)` Host-Based Test for a function or feature  | The package that contains the feature code under the `*Pkg/Test/UnitTest/Functional directory`, if the feature is in one package. <br />(or) <br />The `UefiTestPkg/TestCases/Functional` directory if the feature spans multiple packages.
+`5)` Non-Host-Based (PEI/DXE/SMM/Shell) Test for a function or feature | Should follow a pattern similar to the Host-Based Function or Feature Tests.  <br />Directory should be <code>*Pkg/Test/[Shell&#124;Dxe&#124;Smm&#124;Pei]Test</code>, if the feature is in one package <br /> <br /> (Or) <br />  <br /> <code>UefiTestPkg/Feature/Functional/[Shell&#124;Dxe&#124;Smm&#124;Pei]Test</code> if the feature spans multiple packages.  <br /><br /> ============= <br /> * PEI Example: MP_SERVICE_PPI. Or check MTRR configuration in a notification function. <br /> * SMM Example: a test in a protocol callback function. (It is different with the solution that SmmAgent+ShellApp) <br /> * DXE Example: a test in a UEFI event call back to check SPI/SMRAM status. <br /> * Shell Example: the SMM handler audit test has a shell-based app that interacts with an SMM handler to get information. The SMM paging audit test gathers information about both DXE and SMM. And the SMM paging functional test actually forces errors into SMM via a DXE driver. <br /> ============= <br /> <br />
+`6)` Host-Based Library Implementations                 | Host-Based Implementations of common libraries (eg. MemoryAllocationLibHost) should live in the same package that declares the library interface in its .DEC file in the `*Pkg/HostLibrary` directory. Should have 'Host' in the name.
+`7)` Mocks and Stubs  | Mock and Stub libraries should live in the `UefiHostTestPkg/Helpers` with either 'Mock' or 'Stub' in the library name.
 
 ## Testing Python
 
