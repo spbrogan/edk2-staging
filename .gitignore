@@ -1,3 +1,7 @@
 Build/
 tags/
 .DS_Store
+# Ignore SelfDescribingEnvironment artifacts.
+*_extdep/
+
+.vscode/
