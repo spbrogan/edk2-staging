@@ -56,8 +56,8 @@ steps:
     testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
     testResultsFiles: 'Build/TestSuites.xml'
     #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-    mergeTestResults: false # Optional
-    #testRunTitle: # Optional
+    mergeTestResults: true # Optional
+    testRunTitle: # Optional
     #buildPlatform: # Optional
     #buildConfiguration: # Optional
     publishRunAttachments: true # Optional
@@ -72,7 +72,7 @@ steps:
     testResultsFiles: 'Build/**/*.result.xml'
     #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
     mergeTestResults: true # Optional
-    #testRunTitle: # Optional
+    testRunTitle: "$(Build.Pkgs)"
     #buildPlatform: # Optional
     #buildConfiguration: # Optional
     publishRunAttachments: true # Optional
