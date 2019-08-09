@@ -21,7 +21,7 @@ class CompilerPlugin(ICiBuildPlugin):
         return ("Edk2 CI Compile " + target + " " + packagename, "CI.CompileCheck." + target + "." + packagename)
 
     def IsTargetDependent(self):
-        return False
+        return True
 
     def __GetPkgDsc(self, rootpath):
         try:
@@ -32,7 +32,8 @@ class CompilerPlugin(ICiBuildPlugin):
                     return(os.path.join(rootpath, entry))
         except Exception:
             logging.error("Unable to find ci.dsc for package:{0}".format(rootpath))
-            return None
+
+        return None
 
     ##
     # External function of plugin.  This function is used to perform the task of the MuBuild Plugin
