@@ -1,6 +1,4 @@
-# @file Compiler_plugin.py
-# Simple Project Mu Build Plugin to support
-# compiling code
+# @file HostUnitTestCompiler_plugin.py
 ##
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-2-Clause-Patent
@@ -15,15 +13,26 @@ import os
 import re
 
 
-class CompilerPlugin(ICiBuildPlugin):
+class HostUnitTestCompilerPlugin(ICiBuildPlugin):
 
     # gets the tests name
     def GetTestName(self, packagename, environment):
         target = environment.GetValue("TARGET")
-        return ("MuBuild Compile " + target + " " + packagename, "MuBuild.CompileCheck." + target + "." + packagename)
+        return ("Edk2 HostUnitTest Compile " + target + " " + packagename, "CI.HostUnitTestCompileCheck." + target + "." + packagename)
 
     def IsTargetDependent(self):
-        return True
+        return False
+
+    def __GetPkgDsc(self, rootpath):
+        try:
+            allEntries = os.listdir(rootpath)
+            dscsFound = []
+            for entry in allEntries:
+                if entry.lower().endswith("hut.dsc"):
+                    return(os.path.join(rootpath, entry))
+        except Exception:
+            logging.error("Unable to find hut.dsc for package:{0}".format(rootpath))
+            return None
 
     ##
     # External function of plugin.  This function is used to perform the task of the MuBuild Plugin
@@ -39,9 +48,17 @@ class CompilerPlugin(ICiBuildPlugin):
     def RunBuildPlugin(self, packagename, Edk2pathObj, pkgconfig, environment, PLM, PLMHelper, tc, output_stream=None):
         self._env = environment
         AP = Edk2pathObj.GetAbsolutePathOnThisSytemFromEdk2RelativePath(packagename)
-        APDSC = self.get_dsc_name_in_dir(AP)
-        AP_Path = Edk2pathObj.GetEdk2RelativePathFromAbsolutePath(APDSC)
+        #
+        # only get ci.dsc files
+        #
+        
+        APDSC = self.__GetPkgDsc(AP) # self.get_dsc_name_in_dir(AP)
+        #if(APDSC is None):
+        #    tc.SetSkipped()
+        #    tc.LogStdError("1 warning(s) in {0} CI compile DSC not found.".format(packagename))
+        #    return 0
 
+        AP_Path = Edk2pathObj.GetEdk2RelativePathFromAbsolutePath(APDSC)
         logging.info("Building {0}".format(AP_Path))
         if AP is None or AP_Path is None or not os.path.isfile(APDSC):
             tc.SetSkipped()
