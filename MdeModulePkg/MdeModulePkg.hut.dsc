@@ -19,7 +19,7 @@
   DEFINE UNIT_TEST_XML_MODE = FALSE
 
 [PcdsFixedAtBuild]
-  !if $(UNIT_TEST_XML_MODE)
+  !if $(UNIT_TEST_XML_MODE) == FALSE
     gUefiHostUnitTestPkgTokenSpaceGuid.HostUnitTestMode|0x1
   !endif
 
