@@ -13,6 +13,7 @@ import logging
 from edk2toolext.environment.plugintypes.ci_build_plugin import ICiBuildPlugin
 import os
 from edk2toollib.uefi.edk2.parsers.dsc_parser import DscParser
+from edk2toollib.uefi.edk2.parsers.inf_parser import InfParser
 
 
 class DSCCheck(ICiBuildPlugin):
@@ -60,29 +61,29 @@ class DSCCheck(ICiBuildPlugin):
                     logging.info("DscCheckConfig.IgnoreInf -> {0} not found in filesystem.  Invalid ignore file".format(a))
 
         # DSC Parser
-        # self.dp = Dsc()
-        # TODO: modify the DSCObject to be a replacement for the EDK version?
-        # Eventually this will just be a part of the environment we bring up?
         dp = DscParser()
         dp.SetBaseAbsPath(Edk2pathObj.WorkspacePath)
         dp.SetPackagePaths(Edk2pathObj.PackagePathList)
         dp.ParseFile(wsr_dsc_path)
 
-        # lowercase for matching
-        # dp.Libs = [x.lower() for x in dp.Libs]
-        # dp.ThreeMods = [x.lower() for x in dp.ThreeMods]
-        # dp.SixMods = [x.lower() for x in dp.SixMods]
-        # dp.OtherMods = [x.lower() for x in dp.OtherMods]
-
         # Check if INF in component section
         for INF in INFFiles:
-            if not any(INF.strip() in x for x in dp.ThreeMods) \
-                    and not any(INF.strip() in x for x in dp.SixMods) and not any(INF.strip() in x for x in dp.OtherMods):
+            if not any(INF.strip() in x for x in dp.ThreeMods) and \
+               not any(INF.strip() in x for x in dp.SixMods) and \
+               not any(INF.strip() in x for x in dp.OtherMods):
+
+                infp = InfParser().SetBaseAbsPath(Edk2pathObj.WorkspacePath)
+                infp.SetPackagePaths(Edk2pathObj.PackagePathList)
+                infp.ParseFile(INF)
+                if(infp.Dict["MODULE_TYPE"] == "HOST_APPLICATION"):
+                    tc.LogStdOut("Ignoring INF due to type HOST_APPLICATION {0}".format(INF))
+                    continue
+
                 logging.critical(INF + " not in " + wsr_dsc_path)
                 tc.LogStdError("{0} not in {1}".format(INF, wsr_dsc_path))
                 overall_status = overall_status + 1
 
-        # If XML object esists, add result
+        # If XML object exists, add result
         if overall_status is not 0:
             tc.SetFailed("DSCCheck {0} Failed.  Errors {1}".format(wsr_dsc_path, overall_status), "DSCCHECK_FAILED")
         else:
