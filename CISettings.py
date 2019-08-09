@@ -31,7 +31,7 @@ class Settings(CiBuildSettingsManager, UpdateSettingsManager, SetupSettingsManag
 
     def GetActiveScopes(self):
         ''' get scope '''
-        scopes = ("corebuild", "project_mu", "host-test-win")
+        scopes = ("corebuild", "project_mu")
 
         if (GetHostInfo().os == "Linux"
             and "AARCH64" in self.GetArchSupported() and
@@ -39,6 +39,9 @@ class Settings(CiBuildSettingsManager, UpdateSettingsManager, SetupSettingsManag
             self.ToolChainTagCacheValue.upper().startswith("GCC")):
             
             scopes += ("gcc_aarch64_linux",)
+
+        if GetHostInfo().os == "Windows":
+            scopes += ("host-test-win",)
 
         return scopes
 
