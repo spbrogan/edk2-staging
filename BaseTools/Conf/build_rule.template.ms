@@ -110,7 +110,7 @@
 # 1.02 - Add MASM for Microsoft ARM assembly files. "MS-ARMx-Assembly-Code-File.COMMON.COMMON" 
 # 1.03 - Align license with TC 1905 release.  Removed preefi and slib.  
 
-#!VERSION=1.03
+#!VERSION=1.04
 
 [C-Code-File]
     <InputFile>
@@ -320,7 +320,6 @@
 
     <Command.GCC>
         "$(DLINK)" -o ${dst} $(DLINK_FLAGS) -Wl,--start-group,@$(STATIC_LIBRARY_FILES_LIST),--end-group $(CC_FLAGS) $(DLINK2_FLAGS)
-
         "$(OBJCOPY)" $(OBJCOPY_FLAGS) ${dst}
 
     <Command.RVCT>
@@ -349,7 +348,7 @@
         "$(OBJCOPY)" $(OBJCOPY_FLAGS) ${dst}
 
 
-[Static-Library-File.USER_DEFINED]
+[Static-Library-File.USER_DEFINED, Static-Library-File.HOST_APPLICATION]
     <InputFile>
         *.lib
 
