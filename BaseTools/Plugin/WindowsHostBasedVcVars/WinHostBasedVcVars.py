@@ -23,6 +23,6 @@ class WinHostBasedVcVars(IUefiBuildPlugin):
                                 "WindowsSDKVersion","VCToolsInstallDir"]
             vs_vars = locate_tools.QueryVcVariables(interesting_keys, "amd64")
             for (k,v) in vs_vars.items():
-                shell_environment.GetEnvironment().set_shell_var(k, p)
+                shell_environment.GetEnvironment().set_shell_var(k, v)
 
         return 0
