@@ -62,6 +62,12 @@ steps:
     #buildConfiguration: # Optional
     publishRunAttachments: true # Optional
 
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFiles: '**/*.result.xml'
+    testRunTitle: 'Publish host based test results for $(Build.Pkgs) '
+
 
 # Publish Build Artifacts
 # Publish build artifacts to Azure Artifacts/TFS or a file share
