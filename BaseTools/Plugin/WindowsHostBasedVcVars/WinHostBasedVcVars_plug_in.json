@@ -1,0 +1,5 @@
+{
+  "scope": "host-test-win",
+  "name": "Windows Host-Based VC Vars Support",
+  "module": "WinHostBasedVcVars"
+}
