@@ -16,10 +16,12 @@ class WinHostBasedVcVars(IUefiBuildPlugin):
         return 0
 
     def do_pre_build(self, thebuilder):
-        # Use the tools lib to determine the correct values for the vars that interest us.
-        interesting_keys = ["ExtensionSdkDir", "INCLUDE", "LIB", "LIBPATH", "UniversalCRTSdkDir",
-                            "UCRTVersion", "WindowsLibPath", "WindowsSdkBinPath", "WindowsSdkDir", "WindowsSdkVerBinPath",
-                            "WindowsSDKVersion","VCToolsInstallDir"]
-        vs_vars = locate_tools.QueryVcVariables(interesting_keys, "amd64")
-        for (k,v) in vs_vars.items():
-            shell_environment.GetEnvironment().set_shell_var(k, p)
+        ci_type = thebuilder.env.GetValue('CI_BUILD_TYPE')
+        if ci_type == 'host_unit_test':
+            # Use the tools lib to determine the correct values for the vars that interest us.
+            interesting_keys = ["ExtensionSdkDir", "INCLUDE", "LIB", "LIBPATH", "UniversalCRTSdkDir",
+                                "UCRTVersion", "WindowsLibPath", "WindowsSdkBinPath", "WindowsSdkDir", "WindowsSdkVerBinPath",
+                                "WindowsSDKVersion","VCToolsInstallDir"]
+            vs_vars = locate_tools.QueryVcVariables(interesting_keys, "amd64")
+            for (k,v) in vs_vars.items():
+                shell_environment.GetEnvironment().set_shell_var(k, p)
