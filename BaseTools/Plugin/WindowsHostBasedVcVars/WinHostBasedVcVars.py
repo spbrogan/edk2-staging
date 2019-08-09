@@ -25,7 +25,10 @@ class WinHostBasedVcVars(IUefiBuildPlugin):
                                 "WindowsSDKVersion","VCToolsInstallDir"]
             vs_vars = locate_tools.QueryVcVariables(interesting_keys, "amd64")
             for (k,v) in vs_vars.items():
-                shell_env.set_shell_var(k, v)
+                if k.upper() == "PATH":
+                    shell_env.append_path(v)
+                else:
+                    shell_env.set_shell_var(k, v)
 
             # Set up the reporting type for Cmocka.
             shell_env.set_shell_var('CMOCKA_MESSAGE_OUTPUT', 'xml')
