@@ -24,7 +24,7 @@ class HostUnitTestCompilerPlugin(ICiBuildPlugin):
         types = types.replace(" ", "_")
 
         return ("Host Unit Test Compile for " + packagename + " arch " + types,
-                packagename + ".HostUnitTestCompileCheck." + types)
+                packagename + ".CompileAndRunCheck." + types)
 
     def IsTargetDependent(self):
         return False
@@ -66,7 +66,7 @@ class HostUnitTestCompilerPlugin(ICiBuildPlugin):
         
 
     ##
-    # External function of plugin.  This function is used to perform the task of the MuBuild Plugin
+    # External function of plugin.  This function is used to perform the task of the ICiBuildPlugin Plugin
     #
     #   - package is the edk2 path to package.  This means workspace/packagepath relative.
     #   - edk2path object configured with workspace and packages path

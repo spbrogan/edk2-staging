@@ -19,7 +19,7 @@ from edk2toollib.uefi.edk2.parsers.inf_parser import InfParser
 class DSCCheck(ICiBuildPlugin):
 
     def GetTestName(self, packagename, environment):
-        return ("MuBuild DscCheck " + packagename, "MuBuild.DscCheck." + packagename)
+        return ("DscCheck " + packagename, "MuBuild.DscCheck." + packagename)
 
     ##
     # External function of plugin.  This function is used to perform the task of the MuBuild Plugin
