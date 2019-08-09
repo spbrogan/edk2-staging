@@ -32,7 +32,7 @@ steps:
 - task: CmdLine@1
   displayName: Setup $(Build.Pkgs)
   inputs:
-    filename: stuart_ci_setup
+    filename: stuart_setup
     arguments: -c CISettings.py --force-git --Tool_Chain GCC5
 
 - task: CmdLine@1
