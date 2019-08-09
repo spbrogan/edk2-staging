@@ -1,7 +1,6 @@
-## @file WinRcPath.py
-# Plugin to find Windows SDK Resource Compiler rc.exe
+## @file WinHostBasedVcVars.py
+# Plugin to update the Host-Based build environment with the shell_env content from VcVars.
 ##
-# This plugin works in conjucture with the tools_def to support rc.exe
 # Copyright (c) Microsoft Corporation
 #
 ##
@@ -25,3 +24,5 @@ class WinHostBasedVcVars(IUefiBuildPlugin):
             vs_vars = locate_tools.QueryVcVariables(interesting_keys, "amd64")
             for (k,v) in vs_vars.items():
                 shell_environment.GetEnvironment().set_shell_var(k, p)
+
+        return 0
