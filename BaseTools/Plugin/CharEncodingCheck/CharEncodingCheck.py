@@ -34,10 +34,10 @@ EcodingMap = {
 class CharEncodingCheck(ICiBuildPlugin):
 
     def GetTestName(self, packagename, environment):
-        return ("MuBuild CharEncodingCheck " + packagename, "MuBuild.CharEncodingCheck." + packagename)
+        return ("CharEncodingCheck " + packagename, "CharEncodingCheck." + packagename)
 
     ##
-    # External function of plugin.  This function is used to perform the task of the MuBuild Plugin
+    # External function of plugin.  This function is used to perform the task of the ci_build_plugin Plugin
     #
     #   - package is the edk2 path to package.  This means workspace/packagepath relative.
     #   - edk2path object configured with workspace and packages path

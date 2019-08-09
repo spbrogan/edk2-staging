@@ -20,7 +20,7 @@ class HostUnitTestCompilerPlugin(ICiBuildPlugin):
     # gets the tests name
     def GetTestName(self, packagename, environment):
         target = environment.GetValue("TARGET")
-        return ("Host Unit Test Compile " + target + " " + packagename, "CI.HostUnitTest.CompileCheck." + target + "." + packagename)
+        return ("Host Unit Test Compile " + target + " " + packagename, "CI.HostUnitTest.CompileAndRunCheck." + target + "." + packagename)
 
     def IsTargetDependent(self):
         return False
@@ -38,7 +38,7 @@ class HostUnitTestCompilerPlugin(ICiBuildPlugin):
         return None
 
     ##
-    # External function of plugin.  This function is used to perform the task of the MuBuild Plugin
+    # External function of plugin.  This function is used to perform the task of the ICiBuildPlugin Plugin
     #
     #   - package is the edk2 path to package.  This means workspace/packagepath relative.
     #   - edk2path object configured with workspace and packages path
