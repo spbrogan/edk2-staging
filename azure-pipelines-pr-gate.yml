@@ -33,7 +33,7 @@ steps:
   displayName: Setup $(Build.Pkgs)
   inputs:
     filename: stuart_setup
-    arguments: -c CISettings.py --force-git --Tool_Chain VS2017
+    arguments: -c CISettings.py --Tool_Chain VS2017
 
 - task: CmdLine@1
   displayName: Update $(Build.Pkgs)
