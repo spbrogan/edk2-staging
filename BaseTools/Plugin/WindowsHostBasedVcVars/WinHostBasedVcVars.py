@@ -16,6 +16,8 @@ class WinHostBasedVcVars(IUefiBuildPlugin):
 
     def do_pre_build(self, thebuilder):
         ci_type = thebuilder.env.GetValue('CI_BUILD_TYPE')
+        shell_env = shell_environment.GetEnvironment()
+
         if ci_type == 'host_unit_test':
             # Use the tools lib to determine the correct values for the vars that interest us.
             interesting_keys = ["ExtensionSdkDir", "INCLUDE", "LIB", "LIBPATH", "UniversalCRTSdkDir",
@@ -23,6 +25,9 @@ class WinHostBasedVcVars(IUefiBuildPlugin):
                                 "WindowsSDKVersion","VCToolsInstallDir"]
             vs_vars = locate_tools.QueryVcVariables(interesting_keys, "amd64")
             for (k,v) in vs_vars.items():
-                shell_environment.GetEnvironment().set_shell_var(k, v)
+                shell_env.set_shell_var(k, v)
+
+            # Set up the reporting type for Cmocka.
+            shell_env.set_shell_var('CMOCKA_MESSAGE_OUTPUT', 'xml')
 
         return 0
