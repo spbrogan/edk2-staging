@@ -5,19 +5,23 @@
 #
 ##
 import os
+import logging
+from edk2toolext import edk2_logging
 from edk2toolext.environment.plugintypes.uefi_build_plugin import IUefiBuildPlugin
 from edk2toolext.environment import shell_environment
 from edk2toollib.utility_functions import RunCmd
+import glob
+import xml.etree.ElementTree
 
 class HostBasedUnitTestRunner(IUefiBuildPlugin):
 
     def do_post_build(self, thebuilder):
         shell_env = shell_environment.GetEnvironment()
 
-        logging.log(MuLogging.get_section_level(), "Run Host based Unit Tests")
+        logging.log(edk2_logging.get_section_level(), "Run Host based Unit Tests")
         path = thebuilder.env.GetValue("BUILD_OUTPUT_BASE")
         for arch in thebuilder.env.GetValue("TARGET_ARCH").split():
-            logging.log( MuLogging.get_subsection_level(), "Testing for architecture: " + arch)
+            logging.log(edk2_logging.get_subsection_level(), "Testing for architecture: " + arch)
             cp = os.path.join(path, arch)
 
             # If any old results XML files exist, clean them up.
@@ -28,7 +32,7 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
             testList = glob.glob(os.path.join(cp, "*Test*.exe"))
             for test in testList:
                 # Configure output name.
-                shell_env.set_shell_env('CMOCKA_XML_FILE', test + ".%g." + arch + ".result.xml")
+                shell_env.set_shell_var('CMOCKA_XML_FILE', test + ".%g." + arch + ".result.xml")
 
                 # Run the test.
                 ret = RunCmd('"' + test + '"', "", workingdir=cp)
