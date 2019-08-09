@@ -1,4 +1,6 @@
-# @file HostUnitTestCompiler_plugin.py
+# @file Compiler_plugin.py
+# Simple Project Mu Build Plugin to support
+# compiling code
 ##
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-2-Clause-Patent
@@ -13,25 +15,25 @@ import os
 import re
 
 
-class CompilerPlugin(ICiBuildPlugin):
+class HostUnitTestCompilerPlugin(ICiBuildPlugin):
 
     # gets the tests name
     def GetTestName(self, packagename, environment):
         target = environment.GetValue("TARGET")
-        return ("Edk2 CI Compile " + target + " " + packagename, "CI.CompileCheck." + target + "." + packagename)
+        return ("Host Unit Test Compile " + target + " " + packagename, "CI.HostUnitTest.CompileCheck." + target + "." + packagename)
 
     def IsTargetDependent(self):
-        return False
+        return True
 
     def __GetPkgDsc(self, rootpath):
         try:
             allEntries = os.listdir(rootpath)
             dscsFound = []
             for entry in allEntries:
-                if entry.lower().endswith("ci.dsc"):
+                if entry.lower().endswith("hut.dsc"):
                     return(os.path.join(rootpath, entry))
         except Exception:
-            logging.error("Unable to find ci.dsc for package:{0}".format(rootpath))
+            logging.error("Unable to find DSC for package:{0}".format(rootpath))
             return None
 
     ##
@@ -47,7 +49,7 @@ class CompilerPlugin(ICiBuildPlugin):
     #   - output_stream the StringIO output stream from this plugin via logging
     def RunBuildPlugin(self, packagename, Edk2pathObj, pkgconfig, environment, PLM, PLMHelper, tc, output_stream=None):
         self._env = environment
-        
+        environment.SetValue("CI_BUILD_TYPE", "host_unit_test", "Set in HostUnitTestCompilerPlugin")
         AP = Edk2pathObj.GetAbsolutePathOnThisSytemFromEdk2RelativePath(packagename)
         #
         # only get ci.dsc files
@@ -63,7 +65,7 @@ class CompilerPlugin(ICiBuildPlugin):
         logging.info("Building {0}".format(AP_Path))
         if AP is None or AP_Path is None or not os.path.isfile(APDSC):
             tc.SetSkipped()
-            tc.LogStdError("1 warning(s) in {0} Compile. ci.dsc not found.".format(packagename))
+            tc.LogStdError("1 warning(s) in {0} Compile. hut.DSC not found.".format(packagename))
             return 0
 
         self._env.SetValue("ACTIVE_PLATFORM", AP_Path, "Set in Compiler Plugin")
