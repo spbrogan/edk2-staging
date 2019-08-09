@@ -10,8 +10,8 @@
   PLATFORM_GUID                  = 8AD872E8-AA24-4ADF-AC25-562DD777A624
   PLATFORM_VERSION               = 0.1
   DSC_SPECIFICATION              = 0x00010005
-  OUTPUT_DIRECTORY               = Build/MdeModulePkg
-  SUPPORTED_ARCHITECTURES        = IA32|X64
+  OUTPUT_DIRECTORY               = Build/MdeModulePkg_Host
+  SUPPORTED_ARCHITECTURES        = X64
   BUILD_TARGETS                  = DEBUG|RELEASE
   SKUID_IDENTIFIER               = DEFAULT
 
