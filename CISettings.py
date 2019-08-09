@@ -31,7 +31,7 @@ class Settings(CiBuildSettingsManager, CiSetupSettingsManager, UpdateSettingsMan
 
     def GetActiveScopes(self):
         ''' get scope '''
-        scopes = ("corebuild", "project_mu")
+        scopes = ("corebuild", "project_mu", "host-test-win")
 
         if (GetHostInfo().os == "Linux"
             and "AARCH64" in self.GetArchSupported() and
