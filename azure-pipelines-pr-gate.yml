@@ -62,11 +62,21 @@ steps:
     #buildConfiguration: # Optional
     publishRunAttachments: true # Optional
 
+# Publish Test Results to Azure Pipelines/TFS
 - task: PublishTestResults@2
+  displayName: 'Publish host based test results for $(Build.Pkgs)'
+  continueOnError: true
   condition: succeededOrFailed()
   inputs:
-    testResultsFiles: '**/*.result.xml'
-    testRunTitle: 'Publish host based test results for $(Build.Pkgs) '
+    testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
+    testResultsFiles: 'Build/**/*.result.xml'
+    #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
+    mergeTestResults: true # Optional
+    #testRunTitle: # Optional
+    #buildPlatform: # Optional
+    #buildConfiguration: # Optional
+    publishRunAttachments: true # Optional
+
 
 
 # Publish Build Artifacts
