@@ -46,7 +46,7 @@ class Settings(CiBuildSettingsManager, UpdateSettingsManager, SetupSettingsManag
         return scopes
 
     def GetName(self):
-        return "Basecore"
+        return "Edk2"
 
     def GetDependencies(self):
         return []
@@ -60,7 +60,11 @@ class Settings(CiBuildSettingsManager, UpdateSettingsManager, SetupSettingsManag
             "NetworkPkg",
             "PcAtChipsetPkg",
             "SecurityPkg",
-            "UefiCpuPkg")
+            "UefiCpuPkg",
+            "FmpDevicePkg",
+            "ShellPkg",
+            "FatPkg",
+            "CryptoPkg")
 
     def GetPackagesPath(self):
         return ()
