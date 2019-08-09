@@ -6,11 +6,11 @@
 import os
 from edk2toolext.environment import shell_environment
 from edk2toolext.invocables.edk2_ci_build import CiBuildSettingsManager
-from edk2toolext.invocables.edk2_ci_setup import CiSetupSettingsManager
+from edk2toolext.invocables.edk2_setup import SetupSettingsManager
 from edk2toolext.invocables.edk2_update import UpdateSettingsManager
 from edk2toollib.utility_functions import GetHostInfo
 
-class Settings(CiBuildSettingsManager, CiSetupSettingsManager, UpdateSettingsManager):
+class Settings(CiBuildSettingsManager, UpdateSettingsManager, SetupSettingsManager):
 
     def __init__(self):
         # plugin_skip_list = ["DependencyCheck", "CompilerPlugin"]
@@ -47,6 +47,9 @@ class Settings(CiBuildSettingsManager, CiSetupSettingsManager, UpdateSettingsMan
 
     def GetDependencies(self):
         return []
+
+    def GetRequiredRepos(self):
+        return ("CryptoPkg/Library/OpensslLib/openssl","ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3", "CmockaHostUnitTestPkg/Library/CmockaLib/cmocka")
 
     def GetPackages(self):
         return ("MdeModulePkg",
