@@ -23,7 +23,7 @@ class HostUnitTestCompilerPlugin(ICiBuildPlugin):
         return ("Host Unit Test Compile " + target + " " + packagename, "CI.HostUnitTest.CompileCheck." + target + "." + packagename)
 
     def IsTargetDependent(self):
-        return True
+        return False
 
     def __GetPkgDsc(self, rootpath):
         try:
@@ -34,7 +34,8 @@ class HostUnitTestCompilerPlugin(ICiBuildPlugin):
                     return(os.path.join(rootpath, entry))
         except Exception:
             logging.error("Unable to find DSC for package:{0}".format(rootpath))
-            return None
+
+        return None
 
     ##
     # External function of plugin.  This function is used to perform the task of the MuBuild Plugin
