@@ -79,6 +79,12 @@ class DSCCheck(ICiBuildPlugin):
                     tc.LogStdOut("Ignoring INF due to type HOST_APPLICATION {0}".format(INF))
                     continue
 
+                if len(infp.SupportedPhases) == 1 and \
+                   "HOST_APPLICATION" in infp.SupportedPhases:
+                    tc.LogStdOut("Ignoring Library INF due to only supporting type HOST_APPLICATION {0}".format(INF))
+                    continue
+
+
                 logging.critical(INF + " not in " + wsr_dsc_path)
                 tc.LogStdError("{0} not in {1}".format(INF, wsr_dsc_path))
                 overall_status = overall_status + 1
