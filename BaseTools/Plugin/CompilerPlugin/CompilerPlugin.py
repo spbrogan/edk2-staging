@@ -18,7 +18,7 @@ class CompilerPlugin(ICiBuildPlugin):
     # gets the tests name
     def GetTestName(self, packagename, environment):
         target = environment.GetValue("TARGET")
-        return ("Edk2 CI Compile " + target + " " + packagename, "CI.CompileCheck." + target + "." + packagename)
+        return ("Edk2 CI Compile " + target + " " + packagename, packagename + ".CompileCheck." + target)
 
     def IsTargetDependent(self):
         return True
@@ -55,18 +55,13 @@ class CompilerPlugin(ICiBuildPlugin):
         #
         
         APDSC = self.__GetPkgDsc(AP) # self.get_dsc_name_in_dir(AP)
-        #if(APDSC is None):
-        #    tc.SetSkipped()
-        #    tc.LogStdError("1 warning(s) in {0} CI compile DSC not found.".format(packagename))
-        #    return 0
-
         AP_Path = Edk2pathObj.GetEdk2RelativePathFromAbsolutePath(APDSC)
-        logging.info("Building {0}".format(AP_Path))
         if AP is None or AP_Path is None or not os.path.isfile(APDSC):
             tc.SetSkipped()
             tc.LogStdError("1 warning(s) in {0} Compile. ci.dsc not found.".format(packagename))
-            return 0
+            return -1
 
+        logging.info("Building {0}".format(AP_Path))
         self._env.SetValue("ACTIVE_PLATFORM", AP_Path, "Set in Compiler Plugin")
 
         # Parse DSC to check for SUPPORTED_ARCHITECTURES
@@ -82,7 +77,7 @@ class CompilerPlugin(ICiBuildPlugin):
             if len(set(SUPPORTED_ARCHITECTURES) & set(TARGET_ARCHITECTURES)) == 0:
                 tc.SetSkipped()
                 tc.LogStdError("No supported architecutres to build")
-                return 0
+                return -1
 
         uefiBuilder = UefiBuilder()
         # do all the steps
