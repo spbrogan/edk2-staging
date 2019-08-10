@@ -71,13 +71,11 @@ steps:
     testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
     testResultsFiles: 'Build/**/*.result.xml'
     #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-    mergeTestResults: true # Optional
+    mergeTestResults: false # Optional
     testRunTitle: $(Build.Pkgs) # Optional
     #buildPlatform: # Optional
     #buildConfiguration: # Optional
     publishRunAttachments: true # Optional
-
-
 
 # Copy the build logs to the artifact staging directory
 - task: CopyFiles@2
@@ -90,6 +88,8 @@ steps:
       Build\**\CI_*.txt
       Build\**\CI_*.md
       Build\**\TestSuites.xml
+      Build\**\BUILD_TOOLS_REPORT.html
+      Build\**\OVERRIDELOG.TXT
     flattenFolders: true
 
 # Publish build artifacts to Azure Artifacts/TFS or a file share
