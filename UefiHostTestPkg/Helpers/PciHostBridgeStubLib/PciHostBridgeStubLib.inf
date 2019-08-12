@@ -10,9 +10,9 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = PciHostBridgeStubLib
   FILE_GUID                      = E330649F-E642-4886-9400-BB23F483B30E
-  MODULE_TYPE                    = BASE
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = PciHostBridgeStubLib
+  LIBRARY_CLASS                  = PciHostBridgeStubLib  | HOST_APPLICATION
 
 #
 # The following information is for reference only and not required by the build tools.

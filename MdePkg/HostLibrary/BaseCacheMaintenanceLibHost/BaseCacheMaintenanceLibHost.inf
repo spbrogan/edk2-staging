@@ -16,9 +16,9 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = BaseCacheMaintenanceLibHost
   FILE_GUID                      = 0F652FA7-946D-4737-A6D7-4B8B97AD0EA3
-  MODULE_TYPE                    = BASE
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.1
-  LIBRARY_CLASS                  = CacheMaintenanceLib
+  LIBRARY_CLASS                  = CacheMaintenanceLib  | HOST_APPLICATION
 
 #
 #  VALID_ARCHITECTURES           = IA32 X64 IPF EBC ARM AARCH64

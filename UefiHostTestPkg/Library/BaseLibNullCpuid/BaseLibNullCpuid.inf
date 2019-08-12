@@ -10,7 +10,7 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = BaseLibNullCpuid
   FILE_GUID                      = 9099E2A7-8A28-4115-9F8E-B2865AECEF8A
-  MODULE_TYPE                    = BASE
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = NULL
 

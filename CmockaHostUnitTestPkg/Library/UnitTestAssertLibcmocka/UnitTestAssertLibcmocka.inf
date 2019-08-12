@@ -10,8 +10,8 @@
   BASE_NAME       = UnitTestAssertLibcmocka
   FILE_GUID       = 8841561C-ABF2-4989-9039-4C6485D61C23
   VERSION_STRING  = 1.0
-  MODULE_TYPE     = BASE
-  LIBRARY_CLASS   = UnitTestAssertLib
+  MODULE_TYPE     = HOST_APPLICATION
+  LIBRARY_CLASS   = UnitTestAssertLib | HOST_APPLICATION
 
 [LibraryClasses]
   BaseMemoryLib

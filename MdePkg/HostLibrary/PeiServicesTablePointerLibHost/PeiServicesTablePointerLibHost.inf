@@ -16,9 +16,9 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = PeiServicesTablePointerLibHost
   FILE_GUID                      = AFA925DB-1728-4CE3-9171-E72548E8526A
-  MODULE_TYPE                    = PEIM
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = PeiServicesTablePointerLibHost|PEIM PEI_CORE SEC
+  LIBRARY_CLASS                  = PeiServicesTablePointerLibHost|PEIM PEI_CORE SEC HOST_APPLICATION
 
 #
 #  VALID_ARCHITECTURES           = IA32 X64 EBC (EBC is for build only)

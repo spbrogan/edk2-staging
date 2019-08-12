@@ -12,10 +12,10 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = SmmServicesTableLibHost
   FILE_GUID                      = BC01EA4A-7CD7-456F-9BD3-1EF71FD0E026
-  MODULE_TYPE                    = BASE
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = SmmServicesTableLib
-  LIBRARY_CLASS                  = MmServicesTableLib
+  LIBRARY_CLASS                  = SmmServicesTableLib | HOST_APPLICATION
+  LIBRARY_CLASS                  = MmServicesTableLib | HOST_APPLICATION
 
 #
 #  VALID_ARCHITECTURES           = IA32 X64 EBC
