@@ -733,4 +733,16 @@ ArmGetPhysicalAddressBits (
   VOID
   );
 
+// MU_CHANGE [BEGIN] - Support AARCH64 with MS toolchain
+//
+// Memory Model
+//
+
+UINTN
+EFIAPI
+ArmReadIdMmfr0(
+  VOID
+  );
+// MU_CHANGE [END] - Support AARCH64 with MS toolchain
+
 #endif // __ARM_LIB__
