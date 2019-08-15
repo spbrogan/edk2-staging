@@ -115,7 +115,8 @@ GetRootTranslationTableInfo (
   }
 
   if (TableEntryCount) {
-    *TableEntryCount = 1UL << (BITS_PER_LEVEL - (T0SZ - MIN_T0SZ) % BITS_PER_LEVEL);
+    // MU_CHANGE - Support AARCH64 with MS toolchain
+    *TableEntryCount = ((UINTN)1) << (BITS_PER_LEVEL - (T0SZ - MIN_T0SZ) % BITS_PER_LEVEL);
   }
 }
 
@@ -760,7 +761,8 @@ ArmMmuBaseLibConstructor (
   // The ArmReplaceLiveTranslationEntry () helper function may be invoked
   // with the MMU off so we have to ensure that it gets cleaned to the PoC
   //
-  WriteBackDataCacheRange (ArmReplaceLiveTranslationEntry,
+  // MU_CHANGE - Support AARCH64 with MS toolchain
+  WriteBackDataCacheRange ((VOID *)(UINTN)ArmReplaceLiveTranslationEntry,
     ArmReplaceLiveTranslationEntrySize);
 
   return RETURN_SUCCESS;

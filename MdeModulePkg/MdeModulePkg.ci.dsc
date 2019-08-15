@@ -58,6 +58,7 @@
   DxeServicesLib|MdePkg/Library/DxeServicesLib/DxeServicesLib.inf
   DxeServicesTableLib|MdePkg/Library/DxeServicesTableLib/DxeServicesTableLib.inf
   UefiBootManagerLib|MdeModulePkg/Library/UefiBootManagerLib/UefiBootManagerLib.inf
+  UefiVariablePolicyLib|MdeModulePkg/Library/UefiVariablePolicyLib/UefiVariablePolicyLib.inf  # MU_CHANGE
   #
   # Generic Modules
   #
@@ -97,6 +98,21 @@
   BmpSupportLib|MdeModulePkg/Library/BaseBmpSupportLib/BaseBmpSupportLib.inf
   SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
   DisplayUpdateProgressLib|MdeModulePkg/Library/DisplayUpdateProgressLibGraphics/DisplayUpdateProgressLibGraphics.inf
+
+## MU_CHANGE Begin
+[LibraryClasses.common]
+  BaseBinSecurityLib|MdePkg/Library/BaseBinSecurityLibNull/BaseBinSecurityLibNull.inf
+!if $(TOOL_CHAIN_TAG) == VS2017 or $(TOOL_CHAIN_TAG) == VS2015 or $(TOOL_CHAIN_TAG) == VS2019
+!if $(TARGET) == DEBUG
+[LibraryClasses.X64, LibraryClasses.IA32]
+  #if debug is enabled provide StackCookie support lib so that we can link to /GS exports on MSVC
+  RngLib|MdePkg/Library/BaseRngLib/BaseRngLib.inf
+[LibraryClasses.X64]
+  BaseBinSecurityLib|MdePkg/Library/BaseBinSecurityLibRng/BaseBinSecurityLibRng.inf
+  NULL|MdePkg/Library/BaseBinSecurityLibRng/BaseBinSecurityLibRng.inf
+!endif
+!endif
+## MU_CHANGE End
 
 [LibraryClasses.EBC.PEIM]
   IoLib|MdePkg/Library/PeiIoLibCpuIo/PeiIoLibCpuIo.inf
@@ -206,7 +222,8 @@
   MdeModulePkg/Application/HelloWorld/HelloWorld.inf
   MdeModulePkg/Application/DumpDynPcd/DumpDynPcd.inf
   MdeModulePkg/Application/MemoryProfileInfo/MemoryProfileInfo.inf
-
+## MU_CHANGE BEGIN
+  # Add missing components to the build.
   MdeModulePkg/Library/UefiSortLib/UefiSortLib.inf
   MdeModulePkg/Logo/Logo.inf
   MdeModulePkg/Logo/LogoDxe.inf
@@ -222,6 +239,8 @@
   MdeModulePkg/Library/UefiHiiServicesLib/UefiHiiServicesLib.inf
   MdeModulePkg/Library/BaseHobLibNull/BaseHobLibNull.inf
   MdeModulePkg/Library/BaseMemoryAllocationLibNull/BaseMemoryAllocationLibNull.inf
+  MdeModulePkg/Library/VarCheckLibNull/VarCheckLibNull.inf
+## MU_CHANGE END
 
   MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf
   MdeModulePkg/Bus/Pci/PciSioSerialDxe/PciSioSerialDxe.inf
@@ -309,6 +328,7 @@
   MdeModulePkg/Library/BootLogoLib/BootLogoLib.inf
   MdeModulePkg/Library/TpmMeasurementLibNull/TpmMeasurementLibNull.inf
   MdeModulePkg/Library/AuthVariableLibNull/AuthVariableLibNull.inf
+  MdeModulePkg/Library/UefiVariablePolicyLib/UefiVariablePolicyLib.inf            # MU_CHANGE
   MdeModulePkg/Library/VarCheckLib/VarCheckLib.inf
   MdeModulePkg/Library/VarCheckHiiLib/VarCheckHiiLib.inf
   MdeModulePkg/Library/VarCheckPcdLib/VarCheckPcdLib.inf
@@ -324,8 +344,6 @@
   MdeModulePkg/Library/BaseBmpSupportLib/BaseBmpSupportLib.inf
   MdeModulePkg/Library/DisplayUpdateProgressLibGraphics/DisplayUpdateProgressLibGraphics.inf
   MdeModulePkg/Library/DisplayUpdateProgressLibText/DisplayUpdateProgressLibText.inf
-  MdeModulePkg/Library/UefiVariablePolicyLib/UefiVariablePolicyLib.inf
-  MdeModulePkg/Library/VarCheckLibNull/VarCheckLibNull.inf
 
   MdeModulePkg/Universal/BdsDxe/BdsDxe.inf
   MdeModulePkg/Application/BootManagerMenuApp/BootManagerMenuApp.inf
@@ -430,10 +448,18 @@
   MdeModulePkg/Library/DxeCapsuleLibFmp/DxeCapsuleLib.inf
   MdeModulePkg/Library/DxeCapsuleLibFmp/DxeRuntimeCapsuleLib.inf
 
-[Components.IA32, Components.X64, Components.AARCH64]
+# MU_CHANGE START
+!if $(TOOLCHAIN) != VS2017 and $(TOOLCHAIN) != VS2019
+[Components.AARCH64]
   MdeModulePkg/Universal/EbcDxe/EbcDxe.inf
   MdeModulePkg/Universal/EbcDxe/EbcDebugger.inf
   MdeModulePkg/Universal/EbcDxe/EbcDebuggerConfig.inf
+!endif
+[Components.IA32, Components.X64]
+  MdeModulePkg/Universal/EbcDxe/EbcDxe.inf
+  MdeModulePkg/Universal/EbcDxe/EbcDebugger.inf
+  MdeModulePkg/Universal/EbcDxe/EbcDebuggerConfig.inf
+# MU_CHANGE END
 
 [Components.IA32, Components.X64, Components.ARM, Components.AARCH64]
   MdeModulePkg/Library/BrotliCustomDecompressLib/BrotliCustomDecompressLib.inf
