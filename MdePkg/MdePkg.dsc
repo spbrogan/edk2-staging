@@ -27,6 +27,9 @@
   gEfiMdePkgTokenSpaceGuid.PcdPciExpressBaseAddress|0xE0000000
 
 [Components]
+## MU_CHANGE BEGIN
+  MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
+## MU_CHANGE END
   MdePkg/Library/BaseCacheMaintenanceLib/BaseCacheMaintenanceLib.inf
   MdePkg/Library/BaseCpuLib/BaseCpuLib.inf
   MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
@@ -136,6 +139,12 @@
   MdePkg/Library/BaseS3StallLib/BaseS3StallLib.inf
   MdePkg/Library/SmmMemLib/SmmMemLib.inf
   MdePkg/Library/SmmIoLib/SmmIoLib.inf
+  ## MU_CHANGE Begin
+!if $(TOOLCHAIN) == VS2017 or $(TOOLCHAIN) == VS2019
+  MdePkg/Library/BaseBinSecurityLibNull/BaseBinSecurityLibNull.inf
+  MdePkg/Library/BaseBinSecurityLibRng/BaseBinSecurityLibRng.inf
+!endif
+  ## MU_CHANGE End
   MdePkg/Library/BaseRngLib/BaseRngLib.inf
   MdePkg/Library/SmmPciExpressLib/SmmPciExpressLib.inf
   MdePkg/Library/SmiHandlerProfileLibNull/SmiHandlerProfileLibNull.inf
