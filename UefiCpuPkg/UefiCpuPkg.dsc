@@ -13,7 +13,9 @@
   PLATFORM_VERSION               = 0.90
   DSC_SPECIFICATION              = 0x00010005
   OUTPUT_DIRECTORY               = Build/UefiCpu
-  SUPPORTED_ARCHITECTURES        = IA32|X64
+  # MU_CHANGE START
+  SUPPORTED_ARCHITECTURES        = IA32|X64|AARCH64|ARM
+  # MU_CHANGE END
   BUILD_TARGETS                  = DEBUG|RELEASE|NOOPT
   SKUID_IDENTIFIER               = DEFAULT
 
@@ -95,6 +97,12 @@
 #
 # Drivers/Libraries within this package
 #
+
+# MU_CHANGE START
+[Components.X64, Components.IA32]
+  UefiCpuPkg/ResetVector/Vtf0/Bin/ResetVector.inf
+  UefiCpuPkg/Library/CpuCommonFeaturesLib/CpuCommonFeaturesLib.inf
+# MU_CHANGE END
 
 [Components]
   UefiCpuPkg/CpuIo2Dxe/CpuIo2Dxe.inf
