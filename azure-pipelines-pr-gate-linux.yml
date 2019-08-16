@@ -2,13 +2,13 @@
 strategy:
   matrix:
     TARGET_MDE_CPU:
-      Build.Pkgs: 'MdePkg UefiCpuPkg'
+      Build.Pkgs: 'MdePkg UefiCpuPkg FatPkg'
     TARGET_MDEMODULE:
       Build.Pkgs: 'MdeModulePkg'
     TARGET_OTHER:
-      Build.Pkgs: 'NetworkPkg PcAtChipsetPkg'
+      Build.Pkgs: 'NetworkPkg PcAtChipsetPkg ShellPkg FmpDevicePkg'
     TARGET_SECURITY:
-      Build.Pkgs: 'SecurityPkg'
+      Build.Pkgs: 'SecurityPkg CryptoPkg'
 
 variables:
   GCC_AARCH_PREFIX: bin/aarch64-linux-gnu-
