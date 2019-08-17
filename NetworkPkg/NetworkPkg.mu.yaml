@@ -1,0 +1,26 @@
+{
+    "CompilerPlugin": {
+        "IgnoreInf": []
+    },
+    "DependencyCheck": {
+        "AcceptableDependencies": [
+            "NetworkPkg/NetworkPkg.dec",
+            "MdePkg/MdePkg.dec",
+            "MdeModulePkg/MdeModulePkg.dec",
+            "MsUnitTestPkg/MsUnitTestPkg.dec",
+            "CryptoPkg/CryptoPkg.dec"
+        ],
+        "IgnoreInf": []
+    },
+    "DSCCheck": {
+        "IgnoreInf": []
+    },
+    "Defines": {
+        "BLD_*_NETWORK_ENABLE": "TRUE",
+        "BLD_*_NETWORK_IP4_ENABLE": "TRUE",
+        "BLD_*_NETWORK_IP6_ENABLE": "TRUE",
+        "BLD_*_NETWORK_TLS_ENABLE": "TRUE",
+        "BLD_*_NETWORK_HTTP_BOOT_ENABLE": "TRUE",
+        "BLD_*_NETWORK_ISCSI_ENABLE": "TRUE",
+    }
+}

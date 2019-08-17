@@ -100,6 +100,17 @@
   NetworkPkg/WifiConnectionManagerDxe/WifiConnectionManagerDxe.inf
   NetworkPkg/Application/VConfig/VConfig.inf
 
+  # MU_CHANGE BEGIN - Add missing components.
+  NetworkPkg/Library/DxeDpcLib/DxeDpcLib.inf
+  NetworkPkg/Library/DxeHttpLib/DxeHttpLib.inf
+  NetworkPkg/Library/DxeIpIoLib/DxeIpIoLib.inf
+  NetworkPkg/Library/DxeNetLib/DxeNetLib.inf
+  NetworkPkg/Library/DxeTcpIoLib/DxeTcpIoLib.inf
+  NetworkPkg/Library/DxeUdpIoLib/DxeUdpIoLib.inf
+  NetworkPkg/SnpDxe/SnpDxe.inf
+  NetworkPkg/VlanConfigDxe/VlanConfigDxe.inf
+  # MU_CHANGE END
+
   !include NetworkPkg/Network.dsc.inc
 
 [BuildOptions]
