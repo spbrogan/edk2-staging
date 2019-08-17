@@ -1,0 +1,13 @@
+{
+    "CompilerPlugin": {
+        "IgnoreInf": []
+    },
+    "DependencyCheck": {
+        "AcceptableDependencies": [],
+        "IgnoreInf": []
+    },
+    "DSCCheck": {
+        "skip": True,
+        "IgnoreInf": []
+    }
+}
