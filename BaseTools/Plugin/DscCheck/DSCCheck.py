@@ -26,7 +26,7 @@ class DSCCheck(ICiBuildPlugin):
     #   - package is the edk2 path to package.  This means workspace/packagepath relative.
     #   - edk2path object configured with workspace and packages path
     #   - PkgConfig Object (dict) for the pkg
-    #   - EnvConfig Object
+    #   - VarDict containing the shell environment Build Vars
     #   - Plugin Manager Instance
     #   - Plugin Helper Obj Instance
     #   - Junit Logger
@@ -66,6 +66,7 @@ class DSCCheck(ICiBuildPlugin):
         dp = DscParser()
         dp.SetBaseAbsPath(Edk2pathObj.WorkspacePath)
         dp.SetPackagePaths(Edk2pathObj.PackagePathList)
+        dp.SetInputVars(environment.GetAllBuildKeyValues())
         dp.ParseFile(wsr_dsc_path)
 
         # lowercase for matching
