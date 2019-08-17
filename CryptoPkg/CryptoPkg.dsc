@@ -118,6 +118,8 @@
   CryptoPkg/Library/OpensslLib/OpensslLib.inf
   CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
 
+  CryptoPkg/Library/IntrinsicLib/IntrinsicLib.inf   # MU_CHANGE
+
 [Components.IA32, Components.X64]
   CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf
 

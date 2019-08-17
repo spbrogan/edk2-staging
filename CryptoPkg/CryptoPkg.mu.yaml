@@ -1,0 +1,14 @@
+{
+    "CompilerPlugin": {
+        "IgnoreInf": []
+    },
+    "DependencyCheck": {
+        "AcceptableDependencies": [],
+        "IgnoreInf": []
+    },
+    "DSCCheck": {
+        "IgnoreInf": [
+            "CryptoPkg/HostLibrary/BaseCryptLibHost/BaseCryptLibHost.inf"
+        ]
+    }
+}
