@@ -109,7 +109,13 @@
   HobLib|MdePkg/Library/PeiHobLib/PeiHobLib.inf
   MemoryAllocationLib|MdePkg/Library/PeiMemoryAllocationLib/PeiMemoryAllocationLib.inf
   ExtractGuidedSectionLib|MdePkg/Library/PeiExtractGuidedSectionLib/PeiExtractGuidedSectionLib.inf
+## MU_CHANGE - SmmLockBoxPeiLib only supports IA32 and X64.
+  LockBoxLib|MdeModulePkg/Library/LockBoxNullLib/LockBoxNullLib.inf
+
+## MU_CHANGE [BEGIN] - SmmLockBoxPeiLib only supports IA32 and X64.
+[LibraryClasses.IA32.PEIM, LibraryClasses.X64.PEIM]
   LockBoxLib|MdeModulePkg/Library/SmmLockBoxLib/SmmLockBoxPeiLib.inf
+## MU_CHANGE [END]
 
 [LibraryClasses.common.DXE_CORE]
   HobLib|MdePkg/Library/DxeCoreHobLib/DxeCoreHobLib.inf
@@ -322,8 +328,10 @@
   MdeModulePkg/Library/BaseBmpSupportLib/BaseBmpSupportLib.inf
   MdeModulePkg/Library/DisplayUpdateProgressLibGraphics/DisplayUpdateProgressLibGraphics.inf
   MdeModulePkg/Library/DisplayUpdateProgressLibText/DisplayUpdateProgressLibText.inf
+  # MU_CHANGE BEGIN
   MdeModulePkg/Library/UefiVariablePolicyLib/UefiVariablePolicyLib.inf
   MdeModulePkg/Library/VarCheckLibNull/VarCheckLibNull.inf
+  # MU_CHANGE END
 
   MdeModulePkg/Universal/BdsDxe/BdsDxe.inf
   MdeModulePkg/Application/BootManagerMenuApp/BootManagerMenuApp.inf
@@ -488,7 +496,6 @@
   MdeModulePkg/Universal/RegularExpressionDxe/RegularExpressionDxe.inf
   MdeModulePkg/Universal/SmmCommunicationBufferDxe/SmmCommunicationBufferDxe.inf
   MdeModulePkg/Universal/Disk/RamDiskDxe/RamDiskDxe.inf
- 
 
 [Components.X64]
   MdeModulePkg/Universal/CapsulePei/CapsuleX64.inf
