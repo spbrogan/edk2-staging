@@ -20,5 +20,10 @@
             "MdeModulePkg/Library/UefiVariablePolicyLib/UnitTest/UefiVariablePolicyUnitTest.inf",
             "MdeModulePkg/Universal/RegularExpressionDxe/UnitTest/TestRegularExpressionDxe.inf"
         ]   
+    },
+    "GuidCheck": {
+        "IgnoreGuidName": [],
+        "IgnoreGuidValue": [],
+        "IgnoreFoldersAndFiles": [],
     }
 }
