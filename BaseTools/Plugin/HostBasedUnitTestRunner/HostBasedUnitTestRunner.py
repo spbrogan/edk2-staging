@@ -6,12 +6,14 @@
 ##
 import os
 import logging
-from edk2toolext import edk2_logging
-from edk2toolext.environment.plugintypes.uefi_build_plugin import IUefiBuildPlugin
-from edk2toolext.environment import shell_environment
-from edk2toollib.utility_functions import RunCmd
 import glob
 import xml.etree.ElementTree
+from edk2toolext.environment.plugintypes.uefi_build_plugin import IUefiBuildPlugin
+from edk2toolext import edk2_logging
+import edk2toollib.windows.locate_tools as locate_tools
+from edk2toolext.environment import shell_environment
+from edk2toollib.utility_functions import RunCmd
+
 
 class HostBasedUnitTestRunner(IUefiBuildPlugin):
 
@@ -75,3 +77,4 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
 
         # Set up the reporting type for Cmocka.
         shell_env.set_shell_var('CMOCKA_MESSAGE_OUTPUT', 'xml')
+        return 0
