@@ -15,7 +15,15 @@ from edk2toollib.uefi.edk2.parsers.inf_parser import InfParser
 
 
 class LibraryClassCheck(ICiBuildPlugin):
+    """
+    A CiBuildPlugin that scans the code tree and library classes for undeclared 
+    files
 
+    Configuration options:
+    "LibraryClassCheck": {
+        IgnoreHeaderFile: []
+    }
+    """
     def GetTestName(self, packagename, environment):
         return ("LibraryClassCheck " + packagename, "CI.LibraryClassCheck." + packagename)
 
@@ -63,6 +71,18 @@ class LibraryClassCheck(ICiBuildPlugin):
         hfiles = self.WalkDirectoryForExtension([".h"], AbsLibraryIncludePath)
         hfiles = [os.path.relpath(x,abs_pkg_path) for x in hfiles]  # make package root relative path
         hfiles = [x.replace("\\", "/") for x in hfiles]  # make package relative path
+
+        # Remove ignored paths
+        if "IgnoreHeaderFile" in pkgconfig:
+            for a in pkgconfig["IgnoreHeaderFile"]:
+                try:
+                    tc.LogStdOut("Ignoring Library Header File {0}".format(a))
+                    hfiles.remove(a)
+                except:
+                    tc.LogStdError("LibraryClassCheck.IgnoreHeaderFile -> {0} not found.  Invalid Header File".format(a))
+                    logging.info("LibraryClassCheck.IgnoreHeaderFile -> {0} not found.  Invalid Header File".format(a))
+
+
 
         dec = DecParser()
         dec.SetBaseAbsPath(Edk2pathObj.WorkspacePath).SetPackagePaths(Edk2pathObj.PackagePathList)
