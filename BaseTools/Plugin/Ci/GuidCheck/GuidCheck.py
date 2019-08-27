@@ -12,6 +12,17 @@ from edk2toollib.uefi.edk2.parsers.guid_list import GuidList
 
 
 class GuidCheck(ICiBuildPlugin):
+    """
+    A CiBuildPlugin that scans the code tree and looks for duplicate guids
+    from the package being tested.  
+
+    Configuration options:
+    "GuidCheck": {
+        "IgnoreGuidName": [],
+        "IgnoreGuidValue": [],
+        "IgnoreFoldersAndFiles: []
+    }
+    """
 
     def GetTestName(self, packagename, environment):
         return ("GuidClassCheck " + packagename, "CI.GuidCheck." + packagename)
@@ -43,7 +54,12 @@ class GuidCheck(ICiBuildPlugin):
         return errors
 
     def _FindConflictingGuidNames(self, guidlist: list) -> list:
-        """ Find all duplicate guids by name and report them as errors
+        """ Find all duplicate guids by name and if they are not all
+        from inf files report them as errors.  It is ok to have 
+        BASE_NAME duplication.  
+
+        Is this useful?  It would catch two same named guids in dec file
+        that resolve to different values. 
         """
         # Sort the list by guid
         namesorted = sorted(guidlist, key=lambda x: x.name.upper())
@@ -54,7 +70,8 @@ class GuidCheck(ICiBuildPlugin):
         for index in range(len(namesorted)):
             i = namesorted[index]
             if(previous is not None):
-                if i.name == previous.name:  # Error
+                # If name matches
+                if i.name == previous.name:
                     if(error is None):
                         # Catch errors with more than 1 conflict
                         error = ErrorEntry("name")
@@ -65,6 +82,13 @@ class GuidCheck(ICiBuildPlugin):
                     # no match.  clear error
                     error = None
             previous = i
+
+            # Loop thru and remove any errors where all files are infs as it is ok if 
+            # they have the same inf base name.  
+            for e in errors[:]:
+                if len( [entries for en in e.entries if not en.absfilepath.lower().endswith(".inf")]) == 0:
+                    errors.remove(e)
+
         return errors
 
     ##
@@ -91,15 +115,37 @@ class GuidCheck(ICiBuildPlugin):
             return -1
 
         All_Ignores = [".pyc", "/Build", "/Conf"]
-        # Need to get more ignore patters from config
+        # Parse the config for other ignores
+        if "IgnoreFoldersAndFiles" in pkgconfig:
+            All_Ignores.extend(pkgconfig["IgnoreFoldersAndFiles"])
 
         # Parse the workspace for all GUIDs
         gs = GuidList.guidlist_from_filesystem(
             Edk2pathObj.WorkspacePath, ignore_lines=All_Ignores)
 
-        # Remove ignored guidnames
+        # Remove ignored guidvalue
+        if "IgnoreGuidValue" in pkgconfig:
+            for a in pkgconfig["IgnoreGuidValue"]:
+                try:
+                    tc.LogStdOut("Ignoring Guid {0}".format(a.upper()))
+                    for b in gs[:]:
+                        if b.guid == a.upper():
+                            gs.remove(b)
+                except:
+                    tc.LogStdError("GuidCheck.IgnoreGuid -> {0} not found.  Invalid ignore guid".format(a.upper()))
+                    logging.info("GuidCheck.IgnoreGuid -> {0} not found.  Invalid ignore guid".format(a.upper()))
 
-        # Remove ignored guidvalues
+        # Remove ignored guidname
+        if "IgnoreGuidName" in pkgconfig:
+            for a in pkgconfig["IgnoreGuidName"]:
+                try:
+                    tc.LogStdOut("Ignoring Guid {0}".format(a))
+                    for b in gs[:]:
+                        if b.name == a:
+                            gs.remove(b)
+                except:
+                    tc.LogStdError("GuidCheck.IgnoreGuidName -> {0} not found.  Invalid ignore guid".format(a))
+                    logging.info("GuidCheck.IgnoreGuidName -> {0} not found.  Invalid ignore guid".format(a))
 
         # Find conflicting Guid Values
         Errors.extend(self._FindConflictingGuidValues(gs))
