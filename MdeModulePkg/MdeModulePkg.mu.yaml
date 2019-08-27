@@ -25,5 +25,8 @@
         "IgnoreGuidName": [],
         "IgnoreGuidValue": [],
         "IgnoreFoldersAndFiles": [],
+    }, 
+    "LibraryClassCheck": {
+        "IgnoreHeaderFile": []
     }
 }
