@@ -8,13 +8,25 @@ Adding continuous integration (and potentially PR gates) to the checkin process 
 
 ## Strategy
 
-While a number of CI solutions exist, this proposal will focus on the usage of Azure Dev Ops and Build Pipelines.
+While a number of CI solutions exist, this proposal will focus on the usage of Azure Dev Ops and Build Pipelines. For demonstration, a sample [TianoCore repo](https://github.com/spbrogan/edk2-staging.git) (branch edk2-stuart-ci-latest) and [Dev Ops Pipeline](https://dev.azure.com/tianocore/edk2-ci-play/_build?definitionId=12) have been set up.
 
-[Results](https://dev.azure.com/tianocore/edk2-ci-play/_build?definitionId=12)
+Furthermore, this proposal will leverage the TianoCore python tools PIP modules: [library](https://pypi.org/project/edk2-pytool-library/) and [extensions](https://pypi.org/project/edk2-pytool-extensions/) (with repos located [here](https://github.com/tianocore/edk2-pytool-library) and [here](https://github.com/tianocore/edk2-pytool-extensions)).
 
 For any of the tests, there can be codebase- and package-level configuration of tests that need to be skipped or modified for special considerations. For example, if a particular library is known to fail building with a specific toolchain/architecture combination (or if a given module is generally known to not be buildable without additional effort) the Code Compilation test can be skipped for this configuration.
 
+## Process
+
+> Azure pipelines file.
+
+## Configuration
+
+> CISettings and Package Settings
+
 ## CI Test Types
+
+> Tests are plugins. Plugins live here...
+>> CI plugins different from build.
+>> Currently with the code, but could live in an edk2-test repo or wherever test framework lives.
 
 ### Module Inclusion Test
 
