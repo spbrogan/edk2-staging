@@ -13,9 +13,13 @@ strategy:
 workspace:
   clean: all
 
+pool:
+  vmImage: 'windows-latest'
+
 steps:
 - checkout: self
   clean: true
+  fetchDepth: 1
   
 - task: UsePythonVersion@0
   inputs:
@@ -33,19 +37,19 @@ steps:
   displayName: Setup $(Build.Pkgs)
   inputs:
     filename: stuart_setup
-    arguments: -c CISettings.py --Tool_Chain VS2017
+    arguments: -c CISettings.py --Tool_Chain VS2019
 
 - task: CmdLine@1
   displayName: Update $(Build.Pkgs)
   inputs:
     filename: stuart_update
-    arguments: -c CISettings.py --Tool_Chain VS2017
+    arguments: -c CISettings.py --Tool_Chain VS2019
 
 - task: CmdLine@1
   displayName: Build and Test $(Build.Pkgs)
   inputs:
     filename: stuart_ci_build
-    arguments: -c CISettings.py --Tool_Chain VS2017 -p $(Build.Pkgs)
+    arguments: -c CISettings.py --Tool_Chain VS2019 -p $(Build.Pkgs)
 
 # Publish Test Results to Azure Pipelines/TFS
 - task: PublishTestResults@2
