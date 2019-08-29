@@ -5,6 +5,10 @@
     "HostUnitTestCompilerPlugin": {
         "DscPath": "UefiCpuPkgTest.dsc"
     },
+    "HostUnitTestDscCompleteCheck": {
+        "DscPath": "UefiCpuPkgTest.dsc",
+        "IgnoreInf": []  
+    },
     "CharEncodingCheck": {
         "IgnoreFiles": []
     },

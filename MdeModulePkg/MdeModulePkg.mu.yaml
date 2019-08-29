@@ -5,6 +5,10 @@
     "HostUnitTestCompilerPlugin": {
         "DscPath": "MdeModulePkg.hut.dsc"
     },
+    "HostUnitTestDscCompleteCheck": {
+        "DscPath": "MdeModulePkg.hut.dsc",
+        "IgnoreInf": []  
+    },
     "CharEncodingCheck": {
         "IgnoreFiles": []
     },

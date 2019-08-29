@@ -1,13 +1,34 @@
 {
     "CompilerPlugin": {
-        "IgnoreInf": []
+        "DscPath": "ShellPkg.dsc"
+    },
+    "HostUnitTestCompilerPlugin": {
+        "DscPath": ""
+    },
+    "HostUnitTestDscCompleteCheck": {
+        "DscPath": "",
+        "IgnoreInf": []  
+    },
+    "CharEncodingCheck": {
+        "IgnoreFiles": []
     },
     "DependencyCheck": {
-        "AcceptableDependencies": [],
+        "AcceptableDependencies": [
+            "MdePkg/MdePkg.dec",
+            "MdeModulePkg/MdeModulePkg.dec"
+        ], 
         "IgnoreInf": []
     },
-    "DSCCheck": {
-        "skip": True,
+    "DscCompleteCheck": {
+        "DscPath": "ShellPkg.dsc",
         "IgnoreInf": []
+    },
+    "GuidCheck": {
+        "IgnoreGuidName": [],
+        "IgnoreGuidValue": [],
+        "IgnoreFoldersAndFiles": []
+    },
+    "LibraryClassCheck": {
+        "IgnoreHeaderFile": []
     }
 }

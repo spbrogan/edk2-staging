@@ -54,6 +54,10 @@
         ],
         "DscPath": "MdePkg.ci.dsc"   
     },
+    "HostUnitTestDscCompleteCheck": {
+        "DscPath": "MdePkgTest.dsc",
+        "IgnoreInf": []  
+    },
     "GuidCheck": {
         "IgnoreGuidName": [],
         "IgnoreGuidValue": [],

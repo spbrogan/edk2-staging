@@ -5,6 +5,10 @@
     "HostUnitTestCompilerPlugin": {
         "DscPath": "CryptoPkgTest.dsc"
     },
+    "HostUnitTestDscCompleteCheck": {
+        "DscPath": "CryptoPkgTest.dsc",
+        "IgnoreInf": []  
+    },
     "CharEncodingCheck": {
         "IgnoreFiles": []
     },
