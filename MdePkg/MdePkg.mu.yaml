@@ -1,6 +1,12 @@
 {
     "CompilerPlugin": {
-        "IgnoreInf": []
+        "DscPath": "MdePkg.ci.dsc"
+    },
+    "HostUnitTestCompilerPlugin": {
+        "DscPath": "MdePkgTest.dsc"
+    },
+    "CharEncodingCheck": {
+        "IgnoreFiles": []
     },
     "DependencyCheck": {
         "AcceptableDependencies": [
@@ -9,7 +15,7 @@
         ], 
         "IgnoreInf": []
     },
-    "DSCCheck": {
+    "DscCompleteCheck": {
         "IgnoreInf": [
             # Ignore StackCookie libs for toolchains that don't support it.
             "MdePkg/Library/BaseBinSecurityLibNull/BaseBinSecurityLibNull.inf",
@@ -46,5 +52,13 @@
             "MdePkg/Test/UnitTest/Library/UefiBootServicesTableLib/TestUefiBootServicesTableLib.inf",
             "MdePkg/Test/UnitTest/Library/UefiRuntimeServicesTableLib/TestUefiRuntimeServicesTableLib.inf",
         ]   
+    },
+    "GuidCheck": {
+        "IgnoreGuidName": [],
+        "IgnoreGuidValue": [],
+        "IgnoreFoldersAndFiles": []
+    },
+    "LibraryClassCheck": {
+        "IgnoreHeaderFile": []
     }
 }
