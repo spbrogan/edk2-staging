@@ -51,7 +51,8 @@
             "MdePkg/Test/UnitTest/Library/SmmServicesTableLib/TestSmmServicesTableLib.inf",
             "MdePkg/Test/UnitTest/Library/UefiBootServicesTableLib/TestUefiBootServicesTableLib.inf",
             "MdePkg/Test/UnitTest/Library/UefiRuntimeServicesTableLib/TestUefiRuntimeServicesTableLib.inf",
-        ]   
+        ],
+        "DscPath": "MdePkg.ci.dsc"   
     },
     "GuidCheck": {
         "IgnoreGuidName": [],

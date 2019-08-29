@@ -1,13 +1,30 @@
 {
     "CompilerPlugin": {
-        "IgnoreInf": []
+        "DscPath": "FatPkg.dsc"
+    },
+    "HostUnitTestCompilerPlugin": {
+        "DscPath": "FatPkgTest.dsc"
+    },
+    "CharEncodingCheck": {
+        "IgnoreFiles": []
     },
     "DependencyCheck": {
-        "AcceptableDependencies": [],
+        "AcceptableDependencies": [
+            "MdePkg/MdePkg.dec",
+            "MsUnitTestPkg/MsUnitTestPkg.dec"
+        ], 
         "IgnoreInf": []
     },
-    "DSCCheck": {
-        "skip": True,
-        "IgnoreInf": []
+    "DscCompleteCheck": {
+        "IgnoreInf": [],
+        "DscPath": "FatPkg.dsc"   
+    },
+    "GuidCheck": {
+        "IgnoreGuidName": [],
+        "IgnoreGuidValue": [],
+        "IgnoreFoldersAndFiles": []
+    },
+    "LibraryClassCheck": {
+        "IgnoreHeaderFile": []
     }
 }
