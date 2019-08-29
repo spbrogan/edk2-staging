@@ -17,7 +17,6 @@ class Settings(CiBuildSettingsManager, UpdateSettingsManager, SetupSettingsManag
         # env = shell_environment.GetBuildVars()
         # for plugin in plugin_skip_list:
         #     env.SetValue(plugin.upper(), "skip", "set from settings file")
-        shell_environment.GetBuildVars().SetValue("DependencyCheck", "skip", "hardcoded off in Settings until fixed")
         pass
 
     def AddCommandLineOptions(self, parserObj):
