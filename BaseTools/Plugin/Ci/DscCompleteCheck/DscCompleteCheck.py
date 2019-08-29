@@ -79,8 +79,8 @@ class DscCompleteCheck(ICiBuildPlugin):
                     tc.LogStdOut("Ignoring INF {0}".format(a))
                     INFFiles.remove(a)
                 except:
-                    tc.LogStdError("DscCheckConfig.IgnoreInf -> {0} not found in filesystem.  Invalid ignore file".format(a))
-                    logging.info("DscCheckConfig.IgnoreInf -> {0} not found in filesystem.  Invalid ignore file".format(a))
+                    tc.LogStdError("DscCompleteCheck.IgnoreInf -> {0} not found in filesystem.  Invalid ignore file".format(a))
+                    logging.info("DscCompleteCheck.IgnoreInf -> {0} not found in filesystem.  Invalid ignore file".format(a))
 
         # DSC Parser
         dp = DscParser()
@@ -102,19 +102,13 @@ class DscCompleteCheck(ICiBuildPlugin):
                     tc.LogStdOut("Ignoring INF due to type HOST_APPLICATION {0}".format(INF))
                     continue
 
-                if len(infp.SupportedPhases) == 1 and \
-                   "HOST_APPLICATION" in infp.SupportedPhases:
-                    tc.LogStdOut("Ignoring Library INF due to only supporting type HOST_APPLICATION {0}".format(INF))
-                    continue
-
-
                 logging.critical(INF + " not in " + wsr_dsc_path)
                 tc.LogStdError("{0} not in {1}".format(INF, wsr_dsc_path))
                 overall_status = overall_status + 1
 
         # If XML object exists, add result
         if overall_status is not 0:
-            tc.SetFailed("DSCCheck {0} Failed.  Errors {1}".format(wsr_dsc_path, overall_status), "DSCCHECK_FAILED")
+            tc.SetFailed("DscCompleteCheck {0} Failed.  Errors {1}".format(wsr_dsc_path, overall_status), "CHECK_FAILED")
         else:
             tc.SetSuccess()
         return overall_status
