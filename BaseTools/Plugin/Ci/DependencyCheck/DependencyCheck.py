@@ -1,23 +1,42 @@
 # @file dependency_check.py
-# Simple Project Mu Build Plugin to support
-# checking package dependencies for all INFs
-# in a given package.
-##
+#
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-2-Clause-Patent
-#
 ##
 
 import logging
-from edk2toolext.environment.plugintypes.ci_build_plugin import ICiBuildPlugin
 import os
+from edk2toolext.environment.plugintypes.ci_build_plugin import ICiBuildPlugin
 from edk2toollib.uefi.edk2.parsers.inf_parser import InfParser
+from edk2toolext.environment.var_dict import VarDict
 
 
 class DependencyCheck(ICiBuildPlugin):
+    """
+    A CiBuildPlugin that finds all modules (inf files) in a package and reviews the packages used
+    to confirm they are acceptable.  This is to help enforce layering and identify improper 
+    dependencies between packages.
 
-    def GetTestName(self, packagename, environment):
-        return ("MuBuild PackageDependency " + packagename, "MuBuild.PackageDependency." + packagename)
+    Configuration options:
+    "DependencyCheck": {
+        "AcceptableDependencies": [], # Package dec files that are allowed.  Example: MdePkg/MdePkg.dec
+        "IgnoreInf": []  # Ignore INF if found in filesystem
+    }
+    """
+
+    def GetTestName(self, packagename: str, environment: VarDict) -> tuple:
+        """ Provide the testcase name and classname for use in reporting
+
+            Args:
+              packagename: string containing name of package to build
+              environment: The VarDict for the test to run in
+            Returns:
+                a tuple containing the testcase name and the classname 
+                (testcasename, classname)
+                testclassname: a descriptive string for the testcase can include whitespace
+                classname: should be patterned <packagename>.<plugin>.<optionally any unique condition>
+        """
+        return ("Test Package Dependencies for modules in " + packagename, packagename + ".DependencyCheck")
     
     ##
     # External function of plugin.  This function is used to perform the task of the MuBuild Plugin

@@ -1,9 +1,5 @@
 # @file LibraryClassCheck.py
-# Simple CI Build Plugin to support
-# checking all of the libraries in include/library folder are listed in library class DEC file
 #
-# Making sure all public includes are fully declared in DECs
-##
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-2-Clause-Patent
 ##
@@ -12,6 +8,7 @@ import os
 from edk2toolext.environment.plugintypes.ci_build_plugin import ICiBuildPlugin
 from edk2toollib.uefi.edk2.parsers.dec_parser import DecParser
 from edk2toollib.uefi.edk2.parsers.inf_parser import InfParser
+from edk2toolext.environment.var_dict import VarDict
 
 
 class LibraryClassCheck(ICiBuildPlugin):
@@ -24,8 +21,20 @@ class LibraryClassCheck(ICiBuildPlugin):
         IgnoreHeaderFile: []
     }
     """
-    def GetTestName(self, packagename, environment):
-        return ("LibraryClassCheck " + packagename, "CI.LibraryClassCheck." + packagename)
+
+    def GetTestName(self, packagename: str, environment: VarDict) -> tuple:
+        """ Provide the testcase name and classname for use in reporting
+            testclassname: a descriptive string for the testcase can include whitespace
+            classname: should be patterned <packagename>.<plugin>.<optionally any unique condition>
+            
+            Args:
+              packagename: string containing name of package to build
+              environment: The VarDict for the test to run in
+            Returns:
+                a tuple containing the testcase name and the classname 
+                (testcasename, classname)
+        """
+        return ("Check library class declarations in " + packagename, packagename + ".LibraryClassCheck")
 
     def __GetPkgDec(self, rootpath):
         try:

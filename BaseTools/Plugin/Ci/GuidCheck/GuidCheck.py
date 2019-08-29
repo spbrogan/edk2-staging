@@ -1,14 +1,12 @@
 # @file GuidCheck.py
-# Simple CI Build Plugin to support
-# checking all of the guids to make sure they are unique
 #
-##
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-2-Clause-Patent
 ##
 import logging
 from edk2toolext.environment.plugintypes.ci_build_plugin import ICiBuildPlugin
-from edk2toollib.uefi.edk2.parsers.guid_list import GuidList
+from edk2toollib.uefi.edk2.guid_list import GuidList
+from edk2toolext.environment.var_dict import VarDict
 
 
 class GuidCheck(ICiBuildPlugin):
@@ -20,12 +18,23 @@ class GuidCheck(ICiBuildPlugin):
     "GuidCheck": {
         "IgnoreGuidName": [],
         "IgnoreGuidValue": [],
-        "IgnoreFoldersAndFiles: []
+        "IgnoreFoldersAndFiles": []
     }
     """
 
-    def GetTestName(self, packagename, environment):
-        return ("GuidClassCheck " + packagename, "CI.GuidCheck." + packagename)
+    def GetTestName(self, packagename: str, environment: VarDict) -> tuple:
+        """ Provide the testcase name and classname for use in reporting
+
+            Args:
+              packagename: string containing name of package to build
+              environment: The VarDict for the test to run in
+            Returns:
+                a tuple containing the testcase name and the classname 
+                (testcasename, classname)
+                testclassname: a descriptive string for the testcase can include whitespace
+                classname: should be patterned <packagename>.<plugin>.<optionally any unique condition>
+        """
+        return ("Confirms GUIDs are unique in " + packagename, packagename + ".GuidCheck")
 
     def _FindConflictingGuidValues(self, guidlist: list) -> list:
         """ Find all duplicate guids by guid value and report them as errors
