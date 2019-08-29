@@ -1,19 +1,33 @@
 {
     "CompilerPlugin": {
-        "IgnoreInf": []
+        "DscPath": "NetworkPkg.dsc"
+    },
+    "HostUnitTestCompilerPlugin": {
+        "DscPath": ""
+    },
+    "CharEncodingCheck": {
+        "IgnoreFiles": []
     },
     "DependencyCheck": {
         "AcceptableDependencies": [
-            "NetworkPkg/NetworkPkg.dec",
             "MdePkg/MdePkg.dec",
             "MdeModulePkg/MdeModulePkg.dec",
-            "MsUnitTestPkg/MsUnitTestPkg.dec",
-            "CryptoPkg/CryptoPkg.dec"
-        ],
+            "NetworkPkg/NetworkPkg.dec",
+            "SecurityPkg/SecurityPkg.dec"
+        ], 
         "IgnoreInf": []
     },
-    "DSCCheck": {
+    "DscCompleteCheck": {
+        "DscPath": "NetworkPkg.dsc",
         "IgnoreInf": []
+    },
+    "GuidCheck": {
+        "IgnoreGuidName": [],
+        "IgnoreGuidValue": [],
+        "IgnoreFoldersAndFiles": []
+    },
+    "LibraryClassCheck": {
+        "IgnoreHeaderFile": []
     },
     "Defines": {
         "BLD_*_NETWORK_ENABLE": "TRUE",
