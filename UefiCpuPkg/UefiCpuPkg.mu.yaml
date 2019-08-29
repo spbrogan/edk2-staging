@@ -1,6 +1,16 @@
 {
     "CompilerPlugin": {
-        "IgnoreInf": []
+        "DscPath": "UefiCpuPkg.ci.dsc"
+    },
+    "HostUnitTestCompilerPlugin": {
+        "DscPath": "UefiCpuPkgTest.dsc"
+    },
+    "HostUnitTestDscCompleteCheck": {
+        "DscPath": "UefiCpuPkgTest.dsc",
+        "IgnoreInf": []  
+    },
+    "CharEncodingCheck": {
+        "IgnoreFiles": []
     },
     "DependencyCheck": {
         "AcceptableDependencies": [
@@ -10,15 +20,19 @@
         ], 
         "IgnoreInf": []
     },
-    "DSCCheck": {
+    "DscCompleteCheck": {
+        "DscPath": "UefiCpuPkg.ci.dsc",
         "IgnoreInf": [
             "UefiCpuPkg/ResetVector/FixupVtf/Vtf.inf",
-            "UefiCpuPkg/ResetVector/Vtf0/Vtf0.inf",
-
-            # UnitTests not required.
-            "UefiCpuPkg/HostLibrary/PiSmmCpuDxeSmmHost/PiSmmCpuDxeSmm.inf",
-            "UefiCpuPkg/PiSmmCpuDxeSmm/UnitTest/TestSmmCpuMemoryManagement.inf",
-            "UefiCpuPkg/Test/UnitTest/Library/MtrrLib/TestMtrrLib.inf",
+            "UefiCpuPkg/ResetVector/Vtf0/Vtf0.inf"
         ]
+    },
+    "GuidCheck": {
+        "IgnoreGuidName": ["SecCore", "ResetVector"], # Expected duplication for gEfiFirmwareVolumeTopFileGuid
+        "IgnoreGuidValue": [],
+        "IgnoreFoldersAndFiles": []
+    },
+    "LibraryClassCheck": {
+        "IgnoreHeaderFile": []
     }
 }

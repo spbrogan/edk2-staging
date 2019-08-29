@@ -1,7 +1,4 @@
-# @file Utf8Test.py
-# This tool supports checking files for encoding issues.
-# file encoding is controlled by the EncodingMap but most
-# are set to utf-8
+# @file CharEncodingCheck.py
 #
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-2-Clause-Patent
@@ -11,9 +8,11 @@
 import os
 import logging
 from edk2toolext.environment.plugintypes.ci_build_plugin import ICiBuildPlugin
+from edk2toolext.environment.var_dict import VarDict
 
 ##
 # map
+##
 EcodingMap = {
     ".md": 'utf-8',
     ".dsc": 'utf-8',
@@ -32,9 +31,28 @@ EcodingMap = {
 
 
 class CharEncodingCheck(ICiBuildPlugin):
+    """
+    A CiBuildPlugin that scans each file in the code tree and confirms the encoding is correct.
 
-    def GetTestName(self, packagename, environment):
-        return ("CharEncodingCheck " + packagename, "CharEncodingCheck." + packagename)
+    Configuration options:
+    "CharEncodingCheck": {
+        "IgnoreFiles": []
+    }
+    """
+
+    def GetTestName(self, packagename: str, environment: VarDict) -> tuple:
+        """ Provide the testcase name and classname for use in reporting
+            testclassname: a descriptive string for the testcase can include whitespace
+            classname: should be patterned <packagename>.<plugin>.<optionally any unique condition>
+            
+            Args:
+              packagename: string containing name of package to build
+              environment: The VarDict for the test to run in
+            Returns:
+                a tuple containing the testcase name and the classname 
+                (testcasename, classname)
+        """
+        return ("Check for valid file encoding for " + packagename, packagename + ".CharEncodingCheck")
 
     ##
     # External function of plugin.  This function is used to perform the task of the ci_build_plugin Plugin

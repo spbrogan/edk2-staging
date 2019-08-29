@@ -1,8 +1,18 @@
 {
     "CompilerPlugin": {
-        "IgnoreInf": []
+        "DscPath": "MdeModulePkg.ci.dsc"
     },
-    "DependencyCheck":{
+    "HostUnitTestCompilerPlugin": {
+        "DscPath": "MdeModulePkg.hut.dsc"
+    },
+    "HostUnitTestDscCompleteCheck": {
+        "DscPath": "MdeModulePkg.hut.dsc",
+        "IgnoreInf": []  
+    },
+    "CharEncodingCheck": {
+        "IgnoreFiles": []
+    },
+    "DependencyCheck": {
         "AcceptableDependencies": [
             "MdePkg/MdePkg.dec",
             "MdeModulePkg/MdeModulePkg.dec",
@@ -11,7 +21,7 @@
         ], 
         "IgnoreInf": []
     },
-    "DSCCheck": {
+    "DscCompleteCheck": {
         "IgnoreInf": [
             "MdeModulePkg/Library/DxeCapsuleLibFmp/DxeCapsuleLib.inf",
             "MdeModulePkg/Logo/LogoDxe.inf",  # https://github.com/Microsoft/mu/issues/35
@@ -19,6 +29,15 @@
             "MdeModulePkg/Bus/Pci/PciBusDxe/UnitTest/TestPciBusDxe.inf",
             "MdeModulePkg/Library/UefiVariablePolicyLib/UnitTest/UefiVariablePolicyUnitTest.inf",
             "MdeModulePkg/Universal/RegularExpressionDxe/UnitTest/TestRegularExpressionDxe.inf"
-        ]   
+        ],   
+        "DscPath": "MdeModulePkg.ci.dsc"   
+    },
+    "GuidCheck": {
+        "IgnoreGuidName": [],
+        "IgnoreGuidValue": [],
+        "IgnoreFoldersAndFiles": []
+    },
+    "LibraryClassCheck": {
+        "IgnoreHeaderFile": []
     }
 }

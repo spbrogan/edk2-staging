@@ -5,35 +5,41 @@
 ##
 
 import logging
+import os
+import re
 from edk2toollib.uefi.edk2.parsers.dsc_parser import DscParser
 from edk2toolext.environment.plugintypes.ci_build_plugin import ICiBuildPlugin
 from edk2toolext.environment.uefi_build import UefiBuilder
 from edk2toolext import edk2_logging
-import os
-import re
+from edk2toolext.environment.var_dict import VarDict
 
 
 class CompilerPlugin(ICiBuildPlugin):
+    """
+    A CiBuildPlugin that compiles the package dsc
+    from the package being tested.  
 
-    # gets the tests name
-    def GetTestName(self, packagename, environment):
+    Configuration options:
+    "CompilerPlugin": {
+        "DscPath": "<path to dsc from root of pkg>"
+    }
+    """
+
+    def GetTestName(self, packagename: str, environment: VarDict) -> tuple:
+        """ Provide the testcase name and classname for use in reporting
+
+            Args:
+              packagename: string containing name of package to build
+              environment: The VarDict for the test to run in
+            Returns:
+                a tuple containing the testcase name and the classname 
+                (testcasename, classname)
+        """
         target = environment.GetValue("TARGET")
-        return ("Edk2 CI Compile " + target + " " + packagename, packagename + ".CompileCheck." + target)
+        return ("Compile " + packagename + " " + target, packagename + ".Compiler." + target)
 
     def IsTargetDependent(self):
         return True
-
-    def __GetPkgDsc(self, rootpath):
-        try:
-            allEntries = os.listdir(rootpath)
-            dscsFound = []
-            for entry in allEntries:
-                if entry.lower().endswith("ci.dsc"):
-                    return(os.path.join(rootpath, entry))
-        except Exception:
-            logging.error("Unable to find ci.dsc for package:{0}".format(rootpath))
-
-        return None
 
     ##
     # External function of plugin.  This function is used to perform the task of the MuBuild Plugin
@@ -48,17 +54,20 @@ class CompilerPlugin(ICiBuildPlugin):
     #   - output_stream the StringIO output stream from this plugin via logging
     def RunBuildPlugin(self, packagename, Edk2pathObj, pkgconfig, environment, PLM, PLMHelper, tc, output_stream=None):
         self._env = environment
+
+        # Parse the config for required DscPath element
+        if "DscPath" not in pkgconfig:
+            tc.SetSkipped()
+            tc.LogStdError("DscPath not found in config file.  Nothing to compile.")
+            return -1
         
         AP = Edk2pathObj.GetAbsolutePathOnThisSytemFromEdk2RelativePath(packagename)
-        #
-        # only get ci.dsc files
-        #
         
-        APDSC = self.__GetPkgDsc(AP) # self.get_dsc_name_in_dir(AP)
+        APDSC = os.path.join(AP, pkgconfig["DscPath"].strip())
         AP_Path = Edk2pathObj.GetEdk2RelativePathFromAbsolutePath(APDSC)
         if AP is None or AP_Path is None or not os.path.isfile(APDSC):
             tc.SetSkipped()
-            tc.LogStdError("1 warning(s) in {0} Compile. ci.dsc not found.".format(packagename))
+            tc.LogStdError("Package Dsc not found.")
             return -1
 
         logging.info("Building {0}".format(AP_Path))
