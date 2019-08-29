@@ -15,8 +15,8 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = PiSmmCpuDxeSmm
   MODULE_UNI_FILE                = PiSmmCpuDxeSmm.uni
-  FILE_GUID                      = A3FF0EF5-0C28-42f5-B544-8C7DE1E80014
-  MODULE_TYPE                    = DXE_SMM_DRIVER
+  FILE_GUID                      = 055e437d-90ea-4f8d-997f-d07333d6d6aa
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
   PI_SPECIFICATION_VERSION       = 0x0001000A
   ENTRY_POINT                    = PiCpuSmmEntry

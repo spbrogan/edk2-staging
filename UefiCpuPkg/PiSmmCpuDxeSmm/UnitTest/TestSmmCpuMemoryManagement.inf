@@ -10,7 +10,7 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = TestSmmCpuMemoryManagement
   FILE_GUID                      = 4C3B840A-54F0-4370-A3C6-5E86E908176D
-  MODULE_TYPE                    = USER_DEFINED
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
 
 #
