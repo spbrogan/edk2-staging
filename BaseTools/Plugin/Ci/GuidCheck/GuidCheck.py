@@ -34,7 +34,7 @@ class GuidCheck(ICiBuildPlugin):
                 testclassname: a descriptive string for the testcase can include whitespace
                 classname: should be patterned <packagename>.<plugin>.<optionally any unique condition>
         """
-        return ("Confirms GUIDs are unique in " + packagename, packagename + ".GuidCheck")
+        return ("Confirm GUIDs are unique in " + packagename, packagename + ".GuidCheck")
 
     def _FindConflictingGuidValues(self, guidlist: list) -> list:
         """ Find all duplicate guids by guid value and report them as errors
