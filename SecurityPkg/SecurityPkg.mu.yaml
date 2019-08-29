@@ -1,13 +1,36 @@
 {
     "CompilerPlugin": {
-        "IgnoreInf": []
+        "DscPath": "SecurityPkg.dsc"
+    },
+    "HostUnitTestCompilerPlugin": {
+        "DscPath": "SecurityPkgTest.dsc"
+    },
+    "HostUnitTestDscCompleteCheck": {
+        "DscPath": "SecurityPkgTest.dsc",
+        "IgnoreInf": []  
+    },
+    "CharEncodingCheck": {
+        "IgnoreFiles": []
     },
     "DependencyCheck": {
-        "AcceptableDependencies": [],
+        "AcceptableDependencies": [
+            "MdePkg/MdePkg.dec",
+            "MdeModulePkg/MdeModulePkg.dec",
+            "SecurityPkg/SecurityPkg.dec",
+            "CryptoPkg/CryptoPkg.dec" # I don't agree with this. 
+        ], 
         "IgnoreInf": []
     },
-    "DSCCheck": {
-        "skip": True,
+    "DscCompleteCheck": {
+        "DscPath": "SecurityPkg.dsc",
         "IgnoreInf": []
+    },
+    "GuidCheck": {
+        "IgnoreGuidName": [],
+        "IgnoreGuidValue": [],
+        "IgnoreFoldersAndFiles": []
+    },
+    "LibraryClassCheck": {
+        "IgnoreHeaderFile": []
     }
 }
