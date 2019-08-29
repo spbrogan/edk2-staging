@@ -12,7 +12,6 @@ strategy:
 
 workspace:
   clean: all
-  fetchDepth: 1
 
 pool:
   vmImage: 'windows-latest'
@@ -20,6 +19,7 @@ pool:
 steps:
 - checkout: self
   clean: true
+  fetchDepth: 1
   
 - task: UsePythonVersion@0
   inputs:
