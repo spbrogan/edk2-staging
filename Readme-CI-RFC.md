@@ -12,15 +12,23 @@ While a number of CI solutions exist, this proposal will focus on the usage of A
 
 Furthermore, this proposal will leverage the TianoCore python tools PIP modules: [library](https://pypi.org/project/edk2-pytool-library/) and [extensions](https://pypi.org/project/edk2-pytool-extensions/) (with repos located [here](https://github.com/tianocore/edk2-pytool-library) and [here](https://github.com/tianocore/edk2-pytool-extensions)).
 
-For any of the tests, there can be codebase- and package-level configuration of tests that need to be skipped or modified for special considerations. For example, if a particular library is known to fail building with a specific toolchain/architecture combination (or if a given module is generally known to not be buildable without additional effort) the Code Compilation test can be skipped for this configuration.
+The primary execution flows can be found in the `azure-pipelines-pr-gate.yml` and `azure-pipelines-pr-gate-linux.yml` files. These YAML files are consumed by the Azure Dev Ops Build Pipeline and dictate what server resources should be used, how they should be configured, and what processes should be run on them. An overview of this schema can be found [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema).
 
-## Process
+Inspection of these files reveals the EDKII tools commands that make up the primary processes for the CI build: 'stuart_setup', 'stuart_update', and 'stuart_ci_build'. These commands come from the EDKII tools PIP modules and are configured as described below.
 
-> Azure pipelines file.
+### Known room for improvement.
+
+> We could selectively not run certain tests based on what was actually touched.
+> Full passes daily. Partial passes on every PR and/or commit.
 
 ## Configuration
 
-> CISettings and Package Settings
+Configuration of the CI process consists of:
+* command-line arguments passed in via the Pipeline YAML
+* a global configuration file (`CISetting.py`) passed in via the command-line
+* a per-package configuration file (`<package-name>.mu.yaml`) that is detected by the CI system in EDKII tools PIP.
+
+For any of the tests, there can be codebase- and package-level configuration of tests that need to be skipped or modified for special considerations. For example, if a particular library is known to fail building with a specific toolchain/architecture combination (or if a given module is generally known to not be buildable without additional effort) the Code Compilation test can be skipped for this configuration.
 
 ## CI Test Types
 
