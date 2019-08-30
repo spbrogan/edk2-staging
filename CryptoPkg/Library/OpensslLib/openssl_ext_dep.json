@@ -1,0 +1,8 @@
+{
+  "scope": "global",
+  "type": "git",
+  "name": "openssl",
+  "flags": [],
+  "source": "https://github.com/openssl/openssl",
+  "version": "50eaac9f3337667259de725451f201e784599687"
+}
