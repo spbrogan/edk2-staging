@@ -60,7 +60,8 @@
     },
     "GuidCheck": {
         "IgnoreGuidName": [
-            "gEfiFirmwareVolumeTopFileGuid" # sec modules must be set to this guid
+            "gEfiFirmwareVolumeTopFileGuid", # sec modules must be set to this guid
+            "gEfiTrEEProtocolGuid" # matches tcg2 by design
         ],
         "IgnoreGuidValue": ["00000000-0000-0000-0000-000000000000"],
         "IgnoreFoldersAndFiles": []
