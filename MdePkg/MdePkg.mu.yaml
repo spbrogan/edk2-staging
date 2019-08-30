@@ -60,11 +60,39 @@
     },
     "GuidCheck": {
         "IgnoreGuidName": [
-            "gEfiFirmwareVolumeTopFileGuid", # sec modules must be set to this guid
-            "gEfiTrEEProtocolGuid" # matches tcg2 by design
+            "gEfiFirmwareVolumeTopFileGuid" # sec modules must be set to this guid
         ],
         "IgnoreGuidValue": ["00000000-0000-0000-0000-000000000000"],
-        "IgnoreFoldersAndFiles": []
+        "IgnoreFoldersAndFiles": [], 
+        "IgnoreDuplicates": [
+            "gEfiFirmwareVolumeBlockProtocolGuid=gEfiFirmwareVolumeBlock2ProtocolGuid",
+            "gEfiMmAccessProtocolGuid=gEfiSmmAccess2ProtocolGuid",
+            "gEfiSmmCommunicationProtocolGuid=gEfiMmCommunicationProtocolGuid",
+            "gEfiMmPciRootBridgeIoProtocolGuid=gEfiSmmPciRootBridgeIoProtocolGuid",
+            "gEfiTrEEProtocolGuid=gEfiTcg2ProtocolGuid",
+            "gEfiSmmPowerButtonDispatch2ProtocolGuid=gEfiMmPowerButtonDispatchProtocolGuid",
+            "gEfiSmmBase2ProtocolGuid=gEfiMmBaseProtocolGuid",
+            "gEfiSmmUsbDispatch2ProtocolGuid=gEfiMmUsbDispatchProtocolGuid",
+            "gEfiSmmCpuProtocolGuid=gEfiMmCpuProtocolGuid",
+            "gEfiAcpiTableGuid=gEfiAcpi20TableGuid",
+            "gEfiSmmControl2ProtocolGuid=gEfiMmControlProtocolGuid",
+            "gEfiSmmStandbyButtonDispatch2ProtocolGuid=gEfiMmStandbyButtonDispatchProtocolGuid",
+            "gEfiSmmStatusCodeProtocolGuid=gEfiMmStatusCodeProtocolGuid",
+            "gEfiDxeSmmReadyToLockProtocolGuid=gEfiDxeMmReadyToLockProtocolGuid",
+            "gEfiSmmIoTrapDispatch2ProtocolGuid=gEfiMmIoTrapDispatchProtocolGuid",
+            "gEfiSmmReadyToLockProtocolGuid=gEfiMmReadyToLockProtocolGuid",
+            "gEfiSmmSxDispatch2ProtocolGuid=gEfiMmSxDispatchProtocolGuid",
+            "gEfiPeiCapsulePpiGuid=gPeiCapsulePpiGuid",
+            "gEfiSmmCpuIo2ProtocolGuid=gEfiMmCpuIoProtocolGuid",
+            "gEfiSmmRscHandlerProtocolGuid=gEfiMmRscHandlerProtocolGuid",
+            "gEfiSmmConfigurationProtocolGuid=gEfiMmConfigurationProtocolGuid",
+            "gEfiSmmGpiDispatch2ProtocolGuid=gEfiMmGpiDispatchProtocolGuid",
+            "gEfiSmmEndOfDxeProtocolGuid=gEfiMmEndOfDxeProtocolGuid",
+            "gEfiSmmSwDispatch2ProtocolGuid=gEfiMmSwDispatchProtocolGuid",
+            "gEfiDebugPortProtocolGuid=gEfiDebugPortVariableGuid=gEfiDebugPortDevicePathGuid", ## is this a bug
+            "gEfiProcessorSpecificErrorSectionGuid=gEfiIa32X64ProcessorErrorSectionGuid",  ## is this a bug
+            "gEfiSmmPeriodicTimerDispatch2ProtocolGuid=gEfiMmPeriodicTimerDispatchProtocolGuid"
+            ]
     },
     "LibraryClassCheck": {
         "IgnoreHeaderFile": []
