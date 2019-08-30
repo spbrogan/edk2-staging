@@ -28,7 +28,7 @@ steps:
 
 - powershell: | 
     $json = Get-Content '.\CryptoPkg\Library\OpensslLib\openssl_ext_dep.json' |Out-String | ConvertFrom-Json
-    echo '##vso[task.setvariable variable=OpenSslCacheKey]$json.version'
+    echo "##vso[task.setvariable variable=OpenSslCacheKey]$($json.version)"
   displayName: Get Cache Key for Openssl
   name: cacheKeyOpenSSL
   workingDirectory: $(build.sourcesDirectory)
@@ -36,7 +36,7 @@ steps:
 
 - task: CacheBeta@0
   inputs:
-    key: $(OpenSslCacheKey) | temp
+    key: $(OpenSslCacheKey)
     path: $(Pipeline.Workspace)/CryptoPkg/Library/OpensslLib
   
 - task: UsePythonVersion@0
