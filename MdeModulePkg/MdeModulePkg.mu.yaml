@@ -33,8 +33,10 @@
         "DscPath": "MdeModulePkg.ci.dsc"   
     },
     "GuidCheck": {
-        "IgnoreGuidName": [],
-        "IgnoreGuidValue": [],
+        "IgnoreGuidName": [
+            "gEdkiiFormBrowserExProtocolGuid" # dup of gEfiFormBrowserExProtocolGuid
+        ],
+        "IgnoreGuidValue": ["00000000-0000-0000-0000-000000000000"],
         "IgnoreFoldersAndFiles": []
     },
     "LibraryClassCheck": {

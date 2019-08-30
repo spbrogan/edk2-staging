@@ -15,10 +15,10 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = PciSegmentStubLib
   FILE_GUID                      = 2419A560-4B9E-4A31-8C9C-40896A2D5C29
-  MODULE_TYPE                    = BASE
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = PciSegmentLib
-  LIBRARY_CLASS                  = PciSegmentStubLib
+  LIBRARY_CLASS                  = PciSegmentLib  | HOST_APPLICATION
+  LIBRARY_CLASS                  = PciSegmentStubLib  | HOST_APPLICATION
 
 #
 # The following information is for reference only and not required by the build tools.

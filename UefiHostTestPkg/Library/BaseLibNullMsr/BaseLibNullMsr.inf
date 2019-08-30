@@ -10,7 +10,7 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = BaseLibNullMsr
   FILE_GUID                      = 24DFBE26-ED67-47F3-B4FC-F23C59C7AAD3
-  MODULE_TYPE                    = BASE
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = NULL
 

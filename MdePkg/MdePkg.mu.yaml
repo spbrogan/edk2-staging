@@ -59,8 +59,10 @@
         "IgnoreInf": []  
     },
     "GuidCheck": {
-        "IgnoreGuidName": [],
-        "IgnoreGuidValue": [],
+        "IgnoreGuidName": [
+            "gEfiFirmwareVolumeTopFileGuid " # sec modules must be set to this guid
+        ],
+        "IgnoreGuidValue": ["00000000-0000-0000-0000-000000000000"],
         "IgnoreFoldersAndFiles": []
     },
     "LibraryClassCheck": {

@@ -14,7 +14,7 @@
   FILE_GUID                      = CB86FEFE-621F-4C9E-98F3-845F7E7BBC2D
   MODULE_TYPE                    = UEFI_DRIVER
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = UefiDriverEntryPoint|DXE_DRIVER DXE_RUNTIME_DRIVER DXE_SAL_DRIVER UEFI_DRIVER SMM_CORE DXE_SMM_DRIVER
+  LIBRARY_CLASS                  = UefiDriverEntryPoint|DXE_DRIVER DXE_RUNTIME_DRIVER DXE_SAL_DRIVER UEFI_DRIVER SMM_CORE DXE_SMM_DRIVER HOST_APPLICATION
 
 #
 # The following information is for reference only and not required by the build tools.

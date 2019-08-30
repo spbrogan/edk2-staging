@@ -12,9 +12,9 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = BaseCpuLibHost
   FILE_GUID                      = 197E7CD0-2C4A-4AF1-A84D-DCAC0A1D7EF8
-  MODULE_TYPE                    = BASE
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = CpuLib
+  LIBRARY_CLASS                  = CpuLib | HOST_APPLICATION
 
 [Sources]
   BaseCpuLibHost.c

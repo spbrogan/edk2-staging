@@ -9,9 +9,9 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = BaseLibHost
   FILE_GUID                      = FA4A8DE0-8D55-44AA-8368-07D24BDA6A7D
-  MODULE_TYPE                    = BASE
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = BaseLib
+  LIBRARY_CLASS                  = BaseLib | HOST_APPLICATION
 
 [Sources]
   Math64.c

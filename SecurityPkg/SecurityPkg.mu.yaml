@@ -26,8 +26,10 @@
         "IgnoreInf": []
     },
     "GuidCheck": {
-        "IgnoreGuidName": [],
-        "IgnoreGuidValue": [],
+        "IgnoreGuidName": [
+            "Tpm2InstanceLibDTpm" # matches gEfiTpmDeviceInstanceTpm20DtpmGuid  by design
+            ],
+        "IgnoreGuidValue": ["00000000-0000-0000-0000-000000000000"],
         "IgnoreFoldersAndFiles": []
     },
     "LibraryClassCheck": {

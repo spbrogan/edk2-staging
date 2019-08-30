@@ -15,9 +15,9 @@
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = DxeServicesTableLib
   FILE_GUID                      = 3F614DC7-4B8B-4181-9AEF-995427F4E0A1
-  MODULE_TYPE                    = BASE
+  MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = DxeServicesTableLib
+  LIBRARY_CLASS                  = DxeServicesTableLib | HOST_APPLICATION
   CONSTRUCTOR                    = DxeServicesTableLibConstructor
 
 #
