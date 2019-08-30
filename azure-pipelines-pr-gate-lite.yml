@@ -36,8 +36,8 @@ steps:
 
 - task: CacheBeta@0
   inputs:
-    key: $(OpenSslCacheKey)
-    path: $(Pipeline.Workspace)/CryptoPkg/Library/OpensslLib/openssl_ext_dep
+    key: $(OpenSslCacheKey) | temp
+    path: $(Pipeline.Workspace)/CryptoPkg/Library/OpensslLib
   
 - task: UsePythonVersion@0
   inputs:
