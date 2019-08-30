@@ -30,7 +30,7 @@
 [Defines]
   INF_VERSION                    = 0x00010006
   BASE_NAME                      = UefiVariablePolicyUnitTest
-  FILE_GUID                      = 1200A2E4-D756-418C-9768-528C2D181A98
+  FILE_GUID                      = 69a1ba7d-aff2-4b7a-bfd0-187894de4464
   MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
 

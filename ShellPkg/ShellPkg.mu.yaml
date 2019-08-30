@@ -24,7 +24,9 @@
         "IgnoreInf": []
     },
     "GuidCheck": {
-        "IgnoreGuidName": [],
+        "IgnoreGuidName": [
+            "Shell" # shell module inf file guid matches gUefiShellFileGuid by design
+        ],
         "IgnoreGuidValue": [],
         "IgnoreFoldersAndFiles": []
     },
