@@ -26,14 +26,13 @@ steps:
   clean: true
   fetchDepth: 1
 
-- powershell: $json = Get-Content '.\CryptoPkg\Library\OpensslLib\openssl_ext_dep.json' |Out-String | ConvertFrom-Json
+- powershell: | 
+    $json = Get-Content '.\CryptoPkg\Library\OpensslLib\openssl_ext_dep.json' |Out-String | ConvertFrom-Json
+    echo '##vso[task.setvariable variable=OpenSslCacheKey]$json.version'
   displayName: Get Cache Key for Openssl
   name: cacheKeyOpenSSL
   workingDirectory: $(build.sourcesDirectory)
   failOnStderr: false
-  env:
-    name: OpenSslCacheKey
-    value: $json.version
 
 - task: CacheBeta@0
   inputs:
