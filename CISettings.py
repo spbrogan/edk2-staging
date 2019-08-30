@@ -51,7 +51,7 @@ class Settings(CiBuildSettingsManager, UpdateSettingsManager, SetupSettingsManag
         return []
 
     def GetRequiredRepos(self):
-        return ("CryptoPkg/Library/OpensslLib/openssl","ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3", "CmockaHostUnitTestPkg/Library/CmockaLib/cmocka")
+        return ("ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3", "CmockaHostUnitTestPkg/Library/CmockaLib/cmocka")
 
     def GetPackages(self):
         return ("MdeModulePkg",
