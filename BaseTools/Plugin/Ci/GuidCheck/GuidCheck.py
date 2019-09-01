@@ -124,7 +124,7 @@ class GuidCheck(ICiBuildPlugin):
             tc.LogStdError("No package {0}".format(packagename))
             return -1
 
-        All_Ignores = [".pyc", "/Build", "/Conf"]
+        All_Ignores = ["/Build", "/Conf"]
         # Parse the config for other ignores
         if "IgnoreFoldersAndFiles" in pkgconfig:
             All_Ignores.extend(pkgconfig["IgnoreFoldersAndFiles"])
