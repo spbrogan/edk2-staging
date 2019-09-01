@@ -21,8 +21,8 @@
 
 [Includes.Common.Private]
   Library/Include
-  Library/OpensslLib/openssl_ext_dep/include
-  Library/OpensslLib/openssl_ext_dep/crypto/include
+  Library/OpensslLib/openssl_extdep/openssl/include
+  Library/OpensslLib/openssl_extdep/openssl/crypto/include
 
 [LibraryClasses]
   ##  @libraryclass  Provides basic library functions for cryptographic primitives.
