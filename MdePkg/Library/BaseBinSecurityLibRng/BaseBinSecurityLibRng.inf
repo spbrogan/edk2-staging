@@ -11,7 +11,7 @@
 [Defines]
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = BaseBinSecurityLibRng
-  FILE_GUID                      = 495b10c8-7148-4b62-92b0-7cf4551df83d
+  FILE_GUID                      = 048d2630-20ee-4249-9a1b-4c5e55b58362
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = BaseBinSecurityLib
