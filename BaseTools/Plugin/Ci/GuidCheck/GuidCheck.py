@@ -16,9 +16,10 @@ class GuidCheck(ICiBuildPlugin):
 
     Configuration options:
     "GuidCheck": {
-        "IgnoreGuidName": [],
+        "IgnoreGuidName": [], # provide in format guidname=guidvalue or just guidname
         "IgnoreGuidValue": [],
-        "IgnoreFoldersAndFiles": []
+        "IgnoreFoldersAndFiles": [],
+        "IgnoreDuplicates": [] # Provide in format guidname=guidname=guidname...
     }
     """
 
@@ -123,7 +124,7 @@ class GuidCheck(ICiBuildPlugin):
             tc.LogStdError("No package {0}".format(packagename))
             return -1
 
-        All_Ignores = [".pyc", "/Build", "/Conf"]
+        All_Ignores = ["/Build", "/Conf"]
         # Parse the config for other ignores
         if "IgnoreFoldersAndFiles" in pkgconfig:
             All_Ignores.extend(pkgconfig["IgnoreFoldersAndFiles"])
@@ -147,17 +148,60 @@ class GuidCheck(ICiBuildPlugin):
         # Remove ignored guidname
         if "IgnoreGuidName" in pkgconfig:
             for a in pkgconfig["IgnoreGuidName"]:
+                entry = a.split("=")
+                if(len(entry) > 2):
+                    tc.LogStdError("GuidCheck.IgnoreGuidName -> {0} Invalid Format.".format(a))
+                    logging.info("GuidCheck.IgnoreGuidName -> {0} Invalid Format.".format(a))
+                    continue
                 try:
                     tc.LogStdOut("Ignoring Guid {0}".format(a))
                     for b in gs[:]:
-                        if b.name == a:
-                            gs.remove(b)
+                        if b.name == entry[0]:
+                            if(len(entry) == 1):
+                                gs.remove(b)
+                            elif(len(entry) == 2 and b.guid.upper() == entry[1].upper()):
+                                gs.remove(b)
+                            else:
+                                c.LogStdError("GuidCheck.IgnoreGuidName -> {0} incomplete match.  Invalid ignore guid".format(a))
+
                 except:
-                    tc.LogStdError("GuidCheck.IgnoreGuidName -> {0} not found.  Invalid ignore guid".format(a))
-                    logging.info("GuidCheck.IgnoreGuidName -> {0} not found.  Invalid ignore guid".format(a))
+                    tc.LogStdError("GuidCheck.IgnoreGuidName -> {0} not found.  Invalid ignore name".format(a))
+                    logging.info("GuidCheck.IgnoreGuidName -> {0} not found.  Invalid ignore name".format(a))
 
         # Find conflicting Guid Values
         Errors.extend(self._FindConflictingGuidValues(gs))
+
+        # Check if there are expected duplicates and remove it from the error list
+        if "IgnoreDuplicates" in pkgconfig:
+            for a in pkgconfig["IgnoreDuplicates"]:
+                names = a.split("=")
+                if len(names) < 2:
+                    tc.LogStdError("GuidCheck.IgnoreDuplicates -> {0} invalid format".format(a))
+                    logging.info("GuidCheck.IgnoreDuplicates -> {0} invalid format".format(a))
+                    continue
+                
+                for b in Errors[:]:
+                    if b.type != "guid":
+                        continue
+                    ## Make a list of the names that are not in the names list.  If there 
+                    ## are any in the list then this error should not be ignored.  
+                    t = [x for x in b.entries if x.name not in names]
+                    if(len(t) == len(b.entries)):
+                        ## did not apply to any entry
+                        continue
+                    elif(len(t) == 0):
+                        ## full match - ignore duplicate
+                        tc.LogStdOut("GuidCheck.IgnoreDuplicates -> {0}".format(a))
+                        Errors.remove(b)
+                    elif(len(t) < len(b.entries)):
+                        ## partial match
+                        tc.LogStdOut("GuidCheck.IgnoreDuplicates -> {0} incomplete match".format(a))
+                        logging.info("GuidCheck.IgnoreDuplicates -> {0} incomplete match".format(a))
+                    else:
+                        tc.LogStdOut("GuidCheck.IgnoreDuplicates -> {0} unknown error.".format(a))
+                        logging.info("GuidCheck.IgnoreDuplicates -> {0} unknown error".format(a))
+                    
+
 
         # Find conflicting Guid Names
         Errors.extend(self._FindConflictingGuidNames(gs))

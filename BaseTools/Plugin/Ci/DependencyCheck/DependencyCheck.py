@@ -19,7 +19,9 @@ class DependencyCheck(ICiBuildPlugin):
 
     Configuration options:
     "DependencyCheck": {
-        "AcceptableDependencies": [], # Package dec files that are allowed.  Example: MdePkg/MdePkg.dec
+        "AcceptableDependencies": [], # Package dec files that are allowed in all INFs.  Example: MdePkg/MdePkg.dec
+        "AcceptableDependencies-<MODULE_TYPE>": [], # OPTIONAL Package dependencies for INFs that are HOST_APPLICATION
+        "AcceptableDependencies-HOST_APPLICATION": [], # EXAMPLE Package dependencies for INFs that are HOST_APPLICATION
         "IgnoreInf": []  # Ignore INF if found in filesystem
     }
     """
@@ -70,21 +72,41 @@ class DependencyCheck(ICiBuildPlugin):
                 except:
                     logging.info("DependencyConfig.IgnoreInf -> {0} not found in filesystem.  Invalid ignore file".format(a))
                     tc.LogStdError("DependencyConfig.IgnoreInf -> {0} not found in filesystem.  Invalid ignore file".format(a))
+        
+        
+        # Get the AccpetableDependencies list
+        if "AcceptableDependencies" not in pkgconfig:
+            logging.info("DependencyCheck Skipped.  No Acceptable Dependencies defined.")
+            tc.LogStdOut("DependencyCheck Skipped.  No Acceptable Dependencies defined.")
+            tc.SetSkipped()
+            return -1
+            
+        # Log dependencies
+        for k in pkgconfig.keys():
+            if k.startswith("AcceptableDependencies"):
+                pkgstring = "\n".join(pkgconfig[k])
+                if ("-" in k):
+                    _, _, mod_type = k.partition("-") 
+                    tc.LogStdOut(f"Additional dependencies for MODULE_TYPE {mod_type}:\n {pkgstring}")
+                else:
+                    tc.LogStdOut(f"Acceptable Dependencies:\n {pkgstring}")
 
         # For each INF file
         for file in INFFiles:
             ip = InfParser()
             logging.debug("Parsing " + file)
             ip.SetBaseAbsPath(Edk2pathObj.WorkspacePath).SetPackagePaths(Edk2pathObj.PackagePathList).ParseFile(file)
-
+            mod_type = ip.Dict["MODULE_TYPE"].upper()
             for p in ip.PackagesUsed:
-                if "AcceptableDependencies" in pkgconfig and p not in pkgconfig["AcceptableDependencies"]:
+                if p not in pkgconfig["AcceptableDependencies"]:
+                    # If not in the main acceptable dependencies list then check module specific
+                    mod_specific_key = "AcceptableDependencies-" + mod_type
+                    if mod_specific_key in pkgconfig and p in pkgconfig[mod_specific_key]:
+                        continue
+
                     logging.error("Dependency Check: Invalid Dependency INF: {0} depends on pkg {1}".format(file, p))
                     tc.LogStdError("Dependency Check: Invalid Dependency INF: {0} depends on pkg {1}".format(file, p))
-                    overall_status += 1
-        if "AcceptableDependencies" in pkgconfig:
-            for a in pkgconfig["AcceptableDependencies"]:
-                tc.LogStdOut("Acceptable Package Dependency: {0}".format(a))
+                    overall_status += 1       
 
         # If XML object exists, add results
         if overall_status is not 0:
@@ -97,4 +119,5 @@ class DependencyCheck(ICiBuildPlugin):
         validOptions = ["AcceptableDependencies", "skip", "IgnoreInf"]
         for key in config:
             if key not in validOptions:
-                raise Exception("Invalid config option {0} in {1}".format(key, name))
+                if not key.startswith("AcceptableDependencies-"):
+                    raise Exception("Invalid config option {0} in {1}".format(key, name))
