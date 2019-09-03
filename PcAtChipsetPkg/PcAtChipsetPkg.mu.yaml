@@ -16,8 +16,9 @@
         "AcceptableDependencies": [
             "MdePkg/MdePkg.dec",
             "MdeModulePkg/MdeModulePkg.dec",
-            "PcAtChipsetPkg/PcAtChipsetPkg.dec"
-        ], 
+            "PcAtChipsetPkg/PcAtChipsetPkg.dec",
+            "UefiCpuPkg/UefiCpuPkg.dec"
+        ],
         "IgnoreInf": []
     },
     "DscCompleteCheck": {

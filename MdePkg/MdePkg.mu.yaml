@@ -11,16 +11,27 @@
     "DependencyCheck": {
         "AcceptableDependencies": [
             "MdePkg/MdePkg.dec",
-            "MsUnitTestPkg/MsUnitTestPkg.dec"
+            "MdeModulePkg/MdeModulePkg.dec"
         ], 
+        "AcceptableDependencies-HOST_APPLICATION":[ # for host based unit tests
+            "MsUnitTestPkg/MsUnitTestPkg.dec",
+            "UefiHostTestPkg/UefiHostTestPkg.dec",
+            "UefiHostUnitTestPkg/UefiHostUnitTestPkg.dec",
+            "CmockaHostUnitTestPkg/CmockaHostUnitTestPkg.dec"
+        ],
         "IgnoreInf": []
     },
     "DscCompleteCheck": {
         "IgnoreInf": [
             # Ignore StackCookie libs for toolchains that don't support it.
             "MdePkg/Library/BaseBinSecurityLibNull/BaseBinSecurityLibNull.inf",
-            "MdePkg/Library/BaseBinSecurityLibRng/BaseBinSecurityLibRng.inf",
-
+            "MdePkg/Library/BaseBinSecurityLibRng/BaseBinSecurityLibRng.inf"
+        ],
+        "DscPath": "MdePkg.ci.dsc"   
+    },
+    "HostUnitTestDscCompleteCheck": {
+        "DscPath": "MdePkgTest.dsc",
+        "IgnoreInf": [
             # UnitTests not required.
             "MdePkg/HostLibrary/BaseCacheMaintenanceLibHost/BaseCacheMaintenanceLibHost.inf",
             "MdePkg/HostLibrary/BaseCpuLibHost/BaseCpuLibHost.inf",
@@ -50,20 +61,44 @@
             "MdePkg/Test/UnitTest/Library/PeiServicesLib/TestPeiServicesLib.inf",
             "MdePkg/Test/UnitTest/Library/SmmServicesTableLib/TestSmmServicesTableLib.inf",
             "MdePkg/Test/UnitTest/Library/UefiBootServicesTableLib/TestUefiBootServicesTableLib.inf",
-            "MdePkg/Test/UnitTest/Library/UefiRuntimeServicesTableLib/TestUefiRuntimeServicesTableLib.inf",
-        ],
-        "DscPath": "MdePkg.ci.dsc"   
-    },
-    "HostUnitTestDscCompleteCheck": {
-        "DscPath": "MdePkgTest.dsc",
-        "IgnoreInf": []  
+            "MdePkg/Test/UnitTest/Library/UefiRuntimeServicesTableLib/TestUefiRuntimeServicesTableLib.inf"
+        ]
     },
     "GuidCheck": {
         "IgnoreGuidName": [
-            "gEfiFirmwareVolumeTopFileGuid " # sec modules must be set to this guid
+            "gEfiFirmwareVolumeTopFileGuid" # sec modules must be set to this guid
         ],
         "IgnoreGuidValue": ["00000000-0000-0000-0000-000000000000"],
-        "IgnoreFoldersAndFiles": []
+        "IgnoreFoldersAndFiles": [], 
+        "IgnoreDuplicates": [
+            "gEfiFirmwareVolumeBlockProtocolGuid=gEfiFirmwareVolumeBlock2ProtocolGuid",
+            "gEfiMmAccessProtocolGuid=gEfiSmmAccess2ProtocolGuid",
+            "gEfiSmmCommunicationProtocolGuid=gEfiMmCommunicationProtocolGuid",
+            "gEfiMmPciRootBridgeIoProtocolGuid=gEfiSmmPciRootBridgeIoProtocolGuid",
+            "gEfiTrEEProtocolGuid=gEfiTcg2ProtocolGuid",
+            "gEfiSmmPowerButtonDispatch2ProtocolGuid=gEfiMmPowerButtonDispatchProtocolGuid",
+            "gEfiSmmBase2ProtocolGuid=gEfiMmBaseProtocolGuid",
+            "gEfiSmmUsbDispatch2ProtocolGuid=gEfiMmUsbDispatchProtocolGuid",
+            "gEfiSmmCpuProtocolGuid=gEfiMmCpuProtocolGuid",
+            "gEfiAcpiTableGuid=gEfiAcpi20TableGuid",
+            "gEfiSmmControl2ProtocolGuid=gEfiMmControlProtocolGuid",
+            "gEfiSmmStandbyButtonDispatch2ProtocolGuid=gEfiMmStandbyButtonDispatchProtocolGuid",
+            "gEfiSmmStatusCodeProtocolGuid=gEfiMmStatusCodeProtocolGuid",
+            "gEfiDxeSmmReadyToLockProtocolGuid=gEfiDxeMmReadyToLockProtocolGuid",
+            "gEfiSmmIoTrapDispatch2ProtocolGuid=gEfiMmIoTrapDispatchProtocolGuid",
+            "gEfiSmmReadyToLockProtocolGuid=gEfiMmReadyToLockProtocolGuid",
+            "gEfiSmmSxDispatch2ProtocolGuid=gEfiMmSxDispatchProtocolGuid",
+            "gEfiPeiCapsulePpiGuid=gPeiCapsulePpiGuid",
+            "gEfiSmmCpuIo2ProtocolGuid=gEfiMmCpuIoProtocolGuid",
+            "gEfiSmmRscHandlerProtocolGuid=gEfiMmRscHandlerProtocolGuid",
+            "gEfiSmmConfigurationProtocolGuid=gEfiMmConfigurationProtocolGuid",
+            "gEfiSmmGpiDispatch2ProtocolGuid=gEfiMmGpiDispatchProtocolGuid",
+            "gEfiSmmEndOfDxeProtocolGuid=gEfiMmEndOfDxeProtocolGuid",
+            "gEfiSmmSwDispatch2ProtocolGuid=gEfiMmSwDispatchProtocolGuid",
+            "gEfiDebugPortProtocolGuid=gEfiDebugPortVariableGuid=gEfiDebugPortDevicePathGuid", ## is this a bug
+            "gEfiProcessorSpecificErrorSectionGuid=gEfiIa32X64ProcessorErrorSectionGuid",  ## is this a bug
+            "gEfiSmmPeriodicTimerDispatch2ProtocolGuid=gEfiMmPeriodicTimerDispatchProtocolGuid"
+            ]
     },
     "LibraryClassCheck": {
         "IgnoreHeaderFile": []
