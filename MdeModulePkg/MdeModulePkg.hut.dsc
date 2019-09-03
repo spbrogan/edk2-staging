@@ -66,4 +66,8 @@
       SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
   }
 
+  MdeModulePkg/Bus/Pci/PciBusDxe/UnitTest/TestPciBusDxe.inf
+  MdeModulePkg/Universal/RegularExpressionDxe/UnitTest/TestRegularExpressionDxe.inf
+
+
 !include UefiHostUnitTestPkg/UefiHostUnitTestBuildOption.dsc
