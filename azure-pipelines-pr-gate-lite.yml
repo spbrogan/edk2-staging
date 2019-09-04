@@ -71,7 +71,7 @@ jobs:
 
   - powershell: |
       $date = get-date -UFormat %Y%w
-      echo "##vso[task.setvariable variable=OmniCacheKey]seancache$($date)"
+      echo "##vso[task.setvariable variable=OmniCacheKey;isOutput=true]seancache$($date)"
     displayName: Get Cache Key for Omnicache
     name: Omnicache
     workingDirectory: $(build.sourcesDirectory)
