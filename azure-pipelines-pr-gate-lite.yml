@@ -5,6 +5,8 @@ jobs:
   condition: eq(variables['Build.Reason'], 'Schedule')
   workspace:
     clean: all
+  pool:
+    vmImage: 'windows-latest'
   steps:
   - checkout: none
   - task: UsePythonVersion@0
@@ -17,7 +19,7 @@ jobs:
 
    #Start the Omnicache
   - powershell: |
-      $date = get-date -UFormat %Y%w
+      $date = get-date -UFormat %Y%W
       echo "##vso[task.setvariable variable=OmniCacheKey;isOutput=true]seancache$($date)"
     displayName: Get Cache Key for Omnicache
     name: Omnicache
@@ -36,7 +38,7 @@ jobs:
     condition: and(succeeded(), ne(variables.OMNICACHE_RESTORED, 'true'))
     inputs:
       filename: "omnicache"
-      arguments: "-a openssl https://github.com/openssl/openssl.git true -a borningssl https://boringssl.googlesource.com/boringssl -a pyca https://github.com/pyca/cryptography.git -a krb5 https://github.com/krb5/krb5 --init $(OMNICACHE_PATH)"
+      arguments: "-a openssl https://github.com/openssl/openssl.git true -a borningssl https://boringssl.googlesource.com/boringssl -a pyca https://github.com/pyca/cryptography.git -a krb5 https://github.com/krb5/krb5 -a softfloat https://github.com/ucb-bar/berkeley-softfloat-3.git -a cmocka https://git.cryptomilk.org/projects/cmocka.git --init $(OMNICACHE_PATH)"
 
 # Build step
 - job: Build
@@ -70,7 +72,7 @@ jobs:
     fetchDepth: 1
 
   - powershell: |
-      $date = get-date -UFormat %Y%w
+      $date = get-date -UFormat %Y%W
       echo "##vso[task.setvariable variable=OmniCacheKey;isOutput=true]seancache$($date)"
     displayName: Get Cache Key for Omnicache
     name: Omnicache
