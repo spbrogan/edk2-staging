@@ -47,6 +47,10 @@ class Settings(CiBuildSettingsManager, UpdateSettingsManager, SetupSettingsManag
     def GetName(self):
         return "Edk2"
 
+    def GetOmnicachePath(self):
+        return os.environ.get('OMNICACHE_PATH')
+
+
     def GetDependencies(self):
         return []
 
