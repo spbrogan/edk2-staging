@@ -1,7 +1,7 @@
 variables:
   OMNICACHE_PATH : $(Pipeline.Workspace)/OmniCache
 jobs:
-- job: Setup/Maintain Omnicache
+- job: Setup_Maintain_Omnicache
   condition: eq(variables['Build.Reason'], 'Schedule')
   workspace:
     clean: all
