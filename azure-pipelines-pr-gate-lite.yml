@@ -149,9 +149,9 @@ jobs:
         Build\**\BUILDLOG_*.md
         Build\**\CI_*.txt
         Build\**\CI_*.md
-        Build\**\CISETUP_*.txt
-        Build\**\SETUPLOG_*.txt
-        Build\**\UPDATE_LOG_.txt
+        Build\**\CISETUP.txt
+        Build\**\SETUPLOG.txt
+        Build\**\UPDATE_LOG.txt
         Build\**\TestSuites.xml
         Build\**\BUILD_TOOLS_REPORT.html
         Build\**\OVERRIDELOG.TXT
