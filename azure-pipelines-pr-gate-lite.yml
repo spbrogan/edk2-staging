@@ -40,7 +40,7 @@ jobs:
 
 # Build step
 - job: Build
-  dependsOn: Setup
+  dependsOn: Setup_Maintain_Omnicache
  
   #Use matrix to speed up the build process
   strategy:
