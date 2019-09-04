@@ -95,7 +95,8 @@ jobs:
     displayName: Setup $(Build.Pkgs)
     inputs:
       filename: stuart_setup
-      arguments: -c CISettings.py --Tool_Chain VS2019 --omnicache "$(OMNICACHE_PATH)"
+      #arguments: -c CISettings.py --Tool_Chain VS2019 --omnicache "$(OMNICACHE_PATH)"
+      arguments: -c CISettings.py --Tool_Chain VS2019
 
   - task: CmdLine@1
     displayName: Update $(Build.Pkgs)
