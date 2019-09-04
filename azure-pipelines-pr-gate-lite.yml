@@ -95,7 +95,7 @@ jobs:
     displayName: Setup $(Build.Pkgs)
     inputs:
       filename: stuart_setup
-      arguments: -c CISettings.py --Tool_Chain VS2019
+      arguments: -c CISettings.py --Tool_Chain VS2019 --omnicache "$(OMNICACHE_PATH)"
 
   - task: CmdLine@1
     displayName: Update $(Build.Pkgs)
@@ -153,6 +153,7 @@ jobs:
         Build\**\BUILD_TOOLS_REPORT.html
         Build\**\OVERRIDELOG.TXT
       flattenFolders: true
+    condition: succeededOrFailed()
 
   # Publish build artifacts to Azure Artifacts/TFS or a file share
   - task: PublishBuildArtifacts@1
@@ -161,3 +162,4 @@ jobs:
     inputs:
       pathtoPublish: '$(Build.ArtifactStagingDirectory)'
       artifactName: 'Build Logs $(Build.Pkgs)'
+    condition: succeededOrFailed()
