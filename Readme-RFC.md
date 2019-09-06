@@ -1,6 +1,6 @@
 # Testing
 
-Project Mu supports a few types of testing and this page will help provide some high level info and links for more information.
+TianoCore has been exploring a few types of testing and this page will help provide some high level info and links for more information.
 
 ## Testing Infrastructure - Definitions and Descriptions
 
@@ -70,8 +70,7 @@ Not really a "testing" tool but more of a debug and development practice.
 
 ### Host-Based Fuzz Testing (INTEL)
 
-> I don't know much about this except what Intel has published.
-
+> Some of the info that Intel has published.
 > * Read here for some intel information. https://firmware.intel.com/sites/default/files/Intel_UsingHBFAtoImprovePlatformResiliency.pdf
 > * First iteration from Intel: https://github.com/tianocore/edk2-staging/tree/HBFA/HBFA 
 
@@ -122,7 +121,7 @@ Code/Test                                   | Location
 
 ## RFC and Misc TODOs:
 
-- CmockaHostUnitTestPkg, UefiHostTestPkg, and UefiHostUnitTestPkg should move to their own repo
+- CmockaHostUnitTestPkg, UefiHostTestPkg, and UefiHostUnitTestPkg should move to their own repo. Currently suggest that this be [edk2-test](https://github.com/tianocore/edk2-test)
 
 - UefiHostFuzzTestCasePkg
   - Should move these into their packages as described for test cases and stubs.  
@@ -142,6 +141,3 @@ Code/Test                                   | Location
 - XmlSupportPkg
   - Move to edk2
   - Move UnitTestResultReportLibJunitFormat to UefiTestPkg
-
-
-
