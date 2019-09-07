@@ -114,7 +114,6 @@ R: Leif Lindholm <leif.lindholm@linaro.org>
 ArmVirtPkg: modules used on Xen
 F: ArmVirtPkg/ArmVirtXen.*
 F: ArmVirtPkg/Library/XenArmGenericTimerVirtCounterLib/
-F: ArmVirtPkg/Library/XenRealTimeClockLib/
 F: ArmVirtPkg/Library/XenVirtMemInfoLib/
 F: ArmVirtPkg/PrePi/
 F: ArmVirtPkg/XenAcpiPlatformDxe/
@@ -365,6 +364,7 @@ F: OvmfPkg/Include/Guid/XenInfo.h
 F: OvmfPkg/Include/IndustryStandard/Xen/
 F: OvmfPkg/Include/Library/XenHypercallLib.h
 F: OvmfPkg/Include/Library/XenIoMmioLib.h
+F: OvmfPkg/Include/Library/XenPlatformLib.h
 F: OvmfPkg/Include/Protocol/XenBus.h
 F: OvmfPkg/Include/Protocol/XenIo.h
 F: OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
@@ -372,13 +372,21 @@ F: OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
 F: OvmfPkg/Library/XenConsoleSerialPortLib/
 F: OvmfPkg/Library/XenHypercallLib/
 F: OvmfPkg/Library/XenIoMmioLib/
+F: OvmfPkg/Library/XenPlatformLib/
+F: OvmfPkg/Library/XenRealTimeClockLib/
+F: OvmfPkg/OvmfXen.*
+F: OvmfPkg/OvmfXenElfHeaderGenerator.c
 F: OvmfPkg/PlatformPei/MemDetect.c
 F: OvmfPkg/PlatformPei/Platform.*
 F: OvmfPkg/PlatformPei/Xen.*
 F: OvmfPkg/SmbiosPlatformDxe/*Xen.c
 F: OvmfPkg/XenBusDxe/
 F: OvmfPkg/XenIoPciDxe/
+F: OvmfPkg/XenIoPvhDxe/
+F: OvmfPkg/XenPlatformPei/
 F: OvmfPkg/XenPvBlkDxe/
+F: OvmfPkg/XenResetVector/
+F: OvmfPkg/XenTimerDxe/
 R: Anthony Perard <anthony.perard@citrix.com>
 R: Julien Grall <julien.grall@arm.com>
 

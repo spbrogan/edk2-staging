@@ -15,7 +15,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 LIST_ENTRY                          mPagePool = INITIALIZE_LIST_HEAD_VARIABLE (mPagePool);
 BOOLEAN                             m1GPageTableSupport = FALSE;
-BOOLEAN                             mCpuSmmStaticPageTable;
+BOOLEAN                             mCpuSmmRestrictedMemoryAccess;
 BOOLEAN                             m5LevelPagingSupport;
 X86_ASSEMBLY_PATCH_LABEL            gPatch5LevelPagingSupport;
 
@@ -334,15 +334,15 @@ SmmInitPageTable (
   //
   InitializeSpinLock (mPFLock);
 
-  mCpuSmmStaticPageTable = PcdGetBool (PcdCpuSmmStaticPageTable);
-  m1GPageTableSupport    = Is1GPageSupport ();
-  m5LevelPagingSupport   = Is5LevelPagingSupport ();
-  mPhysicalAddressBits   = CalculateMaximumSupportAddress ();
+  mCpuSmmRestrictedMemoryAccess = PcdGetBool (PcdCpuSmmRestrictedMemoryAccess);
+  m1GPageTableSupport           = Is1GPageSupport ();
+  m5LevelPagingSupport          = Is5LevelPagingSupport ();
+  mPhysicalAddressBits          = CalculateMaximumSupportAddress ();
   PatchInstructionX86 (gPatch5LevelPagingSupport, m5LevelPagingSupport, 1);
-  DEBUG ((DEBUG_INFO, "5LevelPaging Support     - %d\n", m5LevelPagingSupport));
-  DEBUG ((DEBUG_INFO, "1GPageTable Support      - %d\n", m1GPageTableSupport));
-  DEBUG ((DEBUG_INFO, "PcdCpuSmmStaticPageTable - %d\n", mCpuSmmStaticPageTable));
-  DEBUG ((DEBUG_INFO, "PhysicalAddressBits      - %d\n", mPhysicalAddressBits));
+  DEBUG ((DEBUG_INFO, "5LevelPaging Support            - %d\n", m5LevelPagingSupport));
+  DEBUG ((DEBUG_INFO, "1GPageTable Support             - %d\n", m1GPageTableSupport));
+  DEBUG ((DEBUG_INFO, "PcdCpuSmmRestrictedMemoryAccess - %d\n", mCpuSmmRestrictedMemoryAccess));
+  DEBUG ((DEBUG_INFO, "PhysicalAddressBits             - %d\n", mPhysicalAddressBits));
   //
   // Generate PAE page table for the first 4GB memory space
   //
@@ -385,7 +385,11 @@ SmmInitPageTable (
     PTEntry = Pml5Entry;
   }
 
-  if (mCpuSmmStaticPageTable) {
+  if (mCpuSmmRestrictedMemoryAccess) {
+    //
+    // When access to non-SMRAM memory is restricted, create page table
+    // that covers all memory space.
+    //
     SetStaticPageTable ((UINTN)PTEntry);
   } else {
     //
@@ -544,6 +548,11 @@ ReclaimPages (
   UINT64                       *ReleasePageAddress;
   IA32_CR4                     Cr4;
   BOOLEAN                      Enable5LevelPaging;
+  UINT64                       PFAddress;
+  UINT64                       PFAddressPml5Index;
+  UINT64                       PFAddressPml4Index;
+  UINT64                       PFAddressPdptIndex;
+  UINT64                       PFAddressPdtIndex;
 
   Pml4 = NULL;
   Pdpt = NULL;
@@ -555,6 +564,11 @@ ReclaimPages (
   MinPdt  = (UINTN)-1;
   Acc     = 0;
   ReleasePageAddress = 0;
+  PFAddress = AsmReadCr2 ();
+  PFAddressPml5Index = BitFieldRead64 (PFAddress, 48, 48 + 8);
+  PFAddressPml4Index = BitFieldRead64 (PFAddress, 39, 39 + 8);
+  PFAddressPdptIndex = BitFieldRead64 (PFAddress, 30, 30 + 8);
+  PFAddressPdtIndex = BitFieldRead64 (PFAddress, 21, 21 + 8);
 
   Cr4.UintN = AsmReadCr4 ();
   Enable5LevelPaging = (BOOLEAN) (Cr4.Bits.LA57 == 1);
@@ -629,18 +643,21 @@ ReclaimPages (
               // we will find the entry has the smallest access record value
               //
               PDPTEIgnore = TRUE;
-              Acc = GetAndUpdateAccNum (Pdt + PdtIndex);
-              if (Acc < MinAcc) {
-                //
-                // If the PD entry has the smallest access record value,
-                // save the Page address to be released
-                //
-                MinAcc  = Acc;
-                MinPml5 = Pml5Index;
-                MinPml4 = Pml4Index;
-                MinPdpt = PdptIndex;
-                MinPdt  = PdtIndex;
-                ReleasePageAddress = Pdt + PdtIndex;
+              if (PdtIndex != PFAddressPdtIndex || PdptIndex != PFAddressPdptIndex ||
+                  Pml4Index != PFAddressPml4Index || Pml5Index != PFAddressPml5Index) {
+                Acc = GetAndUpdateAccNum (Pdt + PdtIndex);
+                if (Acc < MinAcc) {
+                  //
+                  // If the PD entry has the smallest access record value,
+                  // save the Page address to be released
+                  //
+                  MinAcc  = Acc;
+                  MinPml5 = Pml5Index;
+                  MinPml4 = Pml4Index;
+                  MinPdpt = PdptIndex;
+                  MinPdt  = PdtIndex;
+                  ReleasePageAddress = Pdt + PdtIndex;
+                }
               }
             }
           }
@@ -649,18 +666,21 @@ ReclaimPages (
             // If this PDPT entry has no PDT entries pointer to 4 KByte pages,
             // it should only has the entries point to 2 MByte Pages
             //
-            Acc = GetAndUpdateAccNum (Pdpt + PdptIndex);
-            if (Acc < MinAcc) {
-              //
-              // If the PDPT entry has the smallest access record value,
-              // save the Page address to be released
-              //
-              MinAcc  = Acc;
-              MinPml5 = Pml5Index;
-              MinPml4 = Pml4Index;
-              MinPdpt = PdptIndex;
-              MinPdt  = (UINTN)-1;
-              ReleasePageAddress = Pdpt + PdptIndex;
+            if (PdptIndex != PFAddressPdptIndex || Pml4Index != PFAddressPml4Index ||
+                Pml5Index != PFAddressPml5Index) {
+              Acc = GetAndUpdateAccNum (Pdpt + PdptIndex);
+              if (Acc < MinAcc) {
+                //
+                // If the PDPT entry has the smallest access record value,
+                // save the Page address to be released
+                //
+                MinAcc  = Acc;
+                MinPml5 = Pml5Index;
+                MinPml4 = Pml4Index;
+                MinPdpt = PdptIndex;
+                MinPdt  = (UINTN)-1;
+                ReleasePageAddress = Pdpt + PdptIndex;
+              }
             }
           }
         }
@@ -670,18 +690,20 @@ ReclaimPages (
         // If PML4 entry has no the PDPT entry pointer to 2 MByte pages,
         // it should only has the entries point to 1 GByte Pages
         //
-        Acc = GetAndUpdateAccNum (Pml4 + Pml4Index);
-        if (Acc < MinAcc) {
-          //
-          // If the PML4 entry has the smallest access record value,
-          // save the Page address to be released
-          //
-          MinAcc  = Acc;
-          MinPml5 = Pml5Index;
-          MinPml4 = Pml4Index;
-          MinPdpt = (UINTN)-1;
-          MinPdt  = (UINTN)-1;
-          ReleasePageAddress = Pml4 + Pml4Index;
+        if (Pml4Index != PFAddressPml4Index || Pml5Index != PFAddressPml5Index) {
+          Acc = GetAndUpdateAccNum (Pml4 + Pml4Index);
+          if (Acc < MinAcc) {
+            //
+            // If the PML4 entry has the smallest access record value,
+            // save the Page address to be released
+            //
+            MinAcc  = Acc;
+            MinPml5 = Pml5Index;
+            MinPml4 = Pml4Index;
+            MinPdpt = (UINTN)-1;
+            MinPdt  = (UINTN)-1;
+            ReleasePageAddress = Pml4 + Pml4Index;
+          }
         }
       }
     }
@@ -709,7 +731,8 @@ ReclaimPages (
       Pml4 = (UINT64 *) (UINTN) (Pml5[MinPml5] & gPhyMask);
       Pdpt = (UINT64*)(UINTN)(Pml4[MinPml4] & ~mAddressEncMask & gPhyMask);
       SubEntriesNum = GetSubEntriesNum(Pdpt + MinPdpt);
-      if (SubEntriesNum == 0) {
+      if (SubEntriesNum == 0 &&
+          (MinPdpt != PFAddressPdptIndex || MinPml4 != PFAddressPml4Index || MinPml5 != PFAddressPml5Index)) {
         //
         // Release the empty Page Directory table if there was no more 4 KByte Page Table entry
         // clear the Page directory entry
@@ -725,7 +748,7 @@ ReclaimPages (
       //
       // Update the sub-entries filed in PDPT entry and exit
       //
-      SetSubEntriesNum (Pdpt + MinPdpt, SubEntriesNum - 1);
+      SetSubEntriesNum (Pdpt + MinPdpt, (SubEntriesNum - 1) & 0x1FF);
       break;
     }
     if (MinPdpt != (UINTN)-1) {
@@ -733,7 +756,7 @@ ReclaimPages (
       // One 2MB Page Table is released or Page Directory table is released, check the PML4 entry
       //
       SubEntriesNum = GetSubEntriesNum (Pml4 + MinPml4);
-      if (SubEntriesNum == 0) {
+      if (SubEntriesNum == 0 && (MinPml4 != PFAddressPml4Index || MinPml5 != PFAddressPml5Index)) {
         //
         // Release the empty PML4 table if there was no more 1G KByte Page Table entry
         // clear the Page directory entry
@@ -746,7 +769,7 @@ ReclaimPages (
       //
       // Update the sub-entries filed in PML4 entry and exit
       //
-      SetSubEntriesNum (Pml4 + MinPml4, SubEntriesNum - 1);
+      SetSubEntriesNum (Pml4 + MinPml4, (SubEntriesNum - 1) & 0x1FF);
       break;
     }
     //
@@ -919,7 +942,7 @@ SmiDefaultPFHandler (
     PageTable[PTIndex] = ((PFAddress | mAddressEncMask) & gPhyMask & ~((1ull << EndBit) - 1)) |
                          PageAttribute | IA32_PG_A | PAGE_ATTRIBUTE_BITS;
     if (UpperEntry != NULL) {
-      SetSubEntriesNum (UpperEntry, GetSubEntriesNum (UpperEntry) + 1);
+      SetSubEntriesNum (UpperEntry, (GetSubEntriesNum (UpperEntry) + 1) & 0x1FF);
     }
     //
     // Get the next page address if we need to create more page tables
@@ -953,7 +976,7 @@ SmiPFHandler (
 
   PFAddress = AsmReadCr2 ();
 
-  if (mCpuSmmStaticPageTable && (PFAddress >= LShiftU64 (1, (mPhysicalAddressBits - 1)))) {
+  if (mCpuSmmRestrictedMemoryAccess && (PFAddress >= LShiftU64 (1, (mPhysicalAddressBits - 1)))) {
     DumpCpuContext (InterruptType, SystemContext);
     DEBUG ((DEBUG_ERROR, "Do not support address 0x%lx by processor!\n", PFAddress));
     CpuDeadLoop ();
@@ -1030,7 +1053,7 @@ SmiPFHandler (
       goto Exit;
     }
 
-    if (mCpuSmmStaticPageTable && IsSmmCommBufferForbiddenAddress (PFAddress)) {
+    if (mCpuSmmRestrictedMemoryAccess && IsSmmCommBufferForbiddenAddress (PFAddress)) {
       DumpCpuContext (InterruptType, SystemContext);
       DEBUG ((DEBUG_ERROR, "Access SMM communication forbidden address (0x%lx)!\n", PFAddress));
       DEBUG_CODE (
@@ -1081,26 +1104,26 @@ SetPageTableAttributes (
   Enable5LevelPaging = (BOOLEAN) (Cr4.Bits.LA57 == 1);
 
   //
-  // Don't do this if
-  //  - no static page table; or
+  // Don't mark page table memory as read-only if
+  //  - no restriction on access to non-SMRAM memory; or
   //  - SMM heap guard feature enabled; or
   //      BIT2: SMM page guard enabled
   //      BIT3: SMM pool guard enabled
   //  - SMM profile feature enabled
   //
-  if (!mCpuSmmStaticPageTable ||
+  if (!mCpuSmmRestrictedMemoryAccess ||
       ((PcdGet8 (PcdHeapGuardPropertyMask) & (BIT3 | BIT2)) != 0) ||
       FeaturePcdGet (PcdCpuSmmProfileEnable)) {
     //
-    // Static paging and heap guard could not be enabled at the same time.
+    // Restriction on access to non-SMRAM memory and heap guard could not be enabled at the same time.
     //
-    ASSERT (!(mCpuSmmStaticPageTable &&
+    ASSERT (!(mCpuSmmRestrictedMemoryAccess &&
               (PcdGet8 (PcdHeapGuardPropertyMask) & (BIT3 | BIT2)) != 0));
 
     //
-    // Static paging and SMM profile could not be enabled at the same time.
+    // Restriction on access to non-SMRAM memory and SMM profile could not be enabled at the same time.
     //
-    ASSERT (!(mCpuSmmStaticPageTable && FeaturePcdGet (PcdCpuSmmProfileEnable)));
+    ASSERT (!(mCpuSmmRestrictedMemoryAccess && FeaturePcdGet (PcdCpuSmmProfileEnable)));
     return ;
   }
 
@@ -1204,7 +1227,10 @@ SaveCr2 (
   OUT UINTN  *Cr2
   )
 {
-  if (!mCpuSmmStaticPageTable) {
+  if (!mCpuSmmRestrictedMemoryAccess) {
+    //
+    // On-demand paging is enabled when access to non-SMRAM is not restricted.
+    //
     *Cr2 = AsmReadCr2 ();
   }
 }
@@ -1219,7 +1245,24 @@ RestoreCr2 (
   IN UINTN  Cr2
   )
 {
-  if (!mCpuSmmStaticPageTable) {
+  if (!mCpuSmmRestrictedMemoryAccess) {
+    //
+    // On-demand paging is enabled when access to non-SMRAM is not restricted.
+    //
     AsmWriteCr2 (Cr2);
   }
+}
+
+/**
+  Return whether access to non-SMRAM is restricted.
+
+  @retval TRUE  Access to non-SMRAM is restricted.
+  @retval FALSE Access to non-SMRAM is not restricted.
+*/
+BOOLEAN
+IsRestrictedMemoryAccess (
+  VOID
+  )
+{
+  return mCpuSmmRestrictedMemoryAccess;
 }
