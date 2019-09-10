@@ -3,19 +3,19 @@ strategy:
   matrix:
     TARGET_MDE_CPU:
       Build.Pkgs: 'MdePkg,UefiCpuPkg,FatPkg'
-      Build.Targets: 'DEBUG,RELEASE,ONCE'
+      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
     TARGET_MDEMODULE:
       Build.Pkgs: 'MdeModulePkg'
-      Build.Targets: 'DEBUG,ONCE'
+      Build.Targets: 'DEBUG,NO-TARGET'
     TARGET_MDEMODULE2:
       Build.Pkgs: 'MdeModulePkg'
       Build.Targets: 'RELEASE'
     TARGET_OTHER:
       Build.Pkgs: 'NetworkPkg,PcAtChipsetPkg,ShellPkg,FmpDevicePkg'
-      Build.Targets: 'DEBUG,RELEASE,ONCE'
+      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
     TARGET_SECURITY:
       Build.Pkgs: 'SecurityPkg,CryptoPkg'
-      Build.Targets: 'DEBUG,RELEASE,ONCE'
+      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
 
 workspace:
   clean: all
@@ -98,10 +98,14 @@ steps:
       Build\**\BUILDLOG_*.md
       Build\**\CI_*.txt
       Build\**\CI_*.md
+      Build\**\CISETUP.txt
+      Build\**\SETUPLOG.txt
+      Build\**\UPDATE_LOG.txt
       Build\**\TestSuites.xml
       Build\**\BUILD_TOOLS_REPORT.html
       Build\**\OVERRIDELOG.TXT
     flattenFolders: true
+  condition: succeededOrFailed()
 
 # Publish build artifacts to Azure Artifacts/TFS or a file share
 - task: PublishBuildArtifacts@1
@@ -110,3 +114,4 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)'
     artifactName: 'Build Logs $(Build.Pkgs)'
+  condition: succeededOrFailed()

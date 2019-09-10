@@ -44,11 +44,6 @@ class HostUnitTestCompilerPlugin(ICiBuildPlugin):
         return ("Compile and Run Host-Based UnitTests for " + packagename + " on arch " + types,
                 packagename + ".HostUnitTestCompiler." + types)
 
-    ##
-    # Returns a list of edk2 TARGETs that this plugin would like to run on
-    #
-    # If the plugin is not Target specific it should return a list with one element of "ONCE"
-    ##
     def RunsOnTargetList(self):
         return ["DEBUG"]
 
