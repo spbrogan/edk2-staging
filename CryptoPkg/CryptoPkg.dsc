@@ -62,21 +62,27 @@
 
 [LibraryClasses.common.PEIM]
   BaseCryptLib|CryptoPkg/Library/BaseCryptLib/PeiCryptLib.inf
+  BaseCryptLibNull|CryptoPkg/Library/BaseCryptLibNull/PeiCryptLibNull.inf
 
 [LibraryClasses.common.DXE_DRIVER]
   BaseCryptLib|CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
+  BaseCryptLibNull|CryptoPkg/Library/BaseCryptLibNull/BaseCryptLibNull.inf
 
 [LibraryClasses.common.DXE_RUNTIME_DRIVER]
   BaseCryptLib|CryptoPkg/Library/BaseCryptLib/RuntimeCryptLib.inf
+  BaseCryptLibNull|CryptoPkg/Library/BaseCryptLibNull/RuntimeCryptLibNull.inf
 
 [LibraryClasses.common.DXE_SMM_DRIVER]
   BaseCryptLib|CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf
+  BaseCryptLibNull|CryptoPkg/Library/BaseCryptLibNull/SmmCryptLibNull.inf
 
 [LibraryClasses.common.UEFI_DRIVER]
   BaseCryptLib|CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
+  BaseCryptLibNull|CryptoPkg/Library/BaseCryptLibNull/BaseCryptLibNull.inf
 
 [LibraryClasses.common.UEFI_APPLICATION]
   BaseCryptLib|CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
+  BaseCryptLibNull|CryptoPkg/Library/BaseCryptLibNull/BaseCryptLibNull.inf
 
 ################################################################################
 #
@@ -114,7 +120,11 @@
   CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
   CryptoPkg/Library/BaseCryptLib/PeiCryptLib.inf
   CryptoPkg/Library/BaseCryptLib/RuntimeCryptLib.inf
+  CryptoPkg/Library/BaseCryptLibNull/BaseCryptLibNull.inf
+  CryptoPkg/Library/BaseCryptLibNull/PeiCryptLibNull.inf
+  CryptoPkg/Library/BaseCryptLibNull/RuntimeCryptLibNull.inf
   CryptoPkg/Library/TlsLib/TlsLib.inf
+  CryptoPkg/Library/TlsLibNull/TlsLibNull.inf
   CryptoPkg/Library/OpensslLib/OpensslLib.inf
   CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
 
@@ -122,6 +132,7 @@
 
 [Components.IA32, Components.X64]
   CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf
+  CryptoPkg/Library/BaseCryptLibNull/SmmCryptLibNull.inf
 
 [BuildOptions]
   *_*_*_CC_FLAGS = -D DISABLE_NEW_DEPRECATED_INTERFACES
