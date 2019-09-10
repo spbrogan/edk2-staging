@@ -2,7 +2,7 @@
 strategy:
   matrix:
     TARGET_MDE_CPU:
-      Build.Pkgs: 'MdePkg UefiCpuPkg FatPkg'
+      Build.Pkgs: 'MdePkg,UefiCpuPkg,FatPkg'
       Build.Targets: 'DEBUG,RELEASE,ONCE'
     TARGET_MDEMODULE:
       Build.Pkgs: 'MdeModulePkg'
@@ -11,10 +11,10 @@ strategy:
       Build.Pkgs: 'MdeModulePkg'
       Build.Targets: 'RELEASE'
     TARGET_OTHER:
-      Build.Pkgs: 'NetworkPkg PcAtChipsetPkg ShellPkg FmpDevicePkg'
+      Build.Pkgs: 'NetworkPkg,PcAtChipsetPkg,ShellPkg,FmpDevicePkg'
       Build.Targets: 'DEBUG,RELEASE,ONCE'
     TARGET_SECURITY:
-      Build.Pkgs: 'SecurityPkg CryptoPkg'
+      Build.Pkgs: 'SecurityPkg,CryptoPkg'
       Build.Targets: 'DEBUG,RELEASE,ONCE'
 
 workspace:
