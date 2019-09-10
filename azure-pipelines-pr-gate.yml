@@ -7,7 +7,7 @@ strategy:
     TARGET_MDEMODULE:
       Build.Pkgs: 'MdeModulePkg'
       Build.Targets: 'DEBUG,ONCE'
-    TARGET_MDEMODULE:
+    TARGET_MDEMODULE2:
       Build.Pkgs: 'MdeModulePkg'
       Build.Targets: 'RELEASE'
     TARGET_OTHER:
