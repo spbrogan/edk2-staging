@@ -38,8 +38,13 @@ class CompilerPlugin(ICiBuildPlugin):
         target = environment.GetValue("TARGET")
         return ("Compile " + packagename + " " + target, packagename + ".Compiler." + target)
 
-    def IsTargetDependent(self):
-        return True
+    ##
+    # Returns a list of edk2 TARGETs that this plugin would like to run on
+    #
+    # If the plugin is not Target specific it should return a list with one element of "ONCE"
+    ##
+    def RunsOnTargetList(self):
+        return ["DEBUG", "RELEASE"]
 
     ##
     # External function of plugin.  This function is used to perform the task of the MuBuild Plugin
