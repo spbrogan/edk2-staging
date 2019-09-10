@@ -10,8 +10,11 @@ strategy:
     TARGET_MDEMODULE2:
       Build.Pkgs: 'MdeModulePkg'
       Build.Targets: 'RELEASE'
+    TARGET_NETWORK:
+      Build.Pkgs: 'NetworkPkg'
+      Build.Targets: 'DEBUG,RELEASE,ONCE'
     TARGET_OTHER:
-      Build.Pkgs: 'NetworkPkg,PcAtChipsetPkg,ShellPkg,FmpDevicePkg'
+      Build.Pkgs: 'PcAtChipsetPkg,ShellPkg,FmpDevicePkg'
       Build.Targets: 'DEBUG,RELEASE,ONCE'
     TARGET_SECURITY:
       Build.Pkgs: 'SecurityPkg,CryptoPkg'
