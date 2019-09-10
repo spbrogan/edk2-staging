@@ -4,14 +4,17 @@ strategy:
     TARGET_MDE_CPU:
       Build.Pkgs: 'MdePkg,UefiCpuPkg,FatPkg'
       Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
-    TARGET_MDEMODULE:
+    TARGET_MDEMODULE_DEBUG:
       Build.Pkgs: 'MdeModulePkg'
-      Build.Targets: 'DEBUG,NO-TARGET'
-    TARGET_MDEMODULE2:
+      Build.Targets: 'DEBUG'
+    TARGET_MDEMODULE_RELEASE:
       Build.Pkgs: 'MdeModulePkg'
-      Build.Targets: 'RELEASE'
+      Build.Targets: 'RELEASE,NO-TARGET'
+    TARGET_NETWORK:
+      Build.Pkgs: 'NetworkPkg'
+      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
     TARGET_OTHER:
-      Build.Pkgs: 'NetworkPkg,PcAtChipsetPkg,ShellPkg,FmpDevicePkg'
+      Build.Pkgs: 'PcAtChipsetPkg,ShellPkg,FmpDevicePkg'
       Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
     TARGET_SECURITY:
       Build.Pkgs: 'SecurityPkg,CryptoPkg'
