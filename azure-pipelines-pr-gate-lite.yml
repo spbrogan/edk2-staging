@@ -99,7 +99,7 @@ jobs:
       architecture: 'x64'
 
   - script: pip install -r requirements.txt --upgrade
-  displayName: 'Install/Upgrade pip modules'
+    displayName: 'Install/Upgrade pip modules'
 
   #Build repo
   - task: CmdLine@1
