@@ -3,7 +3,7 @@
         "DscPath": "SecurityPkg.dsc"
     },
     "HostUnitTestCompilerPlugin": {
-        "DscPath": "SecurityPkgTest.dsc"
+        # remove for now.  "DscPath": "SecurityPkgTest.dsc"
     },
     "HostUnitTestDscCompleteCheck": {
         "DscPath": "SecurityPkgTest.dsc",
