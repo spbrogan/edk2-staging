@@ -19,7 +19,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
 STATIC
-CONST TLS_CIPHER_MAPPING *
+CONST VOID * // technically TLS_CIPHER_MAPPING type
 TlsGetCipherMapping (
   IN     UINT16                   CipherId
   )
@@ -633,4 +633,3 @@ TlsGetCertRevocationList (
 {
   return EFI_UNSUPPORTED;
 }
-
