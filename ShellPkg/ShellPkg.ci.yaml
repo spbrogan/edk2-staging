@@ -15,8 +15,10 @@
     "DependencyCheck": {
         "AcceptableDependencies": [
             "MdePkg/MdePkg.dec",
-            "MdeModulePkg/MdeModulePkg.dec"
-        ], 
+            "MdeModulePkg/MdeModulePkg.dec",
+            "ShellPkg/ShellPkg.dec",
+            "NetworkPkg/NetworkPkg.dec"
+        ],
         "IgnoreInf": []
     },
     "DscCompleteCheck": {

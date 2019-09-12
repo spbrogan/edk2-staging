@@ -17,7 +17,8 @@
             "MdePkg/MdePkg.dec",
             "MdeModulePkg/MdeModulePkg.dec",
             "FmpDevicePkg/FmpDevicePkg.dec",
-            "SecurityPkg/SecurityPkg.dec"
+            "SecurityPkg/SecurityPkg.dec",
+            "CryptoPkg/CryptoPkg.dec"
         ], 
         "IgnoreInf": []
     },
