@@ -9,11 +9,12 @@ from edk2toolext.environment.plugintypes.ci_build_plugin import ICiBuildPlugin
 from edk2toollib.uefi.edk2.parsers.dec_parser import DecParser
 from edk2toollib.uefi.edk2.parsers.inf_parser import InfParser
 from edk2toolext.environment.var_dict import VarDict
+import glob
 
 
 class LibraryClassCheck(ICiBuildPlugin):
     """
-    A CiBuildPlugin that scans the code tree and library classes for undeclared 
+    A CiBuildPlugin that scans the code tree and library classes for undeclared
     files
 
     Configuration options:
@@ -26,12 +27,12 @@ class LibraryClassCheck(ICiBuildPlugin):
         """ Provide the testcase name and classname for use in reporting
             testclassname: a descriptive string for the testcase can include whitespace
             classname: should be patterned <packagename>.<plugin>.<optionally any unique condition>
-            
+
             Args:
               packagename: string containing name of package to build
               environment: The VarDict for the test to run in
             Returns:
-                a tuple containing the testcase name and the classname 
+                a tuple containing the testcase name and the classname
                 (testcasename, classname)
         """
         return ("Check library class declarations in " + packagename, packagename + ".LibraryClassCheck")
@@ -71,7 +72,7 @@ class LibraryClassCheck(ICiBuildPlugin):
             return -1
 
         ## Get all header files in include/library
-        AbsLibraryIncludePath = os.path.join(abs_pkg_path, "Include", "Library") # this is fragile
+        AbsLibraryIncludePath = abs_pkg_path # this is fragile
         if(not os.path.isdir(AbsLibraryIncludePath)):
             tc.SetSkipped()
             tc.LogStdError(f"No known public header folder for library files {AbsLibraryIncludePath}")
@@ -80,6 +81,8 @@ class LibraryClassCheck(ICiBuildPlugin):
         hfiles = self.WalkDirectoryForExtension([".h"], AbsLibraryIncludePath)
         hfiles = [os.path.relpath(x,abs_pkg_path) for x in hfiles]  # make package root relative path
         hfiles = [x.replace("\\", "/") for x in hfiles]  # make package relative path
+        # only accept paths that have "include" in the first directory
+        hfiles = [x for x in hfiles if "include" in x.split(os.pathsep)[0].lower()]
 
         # Remove ignored paths
         if "IgnoreHeaderFile" in pkgconfig:
