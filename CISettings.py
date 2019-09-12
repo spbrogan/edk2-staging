@@ -131,9 +131,9 @@ class Settings(CiBuildSettingsManager, UpdateSettingsManager, SetupSettingsManag
     def GetRequiredRepos(self):
         rr = ("ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3",
               "CmockaHostUnitTestPkg/Library/CmockaLib/cmocka")
-        NeedsOpenSSL = {"CryptoPkg", "SecurityPkg", "NetworkPkg"}
-        if (len(NeedsOpenSSL - set(self.ActualPackages)) != len(NeedsOpenSSL)):
-            rr += ("CryptoPkg/Library/OpensslLib/openssl",)
+        #NeedsOpenSSL = {"CryptoPkg", "SecurityPkg", "NetworkPkg"}
+        #if (len(NeedsOpenSSL - set(self.ActualPackages)) != len(NeedsOpenSSL)):
+        rr += ("CryptoPkg/Library/OpensslLib/openssl",)
         return rr
 
     def GetName(self):
