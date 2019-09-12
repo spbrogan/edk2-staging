@@ -82,7 +82,8 @@ class LibraryClassCheck(ICiBuildPlugin):
         hfiles = [os.path.relpath(x,abs_pkg_path) for x in hfiles]  # make package root relative path
         hfiles = [x.replace("\\", "/") for x in hfiles]  # make package relative path
         # only accept paths that have "include" in the first directory
-        hfiles = [x for x in hfiles if "include" in x.split(os.pathsep)[0].lower()]
+        hfiles = [x for x in hfiles if len(x.split("/")) > 1]
+        hfiles = [x for x in hfiles if "library" == x.split("/")[1].lower()]
 
         # Remove ignored paths
         if "IgnoreHeaderFile" in pkgconfig:
