@@ -91,4 +91,6 @@
     SmmCpuFeaturesLib|UefiCpuPkg/Library/SmmCpuFeaturesLib/SmmCpuFeaturesLib.inf
   }
 
+  UefiCpuPkg/HostLibrary/PiSmmCpuDxeSmmHost/PiSmmCpuDxeSmm.inf
+
 !include UefiHostUnitTestPkg/UefiHostUnitTestBuildOption.dsc
