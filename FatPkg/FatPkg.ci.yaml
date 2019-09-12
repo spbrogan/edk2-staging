@@ -23,7 +23,7 @@
         "IgnoreInf": []
     },
     "DscCompleteCheck": {
-        "IgnoreInf": [],
+        "IgnoreInf": ["FatPkg/HostLibrary/FatPeiHost/FatPeiHost.inf"],  # this is not both host and PEIM. edk2 bug
         "DscPath": "FatPkg.dsc"   
     },
     "HostUnitTestDscCompleteCheck": {
