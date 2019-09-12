@@ -20,6 +20,9 @@
             "SecurityPkg/SecurityPkg.dec",
             "CryptoPkg/CryptoPkg.dec"
         ], 
+        "AcceptableDependencies-UEFI_APPLICATION":[ # for host based unit tests
+            "ShellPkg/ShellPkg.dec"
+        ],
         "IgnoreInf": []
     },
     "DscCompleteCheck": {

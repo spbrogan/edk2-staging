@@ -21,7 +21,7 @@
   DEFINE UNIT_TEST_FRAMEWORK_MODE = HOST
 
 [PcdsFixedAtBuild]
-!if $(UNIT_TEST_XML_MODE)
+!if $(UNIT_TEST_XML_MODE) == TRUE
   gUefiHostUnitTestPkgTokenSpaceGuid.HostUnitTestMode|0x1
 !endif
 
