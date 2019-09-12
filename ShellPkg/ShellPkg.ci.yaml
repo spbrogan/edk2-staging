@@ -23,7 +23,11 @@
     },
     "DscCompleteCheck": {
         "DscPath": "ShellPkg.dsc",
-        "IgnoreInf": []
+        "IgnoreInf": [
+            "ShellPkg/Application/ShellCTestApp/ShellCTestApp.inf",
+            "ShellPkg/Application/ShellExecTestApp/SA.inf",
+            "ShellPkg/Application/ShellSortTestApp/ShellSortTestApp.inf"
+            ]
     },
     "GuidCheck": {
         "IgnoreGuidName": [
