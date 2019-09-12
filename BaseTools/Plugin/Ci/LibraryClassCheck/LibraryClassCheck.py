@@ -81,15 +81,18 @@ class LibraryClassCheck(ICiBuildPlugin):
             ## Get all header files in the library folder
             AbsLibraryIncludePath = os.path.join(abs_pkg_path, includepath, "Library")
             if(not os.path.isdir(AbsLibraryIncludePath)):
-                tc.SetSkipped()
-                tc.LogStdError(f"invalid include folder for library files {AbsLibraryIncludePath}")
-                return -1
+                continue
 
             hfiles = self.WalkDirectoryForExtension([".h"], AbsLibraryIncludePath)
             hfiles = [os.path.relpath(x,abs_pkg_path) for x in hfiles]  # make package root relative path
             hfiles = [x.replace("\\", "/") for x in hfiles]  # make package relative path
 
             AllHeaderFiles.extend(hfiles)
+
+        if len(AllHeaderFiles) == 0:
+            tc.SetSkipped()
+            tc.LogStdError(f"No Library include folder in any Include path")
+            return -1
 
         # Remove ignored paths
         if "IgnoreHeaderFile" in pkgconfig:
