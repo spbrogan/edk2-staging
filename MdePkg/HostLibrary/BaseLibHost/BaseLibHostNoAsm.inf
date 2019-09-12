@@ -10,7 +10,7 @@
 [Defines]
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = BaseLibHost
-  FILE_GUID                      = FA4A8DE0-8D55-44AA-8368-07D24BDA6A7D
+  FILE_GUID                      = 32334492-1db2-495d-a38f-17d8b38c089d
   MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = BaseLib | HOST_APPLICATION
