@@ -116,9 +116,3 @@ class CharEncodingCheck(ICiBuildPlugin):
             return False
 
         return True
-
-    def ValidateConfig(self, config, name):
-        validOptions = ["IgnoreFiles", "skip"]
-        for key in config:
-            if key not in validOptions:
-                raise Exception("Invalid config option {0} in {1}".format(key, name))

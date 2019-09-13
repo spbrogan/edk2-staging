@@ -9,7 +9,7 @@
 [Defines]
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = SmmMemLibHost
-  FILE_GUID                      = 7F23F839-C81C-4B89-8132-69746FCBCE52
+  FILE_GUID                      = c004efbe-ff36-4730-9c2d-24462af593ec
   MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = SmmMemLib | HOST_APPLICATION

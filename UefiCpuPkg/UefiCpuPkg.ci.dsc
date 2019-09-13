@@ -167,5 +167,9 @@ HwResetSystemLib|MdeModulePkg/Library/BaseResetSystemLibNull/BaseResetSystemLibN
   }
   UefiCpuPkg/Universal/Acpi/S3Resume2Pei/S3Resume2Pei.inf
 
+  UefiCpuPkg/Library/CpuTimerLib/BaseCpuTimerLib.inf
+  UefiCpuPkg/Library/CpuTimerLib/DxeCpuTimerLib.inf
+  UefiCpuPkg/Library/CpuTimerLib/PeiCpuTimerLib.inf
+
 [BuildOptions]
   *_*_*_CC_FLAGS = -D DISABLE_NEW_DEPRECATED_INTERFACES

@@ -2,13 +2,26 @@
 strategy:
   matrix:
     TARGET_MDE_CPU:
-      Build.Pkgs: 'MdePkg UefiCpuPkg FatPkg'
-    TARGET_MDEMODULE:
+      Build.Pkgs: 'MdePkg,UefiCpuPkg,FatPkg'
+      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
+    TARGET_MDEMODULE_DEBUG:
       Build.Pkgs: 'MdeModulePkg'
+      Build.Targets: 'DEBUG'
+    TARGET_MDEMODULE_RELEASE:
+      Build.Pkgs: 'MdeModulePkg'
+      Build.Targets: 'RELEASE,NO-TARGET'
+    TARGET_NETWORK:
+      Build.Pkgs: 'NetworkPkg'
+      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
     TARGET_OTHER:
-      Build.Pkgs: 'NetworkPkg PcAtChipsetPkg ShellPkg FmpDevicePkg'
+      Build.Pkgs: 'PcAtChipsetPkg,ShellPkg,FmpDevicePkg'
+      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
+    TARGET_CRYPTO:
+      Build.Pkgs: 'CryptoPkg'
+      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
     TARGET_SECURITY:
-      Build.Pkgs: 'SecurityPkg CryptoPkg'
+      Build.Pkgs: 'SecurityPkg'
+      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
 
 workspace:
   clean: all
@@ -20,7 +33,7 @@ steps:
 - checkout: self
   clean: true
   fetchDepth: 1
-  
+
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.7.x'
@@ -37,19 +50,19 @@ steps:
   displayName: Setup $(Build.Pkgs)
   inputs:
     filename: stuart_setup
-    arguments: -c CISettings.py --Tool_Chain VS2019
+    arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019
 
 - task: CmdLine@1
   displayName: Update $(Build.Pkgs)
   inputs:
     filename: stuart_update
-    arguments: -c CISettings.py --Tool_Chain VS2019
+    arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019
 
 - task: CmdLine@1
   displayName: Build and Test $(Build.Pkgs)
   inputs:
     filename: stuart_ci_build
-    arguments: -c CISettings.py --Tool_Chain VS2019 -p $(Build.Pkgs)
+    arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019
 
 # Publish Test Results to Azure Pipelines/TFS
 - task: PublishTestResults@2
@@ -91,10 +104,14 @@ steps:
       Build\**\BUILDLOG_*.md
       Build\**\CI_*.txt
       Build\**\CI_*.md
+      Build\**\CISETUP.txt
+      Build\**\SETUPLOG.txt
+      Build\**\UPDATE_LOG.txt
       Build\**\TestSuites.xml
       Build\**\BUILD_TOOLS_REPORT.html
       Build\**\OVERRIDELOG.TXT
     flattenFolders: true
+  condition: succeededOrFailed()
 
 # Publish build artifacts to Azure Artifacts/TFS or a file share
 - task: PublishBuildArtifacts@1
@@ -103,3 +120,4 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)'
     artifactName: 'Build Logs $(Build.Pkgs)'
+  condition: succeededOrFailed()

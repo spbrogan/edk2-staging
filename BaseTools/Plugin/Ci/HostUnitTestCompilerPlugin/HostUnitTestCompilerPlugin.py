@@ -44,8 +44,8 @@ class HostUnitTestCompilerPlugin(ICiBuildPlugin):
         return ("Compile and Run Host-Based UnitTests for " + packagename + " on arch " + types,
                 packagename + ".HostUnitTestCompiler." + types)
 
-    def IsTargetDependent(self):
-        return False
+    def RunsOnTargetList(self):
+        return ["NOOPT"]
 
     #
     # Find the intersection of application types that can run on this host

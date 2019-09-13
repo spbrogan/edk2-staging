@@ -1,6 +1,7 @@
 Build/
 tags/
 .DS_Store
+*.pyc
 # Ignore SelfDescribingEnvironment artifacts.
 *_extdep/
 

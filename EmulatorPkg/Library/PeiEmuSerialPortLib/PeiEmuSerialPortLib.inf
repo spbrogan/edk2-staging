@@ -12,7 +12,7 @@
 [Defines]
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = PeiEmuSerialPortLibNull
-  FILE_GUID                      = E4541241-8897-411a-91F8-7D7E45837146
+  FILE_GUID                      = 0fdf6e98-669d-487d-9f6e-6113287a7fd2
   MODULE_TYPE                    = PEIM
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = SerialPortLib| PEI_CORE PEIM SEC

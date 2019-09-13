@@ -3,7 +3,8 @@
         "DscPath": "FatPkg.dsc"
     },
     "HostUnitTestCompilerPlugin": {
-        "DscPath": "FatPkgTest.dsc"
+        "DscPath": "FatPkgTest.dsc",
+        "skip": "True"  # edk2 tests don't compile
     },
     "CharEncodingCheck": {
         "IgnoreFiles": []
@@ -11,12 +12,18 @@
     "DependencyCheck": {
         "AcceptableDependencies": [
             "MdePkg/MdePkg.dec",
-            "MsUnitTestPkg/MsUnitTestPkg.dec"
-        ], 
+            "MdeModulePkg/MdeModulePkg.dec",
+        ],
+        "AcceptableDependencies-HOST_APPLICATION":[ # for host based unit tests
+            "MsUnitTestPkg/MsUnitTestPkg.dec",
+            "UefiHostTestPkg/UefiHostTestPkg.dec",
+            "UefiHostUnitTestPkg/UefiHostUnitTestPkg.dec",
+            "CmockaHostUnitTestPkg/CmockaHostUnitTestPkg.dec"
+        ],
         "IgnoreInf": []
     },
     "DscCompleteCheck": {
-        "IgnoreInf": [],
+        "IgnoreInf": ["FatPkg/HostLibrary/FatPeiHost/FatPeiHost.inf"],  # this is not both host and PEIM. edk2 bug
         "DscPath": "FatPkg.dsc"   
     },
     "HostUnitTestDscCompleteCheck": {

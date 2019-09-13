@@ -114,10 +114,3 @@ class DependencyCheck(ICiBuildPlugin):
         else:
             tc.SetSuccess()
         return overall_status
-
-    def ValidateConfig(self, config, name):
-        validOptions = ["AcceptableDependencies", "skip", "IgnoreInf"]
-        for key in config:
-            if key not in validOptions:
-                if not key.startswith("AcceptableDependencies-"):
-                    raise Exception("Invalid config option {0} in {1}".format(key, name))

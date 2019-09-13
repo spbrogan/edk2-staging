@@ -1,6 +1,6 @@
 {
     "CompilerPlugin": {
-        "DscPath": "NetworkPkg.dsc"
+        "DscPath": "ShellPkg.dsc"
     },
     "HostUnitTestCompilerPlugin": {
         "DscPath": ""
@@ -16,29 +16,27 @@
         "AcceptableDependencies": [
             "MdePkg/MdePkg.dec",
             "MdeModulePkg/MdeModulePkg.dec",
-            "NetworkPkg/NetworkPkg.dec",
-            "SecurityPkg/SecurityPkg.dec"
-        ], 
+            "ShellPkg/ShellPkg.dec",
+            "NetworkPkg/NetworkPkg.dec"
+        ],
         "IgnoreInf": []
     },
     "DscCompleteCheck": {
-        "DscPath": "NetworkPkg.dsc",
-        "IgnoreInf": []
+        "DscPath": "ShellPkg.dsc",
+        "IgnoreInf": [
+            "ShellPkg/Application/ShellCTestApp/ShellCTestApp.inf",
+            "ShellPkg/Application/ShellExecTestApp/SA.inf",
+            "ShellPkg/Application/ShellSortTestApp/ShellSortTestApp.inf"
+            ]
     },
     "GuidCheck": {
-        "IgnoreGuidName": [],
+        "IgnoreGuidName": [
+            "Shell" # shell module inf file guid matches gUefiShellFileGuid by design
+        ],
         "IgnoreGuidValue": [],
         "IgnoreFoldersAndFiles": []
     },
     "LibraryClassCheck": {
         "IgnoreHeaderFile": []
-    },
-    "Defines": {
-        "BLD_*_NETWORK_ENABLE": "TRUE",
-        "BLD_*_NETWORK_IP4_ENABLE": "TRUE",
-        "BLD_*_NETWORK_IP6_ENABLE": "TRUE",
-        "BLD_*_NETWORK_TLS_ENABLE": "TRUE",
-        "BLD_*_NETWORK_HTTP_BOOT_ENABLE": "TRUE",
-        "BLD_*_NETWORK_ISCSI_ENABLE": "TRUE",
     }
 }

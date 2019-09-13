@@ -10,9 +10,9 @@
   PLATFORM_GUID                  = 27BD7BAE-606F-4BDE-9216-CD1826F44CA9
   PLATFORM_VERSION               = 0.1
   DSC_SPECIFICATION              = 0x00010005
-  OUTPUT_DIRECTORY               = Build/UefiCpuPkg
+  OUTPUT_DIRECTORY               = Build/UefiCpuPkg_Host
   SUPPORTED_ARCHITECTURES        = IA32|X64
-  BUILD_TARGETS                  = DEBUG|RELEASE
+  BUILD_TARGETS                  = NOOPT
   SKUID_IDENTIFIER               = DEFAULT
 
   DEFINE UNIT_TEST_FRAMEWORK_MODE = HOST
@@ -90,5 +90,7 @@
     CpuExceptionHandlerLib|UefiCpuPkg/Library/CpuExceptionHandlerLib/SmmCpuExceptionHandlerLib.inf
     SmmCpuFeaturesLib|UefiCpuPkg/Library/SmmCpuFeaturesLib/SmmCpuFeaturesLib.inf
   }
+
+  UefiCpuPkg/HostLibrary/PiSmmCpuDxeSmmHost/PiSmmCpuDxeSmm.inf
 
 !include UefiHostUnitTestPkg/UefiHostUnitTestBuildOption.dsc

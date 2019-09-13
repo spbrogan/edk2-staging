@@ -13,7 +13,7 @@ from edk2toolext.environment.var_dict import VarDict
 
 class LibraryClassCheck(ICiBuildPlugin):
     """
-    A CiBuildPlugin that scans the code tree and library classes for undeclared 
+    A CiBuildPlugin that scans the code tree and library classes for undeclared
     files
 
     Configuration options:
@@ -26,12 +26,12 @@ class LibraryClassCheck(ICiBuildPlugin):
         """ Provide the testcase name and classname for use in reporting
             testclassname: a descriptive string for the testcase can include whitespace
             classname: should be patterned <packagename>.<plugin>.<optionally any unique condition>
-            
+
             Args:
               packagename: string containing name of package to build
               environment: The VarDict for the test to run in
             Returns:
-                a tuple containing the testcase name and the classname 
+                a tuple containing the testcase name and the classname
                 (testcasename, classname)
         """
         return ("Check library class declarations in " + packagename, packagename + ".LibraryClassCheck")
@@ -70,46 +70,53 @@ class LibraryClassCheck(ICiBuildPlugin):
             tc.LogStdError("No DEC file {0} in package {1}".format(abs_dec_path, abs_pkg_path))
             return -1
 
-        ## Get all header files in include/library
-        AbsLibraryIncludePath = os.path.join(abs_pkg_path, "Include", "Library") # this is fragile
-        if(not os.path.isdir(AbsLibraryIncludePath)):
-            tc.SetSkipped()
-            tc.LogStdError(f"No known public header folder for library files {AbsLibraryIncludePath}")
-            return -1
+        # Get all include folders
+        dec = DecParser()
+        dec.SetBaseAbsPath(Edk2pathObj.WorkspacePath).SetPackagePaths(Edk2pathObj.PackagePathList)
+        dec.ParseFile(wsr_dec_path)
 
-        hfiles = self.WalkDirectoryForExtension([".h"], AbsLibraryIncludePath)
-        hfiles = [os.path.relpath(x,abs_pkg_path) for x in hfiles]  # make package root relative path
-        hfiles = [x.replace("\\", "/") for x in hfiles]  # make package relative path
+        AllHeaderFiles = []
+
+        for includepath in dec.IncludePaths:
+            ## Get all header files in the library folder
+            AbsLibraryIncludePath = os.path.join(abs_pkg_path, includepath, "Library")
+            if(not os.path.isdir(AbsLibraryIncludePath)):
+                continue
+
+            hfiles = self.WalkDirectoryForExtension([".h"], AbsLibraryIncludePath)
+            hfiles = [os.path.relpath(x,abs_pkg_path) for x in hfiles]  # make package root relative path
+            hfiles = [x.replace("\\", "/") for x in hfiles]  # make package relative path
+
+            AllHeaderFiles.extend(hfiles)
+
+        if len(AllHeaderFiles) == 0:
+            tc.SetSkipped()
+            tc.LogStdError(f"No Library include folder in any Include path")
+            return -1
 
         # Remove ignored paths
         if "IgnoreHeaderFile" in pkgconfig:
             for a in pkgconfig["IgnoreHeaderFile"]:
                 try:
                     tc.LogStdOut("Ignoring Library Header File {0}".format(a))
-                    hfiles.remove(a)
+                    AllHeaderFiles.remove(a)
                 except:
                     tc.LogStdError("LibraryClassCheck.IgnoreHeaderFile -> {0} not found.  Invalid Header File".format(a))
                     logging.info("LibraryClassCheck.IgnoreHeaderFile -> {0} not found.  Invalid Header File".format(a))
-
-
-
-        dec = DecParser()
-        dec.SetBaseAbsPath(Edk2pathObj.WorkspacePath).SetPackagePaths(Edk2pathObj.PackagePathList)
-        dec.ParseFile(wsr_dec_path)
 
         ## Attempt to find library classes
         for lcd in dec.LibraryClasses:
             logging.debug(f"Looking for Library Class {lcd.path}")
             try:
-                hfiles.remove(lcd.path)
+                AllHeaderFiles.remove(lcd.path)
 
             except ValueError:
                 tc.LogStdError(f"Library {lcd.name} with path {lcd.path} not found in package filesystem")
                 logging.error(f"Library {lcd.name} with path {lcd.path} not found in package filesystem")
                 overall_status += + 1
 
-        ## any remaining hfiles are not described in DEC
-        for h in hfiles:
+        ## any remaining AllHeaderFiles are not described in DEC
+        for h in AllHeaderFiles:
             tc.LogStdError(f"Library Header File {h} not declared in package DEC {wsr_dec_path}")
             logging.error(f"Library Header File {h} not declared in package DEC {wsr_dec_path}")
             overall_status += 1
