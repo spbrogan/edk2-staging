@@ -47,34 +47,9 @@ jobs:
   #Use matrix to speed up the build process
   strategy:
     matrix:
-      TARGET_MDE_CPU:
-        Build.Pkgs: 'MdePkg,UefiCpuPkg'
-        Build.Targets: 'DEBUG,RELEASE,NOOPT,NO-TARGET'
-      TARGET_MDEMODULE_DEBUG:
-        Build.Pkgs: 'MdeModulePkg'
-        Build.Targets: 'DEBUG'
-      TARGET_MDEMODULE_RELEASE:
-        Build.Pkgs: 'MdeModulePkg'
-        Build.Targets: 'RELEASE,NO-TARGET'
-      TARGET_MDEMODULE_NOOPT_HOST:
-        Build.Pkgs: 'MdeModulePkg'
-        Build.Targets: 'NOOPT'
-      TARGET_NETWORK:
-        Build.Pkgs: 'NetworkPkg'
-        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
-      TARGET_OTHER:
-        Build.Pkgs: 'PcAtChipsetPkg,ShellPkg'
-        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
-      TARGET_FMP:
-        Build.Pkgs: 'FmpDevicePkg,FatPkg'
-        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
-      TARGET_CRYPTO:
-        Build.Pkgs: 'CryptoPkg'
-        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
-      TARGET_SECURITY:
-        Build.Pkgs: 'SecurityPkg'
-        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
-
+      TARGET_ALL_NO_TARGET:
+        Build.Pkgs: 'MdePkg,MdeModulePkg,UefiCpuPkg,NetworkPkg,PcAtChipsetPkg,ShellPkg,FmpDevicePkg,FatPkg,CryptoPkg,SecurityPkg'
+        Build.Targets: 'NO-TARGET'
   workspace:
     clean: all
 
@@ -124,7 +99,7 @@ jobs:
     displayName: Build and Test $(Build.Pkgs)
     inputs:
       filename: stuart_ci_build
-      arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019 CompilerPlugin=skip
+      arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019 CompilerPlugin=skip HostUnitTestCompilerPlugin=skip
 
   # Publish Test Results to Azure Pipelines/TFS
   - task: PublishTestResults@2
