@@ -1,123 +1,185 @@
-#Use matrix to speed up the build process
-strategy:
-  matrix:
-    TARGET_MDE_CPU:
-      Build.Pkgs: 'MdePkg,UefiCpuPkg,FatPkg'
-      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
-    TARGET_MDEMODULE_DEBUG:
-      Build.Pkgs: 'MdeModulePkg'
-      Build.Targets: 'DEBUG'
-    TARGET_MDEMODULE_RELEASE:
-      Build.Pkgs: 'MdeModulePkg'
-      Build.Targets: 'RELEASE,NO-TARGET'
-    TARGET_NETWORK:
-      Build.Pkgs: 'NetworkPkg'
-      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
-    TARGET_OTHER:
-      Build.Pkgs: 'PcAtChipsetPkg,ShellPkg,FmpDevicePkg'
-      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
-    TARGET_CRYPTO:
-      Build.Pkgs: 'CryptoPkg'
-      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
-    TARGET_SECURITY:
-      Build.Pkgs: 'SecurityPkg'
-      Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
+variables:
+  OMNICACHE_PATH : $(Pipeline.Workspace)/OmniCache
+jobs:
+- job: Setup_Maintain_Omnicache
+  condition: eq(variables['Build.Reason'], 'Schedule')
+  workspace:
+    clean: all
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - checkout: none
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.7.x'
+      architecture: 'x64'
 
-workspace:
-  clean: all
+  - script: pip install --upgrade edk2-pytool-extensions
+    displayName: 'Get Omnicache tool'
 
-pool:
-  vmImage: 'windows-latest'
+   #Start the Omnicache
+  - powershell: |
+      $date = get-date -UFormat %Y%W
+      echo "##vso[task.setvariable variable=OmniCacheKey;isOutput=true]seancache$($date)"
+    displayName: Get Cache Key for Omnicache
+    name: Omnicache
+    workingDirectory: $(build.sourcesDirectory)
+    failOnStderr: false
 
-steps:
-- checkout: self
-  clean: true
-  fetchDepth: 1
+  - task: CacheBeta@0
+    inputs:
+      key: $(Omnicache.OmniCacheKey)
+      path: $(OMNICACHE_PATH)
+      cacheHitVar: OMNICACHE_RESTORED
+    displayName: Retrieve Omnicache
 
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.7.x'
-    architecture: 'x64'
+  - task: CmdLine@1
+    displayName: "Setup Omnicache"
+    condition: and(succeeded(), ne(variables.OMNICACHE_RESTORED, 'true'))
+    inputs:
+      filename: "omnicache"
+      arguments: "-a openssl https://github.com/openssl/openssl.git true -a borningssl https://boringssl.googlesource.com/boringssl -a pyca https://github.com/pyca/cryptography.git -a krb5 https://github.com/krb5/krb5 -a softfloat https://github.com/ucb-bar/berkeley-softfloat-3.git -a cmocka https://git.cryptomilk.org/projects/cmocka.git --init $(OMNICACHE_PATH)"
 
-- script: python -m pip install --upgrade pip
-  displayName: 'Install/Upgrade pip'
+# Build step
+- job: Build
+  #dependsOn: Setup_Maintain_Omnicache
+ 
+  #Use matrix to speed up the build process
+  strategy:
+    matrix:
+      TARGET_MDE_CPU:
+        Build.Pkgs: 'MdePkg,UefiCpuPkg'
+        Build.Targets: 'DEBUG,RELEASE,NOOPT,NO-TARGET'
+      TARGET_MDEMODULE_DEBUG:
+        Build.Pkgs: 'MdeModulePkg'
+        Build.Targets: 'DEBUG'
+      TARGET_MDEMODULE_RELEASE:
+        Build.Pkgs: 'MdeModulePkg'
+        Build.Targets: 'RELEASE,NO-TARGET'
+      TARGET_MDEMODULE_NOOPT_HOST:
+        Build.Pkgs: 'MdeModulePkg'
+        Build.Targets: 'NOOPT'
+      TARGET_NETWORK:
+        Build.Pkgs: 'NetworkPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
+      TARGET_OTHER:
+        Build.Pkgs: 'PcAtChipsetPkg,ShellPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
+      TARGET_FMP:
+        Build.Pkgs: 'FmpDevicePkg,FatPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
+      TARGET_CRYPTO:
+        Build.Pkgs: 'CryptoPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
+      TARGET_SECURITY:
+        Build.Pkgs: 'SecurityPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
 
-- script: pip install -r requirements.txt --upgrade
-  displayName: 'Install/Upgrade pip modules'
+  workspace:
+    clean: all
 
-#Build repo
-- task: CmdLine@1
-  displayName: Setup $(Build.Pkgs)
-  inputs:
-    filename: stuart_setup
-    arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019
+  pool:
+    vmImage: 'windows-latest'
 
-- task: CmdLine@1
-  displayName: Update $(Build.Pkgs)
-  inputs:
-    filename: stuart_update
-    arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019
+  steps:
+  - checkout: self
+    clean: true
+    fetchDepth: 1
 
-- task: CmdLine@1
-  displayName: Build and Test $(Build.Pkgs)
-  inputs:
-    filename: stuart_ci_build
-    arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019
+  - powershell: |
+      $date = get-date -UFormat %Y%W
+      echo "##vso[task.setvariable variable=OmniCacheKey;isOutput=true]seancache$($date)"
+    displayName: Get Cache Key for Omnicache
+    name: Omnicache
+    workingDirectory: $(build.sourcesDirectory)
+    failOnStderr: false
 
-# Publish Test Results to Azure Pipelines/TFS
-- task: PublishTestResults@2
-  displayName: 'Publish junit test results'
-  continueOnError: true
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
-    testResultsFiles: 'Build/TestSuites.xml'
-    #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-    mergeTestResults: true # Optional
-    testRunTitle: $(Build.Pkgs) # Optional
-    #buildPlatform: # Optional
-    #buildConfiguration: # Optional
-    publishRunAttachments: true # Optional
+  - task: CacheBeta@0
+    inputs:
+      key: $(Omnicache.OmniCacheKey)
+      path: $(OMNICACHE_PATH)
+    
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.7.x'
+      architecture: 'x64'
 
-# Publish Test Results to Azure Pipelines/TFS
-- task: PublishTestResults@2
-  displayName: 'Publish host based test results for $(Build.Pkgs)'
-  continueOnError: true
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
-    testResultsFiles: 'Build/**/*.result.xml'
-    #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-    mergeTestResults: false # Optional
-    testRunTitle: $(Build.Pkgs) # Optional
-    #buildPlatform: # Optional
-    #buildConfiguration: # Optional
-    publishRunAttachments: true # Optional
+  - script: pip install -r requirements.txt --upgrade
+    displayName: 'Install/Upgrade pip modules'
 
-# Copy the build logs to the artifact staging directory
-- task: CopyFiles@2
-  displayName: "Copy build logs"
-  inputs:
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-    contents: |
-      Build\**\BUILDLOG_*.txt
-      Build\**\BUILDLOG_*.md
-      Build\**\CI_*.txt
-      Build\**\CI_*.md
-      Build\**\CISETUP.txt
-      Build\**\SETUPLOG.txt
-      Build\**\UPDATE_LOG.txt
-      Build\**\TestSuites.xml
-      Build\**\BUILD_TOOLS_REPORT.html
-      Build\**\OVERRIDELOG.TXT
-    flattenFolders: true
-  condition: succeededOrFailed()
+  #Build repo
+  - task: CmdLine@1
+    displayName: Setup $(Build.Pkgs)
+    inputs:
+      filename: stuart_setup
+      arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019
 
-# Publish build artifacts to Azure Artifacts/TFS or a file share
-- task: PublishBuildArtifacts@1
-  continueOnError: true
-  displayName: "Publish build logs"
-  inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: 'Build Logs $(Build.Pkgs)'
-  condition: succeededOrFailed()
+  - task: CmdLine@1
+    displayName: Update $(Build.Pkgs)
+    inputs:
+      filename: stuart_update
+      arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019
+
+  - task: CmdLine@1
+    displayName: Build and Test $(Build.Pkgs)
+    inputs:
+      filename: stuart_ci_build
+      arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019
+
+  # Publish Test Results to Azure Pipelines/TFS
+  - task: PublishTestResults@2
+    displayName: 'Publish junit test results'
+    continueOnError: true
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
+      testResultsFiles: 'Build/TestSuites.xml'
+      #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
+      mergeTestResults: true # Optional
+      testRunTitle: $(System.JobName) # Optional
+      #buildPlatform: # Optional
+      #buildConfiguration: # Optional
+      publishRunAttachments: true # Optional
+
+  # Publish Test Results to Azure Pipelines/TFS
+  - task: PublishTestResults@2
+    displayName: 'Publish host based test results for $(System.JobName)'
+    continueOnError: true
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
+      testResultsFiles: 'Build/**/*.result.xml'
+      #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
+      mergeTestResults: false # Optional
+      testRunTitle: $(Build.Pkgs) # Optional
+      #buildPlatform: # Optional
+      #buildConfiguration: # Optional
+      publishRunAttachments: true # Optional
+
+  # Copy the build logs to the artifact staging directory
+  - task: CopyFiles@2
+    displayName: "Copy build logs"
+    inputs:
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+      contents: |
+        Build\**\BUILDLOG_*.txt
+        Build\**\BUILDLOG_*.md
+        Build\**\CI_*.txt
+        Build\**\CI_*.md
+        Build\**\CISETUP.txt
+        Build\**\SETUPLOG.txt
+        Build\**\UPDATE_LOG.txt
+        Build\**\TestSuites.xml
+        Build\**\BUILD_TOOLS_REPORT.html
+        Build\**\OVERRIDELOG.TXT
+      flattenFolders: true
+    condition: succeededOrFailed()
+
+  # Publish build artifacts to Azure Artifacts/TFS or a file share
+  - task: PublishBuildArtifacts@1
+    continueOnError: true
+    displayName: "Publish build logs"
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: 'Build Logs $(System.JobName)'
+    condition: succeededOrFailed()

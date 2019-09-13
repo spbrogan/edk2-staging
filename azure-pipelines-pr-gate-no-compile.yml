@@ -124,7 +124,7 @@ jobs:
     displayName: Build and Test $(Build.Pkgs)
     inputs:
       filename: stuart_ci_build
-      arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019
+      arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=VS2019 CompilerPlugin=skip
 
   # Publish Test Results to Azure Pipelines/TFS
   - task: PublishTestResults@2
@@ -136,14 +136,14 @@ jobs:
       testResultsFiles: 'Build/TestSuites.xml'
       #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
       mergeTestResults: true # Optional
-      testRunTitle: $(Build.Pkgs) # Optional
+      testRunTitle: $(System.JobName) # Optional
       #buildPlatform: # Optional
       #buildConfiguration: # Optional
       publishRunAttachments: true # Optional
 
   # Publish Test Results to Azure Pipelines/TFS
   - task: PublishTestResults@2
-    displayName: 'Publish host based test results for $(Build.Pkgs)'
+    displayName: 'Publish host based test results for $(System.JobName)'
     continueOnError: true
     condition: succeededOrFailed()
     inputs:
@@ -181,5 +181,5 @@ jobs:
     displayName: "Publish build logs"
     inputs:
       pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      artifactName: 'Build Logs $(Build.Pkgs)'
+      artifactName: 'Build Logs $(System.JobName)'
     condition: succeededOrFailed()
