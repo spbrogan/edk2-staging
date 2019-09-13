@@ -10,9 +10,9 @@
   PLATFORM_GUID                  = 81877460-F2CB-4FC1-B03B-B236752C8E9E
   PLATFORM_VERSION               = 0.1
   DSC_SPECIFICATION              = 0x00010005
-  OUTPUT_DIRECTORY               = Build/CryptoPkg
+  OUTPUT_DIRECTORY               = Build/CryptoPkg_Host
   SUPPORTED_ARCHITECTURES        = IA32|X64
-  BUILD_TARGETS                  = DEBUG|RELEASE
+  BUILD_TARGETS                  = NOOPT
   SKUID_IDENTIFIER               = DEFAULT
 
   DEFINE UNIT_TEST_FRAMEWORK_MODE = HOST

@@ -10,9 +10,9 @@
   PLATFORM_GUID                  = 7FBF2298-56D9-4534-926F-414B97FB214C
   PLATFORM_VERSION               = 0.1
   DSC_SPECIFICATION              = 0x00010005
-  OUTPUT_DIRECTORY               = Build/SecurityPkg
+  OUTPUT_DIRECTORY               = Build/SecurityPkg_Host
   SUPPORTED_ARCHITECTURES        = IA32|X64
-  BUILD_TARGETS                  = DEBUG|RELEASE
+  BUILD_TARGETS                  = NOOPT
   SKUID_IDENTIFIER               = DEFAULT
 
   DEFINE UNIT_TEST_FRAMEWORK_MODE = HOST

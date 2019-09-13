@@ -10,9 +10,9 @@
   PLATFORM_GUID                  = 3600C255-D222-4105-BD5D-3BEA93E9F7F4
   PLATFORM_VERSION               = 0.1
   DSC_SPECIFICATION              = 0x00010005
-  OUTPUT_DIRECTORY               = Build/FatPkg
+  OUTPUT_DIRECTORY               = Build/FatPkg_Host
   SUPPORTED_ARCHITECTURES        = IA32|X64
-  BUILD_TARGETS                  = DEBUG|RELEASE
+  BUILD_TARGETS                  = NOOPT
   SKUID_IDENTIFIER               = DEFAULT
 
   DEFINE UNIT_TEST_FRAMEWORK_MODE = HOST
