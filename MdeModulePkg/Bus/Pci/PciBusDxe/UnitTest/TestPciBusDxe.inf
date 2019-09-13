@@ -21,7 +21,7 @@
 
 [Sources]
   TestPciBusDxe.c
-  MdeModulePkg/Bus/Pci/PciBusDxe/PciBus.h
+  ../PciBus.h
 
 [Packages]
   MdePkg/MdePkg.dec

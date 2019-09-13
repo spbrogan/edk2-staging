@@ -48,26 +48,32 @@ jobs:
   strategy:
     matrix:
       TARGET_MDE_CPU:
-        Build.Pkgs: 'MdePkg,UefiCpuPkg,FatPkg'
-        Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
+        Build.Pkgs: 'MdePkg,UefiCpuPkg'
+        Build.Targets: 'DEBUG,RELEASE,NOOPT,NO-TARGET'
       TARGET_MDEMODULE_DEBUG:
         Build.Pkgs: 'MdeModulePkg'
         Build.Targets: 'DEBUG'
       TARGET_MDEMODULE_RELEASE:
         Build.Pkgs: 'MdeModulePkg'
         Build.Targets: 'RELEASE,NO-TARGET'
+      TARGET_MDEMODULE_NOOPT_HOST:
+        Build.Pkgs: 'MdeModulePkg'
+        Build.Targets: 'NOOPT'
       TARGET_NETWORK:
         Build.Pkgs: 'NetworkPkg'
-        Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
       TARGET_OTHER:
-        Build.Pkgs: 'PcAtChipsetPkg,ShellPkg,FmpDevicePkg'
-        Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
+        Build.Pkgs: 'PcAtChipsetPkg,ShellPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
+      TARGET_FMP:
+        Build.Pkgs: 'FmpDevicePkg,FatPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
       TARGET_CRYPTO:
         Build.Pkgs: 'CryptoPkg'
-        Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
       TARGET_SECURITY:
         Build.Pkgs: 'SecurityPkg'
-        Build.Targets: 'DEBUG,RELEASE,NO-TARGET'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
 
   workspace:
     clean: all

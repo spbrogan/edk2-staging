@@ -45,7 +45,7 @@ class HostUnitTestCompilerPlugin(ICiBuildPlugin):
                 packagename + ".HostUnitTestCompiler." + types)
 
     def RunsOnTargetList(self):
-        return ["DEBUG"]
+        return ["NOOPT"]
 
     #
     # Find the intersection of application types that can run on this host

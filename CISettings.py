@@ -56,7 +56,7 @@ class Settings(CiBuildSettingsManager, UpdateSettingsManager, SetupSettingsManag
 
     def GetTargetsSupported(self):
         ''' return iterable of edk2 target tags supported by this build '''
-        return ("DEBUG", "RELEASE", "NO-TARGET")
+        return ("DEBUG", "RELEASE", "NO-TARGET", "NOOPT")
 
     # ####################################################################################### #
     #                     Verify and Save requested Ci Build Config                           #

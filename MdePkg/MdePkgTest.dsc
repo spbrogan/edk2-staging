@@ -10,9 +10,9 @@
   PLATFORM_GUID                  = 50652B4C-88CB-4481-96E8-37F2D0034440
   PLATFORM_VERSION               = 0.1
   DSC_SPECIFICATION              = 0x00010005
-  OUTPUT_DIRECTORY               = Build/MdePkg
+  OUTPUT_DIRECTORY               = Build/MdePkg_Host
   SUPPORTED_ARCHITECTURES        = IA32|X64
-  BUILD_TARGETS                  = DEBUG|RELEASE
+  BUILD_TARGETS                  = NOOPT
   SKUID_IDENTIFIER               = DEFAULT
   FLASH_DEFINITION               = MdePkg/MdePkgTest.fdf
 
