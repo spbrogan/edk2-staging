@@ -3,11 +3,9 @@
         "DscPath": "CryptoPkg.dsc"
     },
     "HostUnitTestCompilerPlugin": {
-        "skip": "True",  # Need edk2 team to help resolve
         "DscPath": "CryptoPkgTest.dsc"
     },
     "HostUnitTestDscCompleteCheck": {
-        "skip": "True", # Need edk2 team to help resolve
         "DscPath": "CryptoPkgTest.dsc",
         "IgnoreInf": []  
     },

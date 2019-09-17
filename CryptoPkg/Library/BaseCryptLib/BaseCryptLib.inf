@@ -92,8 +92,13 @@
   #
   # suppress the following warnings so we do not break the build with warnings-as-errors:
   # C4090: 'function' : different 'const' qualifiers
+  # For NOOPT builds which are host application leave the ARM and ARM64 flags.  All
+  # Clear those flags for all others to try to work around openssl build errors. Should
+  # probably do this with module type HOST_APPLICATION instead of Target.
   #
-  MSFT:*_*_*_CC_FLAGS = /wd4090 /U_M_ARM /U_M_ARM64
+  MSFT:NOOPT_*_*_CC_FLAGS = /wd4090
+  MSFT:RELEASE_*_*_CC_FLAGS = /wd4090 /U_M_ARM /U_M_ARM64
+  MSFT:DEBUG_*_*_CC_FLAGS = /wd4090 /U_M_ARM /U_M_ARM64
 
   # -JCryptoPkg/Include : To disable the use of the system includes provided by RVCT
   # --diag_remark=1     : Reduce severity of "#1-D: last line of file ends without a newline"
