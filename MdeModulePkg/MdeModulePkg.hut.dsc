@@ -59,15 +59,61 @@
     GCC:*_*_X64_CC_FLAGS     == -m64 -O0 -g -fprofile-arcs -ftest-coverage -std=gnu99 -Wpedantic -Wall -Wshadow -Wmissing-prototypes -Wcast-align -Werror=address -Wstrict-prototypes -Werror=strict-prototypes -Wwrite-strings -Werror=write-strings -Werror-implicit-function-declaration -Wpointer-arith -Werror=pointer-arith -Wdeclaration-after-statement -Werror=declaration-after-statement -Wreturn-type -Werror=return-type -Wuninitialized -Werror=uninitialized -Werror=strict-overflow -Wstrict-overflow=2 -Wno-format-zero-length -Wmissing-field-initializers -Wformat-security -Werror=format-security -fno-common -Wformat -fno-common -fstack-protector-strong -DHAVE_SIGNAL_H
   }
 
+  MdeModulePkg/Bus/Pci/PciBusDxe/UnitTest/TestPciBusDxe.inf {
+  <LibraryClasses>
+    NULL|MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
+  }
+
+  MdeModulePkg/Universal/RegularExpressionDxe/UnitTest/TestRegularExpressionDxe.inf {
+    <LibraryClasses>
+    NULL|MdeModulePkg/Universal/RegularExpressionDxe/RegularExpressionDxe.inf
+  }
+
+  MdeModulePkg/Universal/RegularExpressionDxe/RegularExpressionDxe.inf {
+  <BuildOptions>
+    # Enable STDARG for variable arguments
+    *_*_*_CC_FLAGS = -DHAVE_STDARG_H -Dsprintf_s=SPRINTF_S
+
+    # Override MSFT build option to remove /Oi and /GL
+    MSFT:*_*_*_CC_FLAGS          = /GL-
+    INTEL:*_*_*_CC_FLAGS         = /Oi-
+
+    # Oniguruma: potentially uninitialized local variable used
+    MSFT:*_*_*_CC_FLAGS = /wd4701 /wd4703
+
+    # Oniguruma: intrinsic function not declared
+    MSFT:*_*_*_CC_FLAGS = /wd4164
+
+    # Oniguruma: old style declaration in st.c
+    MSFT:*_*_*_CC_FLAGS = /wd4131
+
+    # Oniguruma: 'type cast' : truncation from 'OnigUChar *' to 'unsigned int'
+    MSFT:*_*_*_CC_FLAGS = /wd4305 /wd4306
+
+    # Oniguruma: nameless union declared in regparse.h
+    MSFT:*_*_*_CC_FLAGS = /wd4201
+
+    # Oniguruma: 'type cast' : "int" to "OnigUChar", function pointer to "void *"
+    MSFT:*_*_*_CC_FLAGS = /wd4244 /wd4054
+
+    # Oniguruma: previous local declaration
+    MSFT:*_*_*_CC_FLAGS = /wd4456
+
+    # Oniguruma: signed and unsigned mismatch/cast
+    MSFT:*_*_*_CC_FLAGS = /wd4018 /wd4245 /wd4389
+
+    # Oniguruma: tag_end in parse_callout_of_name
+    GCC:*_*_*_CC_FLAGS = -Wno-error=maybe-uninitialized
+
+    # Not add -Wno-error=maybe-uninitialized option for XCODE
+    # XCODE doesn't know this option
+    XCODE:*_*_*_CC_FLAGS =
+  }
 
   MdeModulePkg/Library/UefiVariablePolicyLib/UnitTest/UefiVariablePolicyUnitTest.inf {
     <LibraryClasses>
       UefiVariablePolicyLib|MdeModulePkg/Library/UefiVariablePolicyLib/UefiVariablePolicyLib.inf
       SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
   }
-
-  MdeModulePkg/Bus/Pci/PciBusDxe/UnitTest/TestPciBusDxe.inf
-  MdeModulePkg/Universal/RegularExpressionDxe/UnitTest/TestRegularExpressionDxe.inf
-
 
 !include UefiHostUnitTestPkg/UefiHostUnitTestBuildOption.dsc
