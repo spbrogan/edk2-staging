@@ -135,5 +135,6 @@
   }
 
   CryptoPkg/Test/UnitTest/Library/BaseCryptLib/TestBaseCryptLib.inf
+  CryptoPkg/HostLibrary/BaseCryptLibHost/BaseCryptLibHost.inf  #had to add as it was missing
 
 !include UefiHostUnitTestPkg/UefiHostUnitTestBuildOption.dsc
