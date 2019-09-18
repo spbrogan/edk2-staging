@@ -96,7 +96,7 @@ class GuidCheck(ICiBuildPlugin):
             # Loop thru and remove any errors where all files are infs as it is ok if 
             # they have the same inf base name.  
             for e in errors[:]:
-                if len( [entries for en in e.entries if not en.absfilepath.lower().endswith(".inf")]) == 0:
+                if len( [en for en in e.entries if not en.absfilepath.lower().endswith(".inf")]) == 0:
                     errors.remove(e)
 
         return errors
