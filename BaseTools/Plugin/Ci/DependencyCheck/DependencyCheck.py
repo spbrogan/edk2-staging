@@ -96,6 +96,11 @@ class DependencyCheck(ICiBuildPlugin):
             ip = InfParser()
             logging.debug("Parsing " + file)
             ip.SetBaseAbsPath(Edk2pathObj.WorkspacePath).SetPackagePaths(Edk2pathObj.PackagePathList).ParseFile(file)
+
+            if("MODULE_TYPE" not in ip.Dict):
+                tc.LogStdOut("Ignoring INF. Missing key for MODULE_TYPE {0}".format(file))
+                continue
+
             mod_type = ip.Dict["MODULE_TYPE"].upper()
             for p in ip.PackagesUsed:
                 if p not in pkgconfig["AcceptableDependencies"]:

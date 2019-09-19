@@ -98,8 +98,12 @@ class DscCompleteCheck(ICiBuildPlugin):
                 infp = InfParser().SetBaseAbsPath(Edk2pathObj.WorkspacePath)
                 infp.SetPackagePaths(Edk2pathObj.PackagePathList)
                 infp.ParseFile(INF)
+                if("MODULE_TYPE" not in infp.Dict):
+                    tc.LogStdOut("Ignoring INF. Missing key for MODULE_TYPE {0}".format(INF))
+                    continue
+
                 if(infp.Dict["MODULE_TYPE"] == "HOST_APPLICATION"):
-                    tc.LogStdOut("Ignoring INF due to type HOST_APPLICATION {0}".format(INF))
+                    tc.LogStdOut("Ignoring INF.  Module type is HOST_APPLICATION {0}".format(INF))
                     continue
 
                 logging.critical(INF + " not in " + wsr_dsc_path)

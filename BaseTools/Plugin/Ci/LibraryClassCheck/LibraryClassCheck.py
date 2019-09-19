@@ -18,7 +18,8 @@ class LibraryClassCheck(ICiBuildPlugin):
 
     Configuration options:
     "LibraryClassCheck": {
-        IgnoreHeaderFile: []
+        IgnoreHeaderFile: [],
+        IgnoreLibraryClass: []
     }
     """
 
@@ -60,6 +61,7 @@ class LibraryClassCheck(ICiBuildPlugin):
     #   - output_stream the StringIO output stream from this plugin via logging
     def RunBuildPlugin(self, packagename, Edk2pathObj, pkgconfig, environment, PLM, PLMHelper, tc, output_stream=None):
         overall_status = 0
+        LibraryClassIgnore = []
 
         abs_pkg_path = Edk2pathObj.GetAbsolutePathOnThisSytemFromEdk2RelativePath(packagename)
         abs_dec_path = self.__GetPkgDec(abs_pkg_path)
@@ -104,8 +106,24 @@ class LibraryClassCheck(ICiBuildPlugin):
                     tc.LogStdError("LibraryClassCheck.IgnoreHeaderFile -> {0} not found.  Invalid Header File".format(a))
                     logging.info("LibraryClassCheck.IgnoreHeaderFile -> {0} not found.  Invalid Header File".format(a))
 
+        if "IgnoreLibraryClass" in pkgconfig:
+            LibraryClassIgnore = pkgconfig["IgnoreLibraryClass"]
+                
+
         ## Attempt to find library classes
         for lcd in dec.LibraryClasses:
+            ## Check for correct file path separator
+            if "\\" in lcd.path:
+                tc.LogStdError("LibraryClassCheck.DecFilePathSeparator -> {0} invalid.".format(lcd.path))
+                logging.error("LibraryClassCheck.DecFilePathSeparator -> {0} invalid.".format(lcd.path))
+                overall_status += 1
+                continue
+
+            if lcd.name in LibraryClassIgnore:
+                tc.LogStdOut("Ignoring Library Class Name {0}".format(lcd.name))
+                LibraryClassIgnore.remove(lcd.name)
+                continue
+
             logging.debug(f"Looking for Library Class {lcd.path}")
             try:
                 AllHeaderFiles.remove(lcd.path)
@@ -113,13 +131,18 @@ class LibraryClassCheck(ICiBuildPlugin):
             except ValueError:
                 tc.LogStdError(f"Library {lcd.name} with path {lcd.path} not found in package filesystem")
                 logging.error(f"Library {lcd.name} with path {lcd.path} not found in package filesystem")
-                overall_status += + 1
+                overall_status += 1
 
         ## any remaining AllHeaderFiles are not described in DEC
         for h in AllHeaderFiles:
             tc.LogStdError(f"Library Header File {h} not declared in package DEC {wsr_dec_path}")
             logging.error(f"Library Header File {h} not declared in package DEC {wsr_dec_path}")
             overall_status += 1
+
+        ## Warn about any invalid library class names in the ignore list
+        for r in LibraryClassIgnore:
+            tc.LogStdError("LibraryClassCheck.IgnoreLibraryClass -> {0} not found.  Library Class not found".format(r))
+            logging.info("LibraryClassCheck.IgnoreLibraryClass -> {0} not found.  Library Class not found".format(r))
 
 
         # If XML object exists, add result
