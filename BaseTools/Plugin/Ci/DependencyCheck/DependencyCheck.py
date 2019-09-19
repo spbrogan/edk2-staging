@@ -59,13 +59,12 @@ class DependencyCheck(ICiBuildPlugin):
 
         # Get INF Files
         INFFiles = self.WalkDirectoryForExtension([".inf"], abs_pkg_path)
-        INFFiles = [x.lower() for x in INFFiles]
         INFFiles = [Edk2pathObj.GetEdk2RelativePathFromAbsolutePath(x) for x in INFFiles]  # make edk2relative path so can compare with Ignore List
 
         # Remove ignored INFs
         if "IgnoreInf" in pkgconfig:
             for a in pkgconfig["IgnoreInf"]:
-                a = a.lower().replace(os.sep, "/")
+                a = a.replace(os.sep, "/")  ## convert path sep in case ignore list is bad.  Can't change case
                 try:
                     INFFiles.remove(a)
                     tc.LogStdOut("IgnoreInf {0}".format(a))

@@ -82,7 +82,7 @@ class CharEncodingCheck(ICiBuildPlugin):
 
             if "IgnoreFiles" in pkgconfig:
                 for a in pkgconfig["IgnoreFiles"]:
-                    a = a.lower().replace(os.sep, "/")
+                    a = a.replace(os.sep, "/")
                     try:
                         tc.LogStdOut("Ignoring File {0}".format(a))
                         files.remove(a)
