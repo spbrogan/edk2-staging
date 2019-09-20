@@ -1,6 +1,6 @@
 variables:
   GCC_AARCH_PREFIX: bin/aarch64-linux-gnu-
-  OMNICACHE_PATH : $(Pipeline.Workspace)/OmniCache
+  #OMNICACHE_PATH : $(Pipeline.Workspace)/OmniCache
  
 #Use matrix to speed up the build process
 strategy:
