@@ -1,100 +1,134 @@
-#Use matrix to speed up the build process
-strategy:
-  matrix:
-    TARGET_MDE_CPU:
-      Build.Pkgs: 'MdePkg UefiCpuPkg FatPkg'
-    TARGET_MDEMODULE:
-      Build.Pkgs: 'MdeModulePkg'
-    TARGET_OTHER:
-      Build.Pkgs: 'NetworkPkg PcAtChipsetPkg ShellPkg FmpDevicePkg'
-    TARGET_SECURITY:
-      Build.Pkgs: 'SecurityPkg CryptoPkg'
-
 variables:
   GCC_AARCH_PREFIX: bin/aarch64-linux-gnu-
+  OMNICACHE_PATH : $(Pipeline.Workspace)/OmniCache
 
-workspace:
-  clean: all
+# Build step
+- job: Build
+  #dependsOn: Setup_Maintain_Omnicache
+ 
+  #Use matrix to speed up the build process
+  strategy:
+    matrix:
+      TARGET_MDE_CPU:
+        Build.Pkgs: 'MdePkg,UefiCpuPkg'
+        Build.Targets: 'DEBUG,RELEASE,NOOPT,NO-TARGET'
+      TARGET_MDEMODULE_DEBUG:
+        Build.Pkgs: 'MdeModulePkg'
+        Build.Targets: 'DEBUG'
+      TARGET_MDEMODULE_RELEASE:
+        Build.Pkgs: 'MdeModulePkg'
+        Build.Targets: 'RELEASE,NO-TARGET'
+      TARGET_MDEMODULE_NOOPT_HOST:
+        Build.Pkgs: 'MdeModulePkg'
+        Build.Targets: 'NOOPT'
+      TARGET_NETWORK:
+        Build.Pkgs: 'NetworkPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
+      TARGET_OTHER:
+        Build.Pkgs: 'PcAtChipsetPkg,ShellPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
+      TARGET_FMP:
+        Build.Pkgs: 'FmpDevicePkg,FatPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
+      TARGET_CRYPTO:
+        Build.Pkgs: 'CryptoPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
+      TARGET_SECURITY:
+        Build.Pkgs: 'SecurityPkg'
+        Build.Targets: 'DEBUG,RELEASE,NO-TARGET,NOOPT'
 
-steps:
-- checkout: self
-  clean: true
+  workspace:
+    clean: all
 
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.7.x'
-    architecture: 'x64'
+  pool:
+    vmImage: 'ubuntu-latest'
 
-- script: pip3 install -r requirements.txt --upgrade
-  displayName: 'Install/Upgrade pip modules'
+  steps:
+  - checkout: self
+    clean: true
+    fetchDepth: 1
+    
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.7.x'
+      architecture: 'x64'
 
-#Build repo
-- task: CmdLine@1
-  displayName: Setup $(Build.Pkgs)
-  inputs:
-    filename: stuart_setup
-    arguments: -c CISettings.py --Tool_Chain GCC5
+  - script: pip3 install -r requirements.txt --upgrade
+    displayName: 'Install/Upgrade pip modules'
 
-- task: CmdLine@1
-  displayName: Update $(Build.Pkgs)
-  inputs:
-    filename: stuart_update
-    arguments: -c CISettings.py --Tool_Chain GCC5
+  #Build repo
+  - task: CmdLine@1
+    displayName: Setup $(Build.Pkgs)
+    inputs:
+      filename: stuart_setup
+      arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=GCC5
 
-- task: CmdLine@1
-  displayName: Build and Test $(Build.Pkgs)
-  inputs:
-    filename: stuart_ci_build
-    arguments: -c CISettings.py --Tool_Chain GCC5 -p $(Build.Pkgs)
+  - task: CmdLine@1
+    displayName: Update $(Build.Pkgs)
+    inputs:
+      filename: stuart_update
+      arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=GCC5
 
-# Publish Test Results to Azure Pipelines/TFS
-- task: PublishTestResults@2
-  displayName: 'Publish junit test results'
-  continueOnError: true
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
-    testResultsFiles: 'Build/TestSuites.xml'
-    #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-    mergeTestResults: true # Optional
-    testRunTitle: $(Build.Pkgs) # Optional
-    #buildPlatform: # Optional
-    #buildConfiguration: # Optional
-    publishRunAttachments: true # Optional
+  - task: CmdLine@1
+    displayName: Build and Test $(Build.Pkgs)
+    inputs:
+      filename: stuart_ci_build
+      arguments: -c CISettings.py -p $(Build.Pkgs) -t $(Build.Targets) TOOL_CHAIN_TAG=GCC5
 
-# Publish Test Results to Azure Pipelines/TFS
-- task: PublishTestResults@2
-  displayName: 'Publish host based test results for $(Build.Pkgs)'
-  continueOnError: true
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
-    testResultsFiles: 'Build/**/*.result.xml'
-    #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-    mergeTestResults: true # Optional
-    testRunTitle: $(Build.Pkgs) # Optional
-    #buildPlatform: # Optional
-    #buildConfiguration: # Optional
-    publishRunAttachments: true # Optional
+  # Publish Test Results to Azure Pipelines/TFS
+  - task: PublishTestResults@2
+    displayName: 'Publish junit test results'
+    continueOnError: true
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
+      testResultsFiles: 'Build/TestSuites.xml'
+      #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
+      mergeTestResults: true # Optional
+      testRunTitle: $(System.JobName) # Optional
+      #buildPlatform: # Optional
+      #buildConfiguration: # Optional
+      publishRunAttachments: true # Optional
 
+  # Publish Test Results to Azure Pipelines/TFS
+  - task: PublishTestResults@2
+    displayName: 'Publish host based test results for $(System.JobName)'
+    continueOnError: true
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
+      testResultsFiles: 'Build/**/*.result.xml'
+      #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
+      mergeTestResults: false # Optional
+      testRunTitle: $(Build.Pkgs) # Optional
+      #buildPlatform: # Optional
+      #buildConfiguration: # Optional
+      publishRunAttachments: true # Optional
 
-# Copy the build logs to the artifact staging directory
-- task: CopyFiles@2
-  displayName: "Copy build logs"
-  inputs:
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-    contents: |
-      Build/**/BUILDLOG_*.txt
-      Build/**/BUILDLOG_*.md
-      Build/**/CI_*.txt
-      Build/**/CI_*.md
-      Build/**/TestSuites.xml
-    flattenFolders: true
+  # Copy the build logs to the artifact staging directory
+  - task: CopyFiles@2
+    displayName: "Copy build logs"
+    inputs:
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+      contents: |
+        Build/**/BUILDLOG_*.txt
+        Build/**/BUILDLOG_*.md
+        Build/**/CI_*.txt
+        Build/**/CI_*.md
+        Build/**/CISETUP.txt
+        Build/**/SETUPLOG.txt
+        Build/**/UPDATE_LOG.txt
+        Build/**/TestSuites.xml
+        Build/**/BUILD_TOOLS_REPORT.html
+        Build/**/OVERRIDELOG.TXT
+      flattenFolders: true
+    condition: succeededOrFailed()
 
-# Publish build artifacts to Azure Artifacts/TFS or a file share
-- task: PublishBuildArtifacts@1
-  continueOnError: true
-  displayName: "Publish build logs"
-  inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: 'Build Logs $(Build.Pkgs)'
+  # Publish build artifacts to Azure Artifacts/TFS or a file share
+  - task: PublishBuildArtifacts@1
+    continueOnError: true
+    displayName: "Publish build logs"
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: 'Build Logs $(System.JobName)'
+    condition: succeededOrFailed()
