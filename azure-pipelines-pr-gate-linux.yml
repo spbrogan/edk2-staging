@@ -106,17 +106,18 @@ steps:
   displayName: "Copy build logs"
   inputs:
     targetFolder: '$(Build.ArtifactStagingDirectory)'
+    SourceFolder: '$(Build.SourceDirectory)/Build'
     contents: |
-      Build/**/BUILDLOG_*.txt
-      Build/**/BUILDLOG_*.md
-      Build/**/CI_*.txt
-      Build/**/CI_*.md
-      Build/**/CISETUP.txt
-      Build/**/SETUPLOG.txt
-      Build/**/UPDATE_LOG.txt
-      Build/**/TestSuites.xml
-      Build/**/BUILD_TOOLS_REPORT.html
-      Build/**/OVERRIDELOG.TXT
+      ./**/BUILDLOG_*.txt
+      ./**/BUILDLOG_*.md
+      ./**/CI_*.txt
+      ./**/CI_*.md
+      ./**/CISETUP.txt
+      ./**/SETUPLOG.txt
+      ./**/UPDATE_LOG.txt
+      ./**/TestSuites.xml
+      ./**/BUILD_TOOLS_REPORT.html
+      ./**/OVERRIDELOG.TXT
     flattenFolders: true
   condition: succeededOrFailed()
 
