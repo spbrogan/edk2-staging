@@ -106,7 +106,7 @@ steps:
   displayName: "Copy build logs"
   inputs:
     targetFolder: '$(Build.ArtifactStagingDirectory)'
-    SourceFolder: '$(Build.SourceDirectory)/Build'
+    SourceFolder: 'Build'
     contents: |
       ./**/BUILDLOG_*.txt
       ./**/BUILDLOG_*.md
