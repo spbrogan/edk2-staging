@@ -108,16 +108,16 @@ steps:
     targetFolder: '$(Build.ArtifactStagingDirectory)'
     SourceFolder: 'Build'
     contents: |
-      ./**/BUILDLOG_*.txt
-      ./**/BUILDLOG_*.md
-      ./**/CI_*.txt
-      ./**/CI_*.md
-      ./**/CISETUP.txt
-      ./**/SETUPLOG.txt
-      ./**/UPDATE_LOG.txt
-      ./**/TestSuites.xml
-      ./**/BUILD_TOOLS_REPORT.html
-      ./**/OVERRIDELOG.TXT
+      BUILDLOG_*.txt
+      BUILDLOG_*.md
+      CI_*.txt
+      CI_*.md
+      CISETUP.txt
+      SETUPLOG.txt
+      UPDATE_LOG.txt
+      TestSuites.xml
+      **/BUILD_TOOLS_REPORT.html
+      **/OVERRIDELOG.TXT
     flattenFolders: true
   condition: succeededOrFailed()
 
