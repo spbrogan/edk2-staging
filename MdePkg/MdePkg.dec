@@ -2297,7 +2297,7 @@
   #  A value of 0 indicates that the default boot selection is to be initiated immediately on boot.
   #  The value of 0xFFFF then firmware will wait for user input before booting.
   # @Prompt Boot Timeout (s)
-  gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut|0xffff|UINT16|0x0000002c
+  gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut|0x0|UINT16|0x0000002c
 
 [UserExtensions.TianoCore."ExtraFiles"]
   MdePkgExtra.uni
