@@ -2165,7 +2165,7 @@
   #  BIT2 - Enable Debug Code.<BR>
   # @Prompt Report Status Code Property.
   # @Expression  0x80000002 | (gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask & 0xF8) == 0
-  gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0|UINT8|0x00000007
+  gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0x7|UINT8|0x00000007
 
   ## This value is used to fill a segment of memory when PcdDebugPropertyMask Clear Memory is enabled.
   # @Prompt Value to Clear Memory.
