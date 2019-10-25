@@ -1,0 +1,26 @@
+# File templates/basetools-build-job.yml
+#
+# template file to build basetools
+#
+# Copyright (c) 2019, Microsoft Corporation
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+parameters:
+  tool_chain_tag: ''
+
+steps:
+- ${{ if eq(parameters.tool_chain_tag, 'GCC5') }}:
+  - bash: sudo apt-get update
+    displayName: Update apt
+    condition: gt(variables.pkg_count, 0)
+
+  - bash: sudo apt-get install gcc g++ make uuid-dev
+    displayName: Install required tools
+    condition: gt(variables.pkg_count, 0)
+
+- task: CmdLine@1
+  displayName: Build Tool
+  inputs:
+    filename: Basetools/Edk2ToolsBuild.py
+    arguments: -t ${{ parameters.tool_chain_tag }} 
+  condition: gt(variables.pkg_count, 0)
