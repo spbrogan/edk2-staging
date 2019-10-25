@@ -1,0 +1,18 @@
+##
+# Download nasm assembler executable tool from
+# nasm.us site.  This is for 
+#
+# Copyright (c) 2019, Microsoft Corporation
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+{
+  "scope": "cibuild-windows",
+  "type": "web",
+  "name": "nasm2",
+  "source": "https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/linux/nasm-2.14.02-0.fc27.i686.rpm",
+  "version": "2.14.02",
+  "sha256": "D3223EE7C68FA7E32B31A93E76368F0385F7FCAE4F88A554CECF815838DD565B",
+  "compression_type": "tar",
+  "internal_path": "/./usr/bin/",
+  "flags": ["set_path", ]
+}
