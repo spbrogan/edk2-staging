@@ -33,4 +33,4 @@ steps:
     contents: |
       BASETOOLS_BUILD*.*
   flattenFolders: true
-condition: succeededOrFailed()
+  condition: succeededOrFailed()
