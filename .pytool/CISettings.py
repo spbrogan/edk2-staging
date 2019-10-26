@@ -162,16 +162,12 @@ class Settings(CiBuildSettingsManager, UpdateSettingsManager, SetupSettingsManag
 
             # python file change in .pytool folder causes building all
             if f.endswith(".py") and ".pytool" in nodes:
-                for a in possible_packages[:]:
-                    build_these_packages.append(a)
-                    possible_packages.remove(a)
+                build_these_packages = possible_packages
                 break
 
-            # BaseTools files that are not compiled file causes building all
+            # BaseTools files that might change the build
             if "BaseTools" in nodes:
-                if os.path.splitext(f) not in [".c", ".h"]:
-                    for a in possible_packages[:]:
-                        build_these_packages.append(a)
-                        possible_packages.remove(a)
+                if os.path.splitext(f) not in [".txt", ".md"]:
+                    build_these_packages = possible_packages
                     break
         return build_these_packages
