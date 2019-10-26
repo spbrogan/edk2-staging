@@ -32,5 +32,5 @@ steps:
     SourceFolder: 'BaseTools/BaseToolsBuild'
     contents: |
       BASETOOLS_BUILD*.*
-  flattenFolders: true
+    flattenFolders: true
   condition: succeededOrFailed()
