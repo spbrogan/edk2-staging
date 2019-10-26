@@ -24,3 +24,13 @@ steps:
     filename: python
     arguments: Basetools/Edk2ToolsBuild.py -t ${{ parameters.tool_chain_tag }} 
   condition: and(gt(variables.pkg_count, 0), succeeded())
+
+- task: CopyFiles@2
+  displayName: "Copy build logs"
+  inputs:
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    SourceFolder: 'BaseTools/BaseToolsBuild'
+    contents: |
+      BASETOOLS_BUILD*.*
+  flattenFolders: true
+condition: succeededOrFailed()
