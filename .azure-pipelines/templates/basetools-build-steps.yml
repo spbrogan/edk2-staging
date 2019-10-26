@@ -19,14 +19,14 @@ steps:
     condition: and(gt(variables.pkg_count, 0), succeeded())
 
 - task: CmdLine@1
-  displayName: Build Tool
+  displayName: Build Base Tools from source
   inputs:
     filename: python
-    arguments: Basetools/Edk2ToolsBuild.py -t ${{ parameters.tool_chain_tag }} 
+    arguments: BaseTools/Edk2ToolsBuild.py -t ${{ parameters.tool_chain_tag }} 
   condition: and(gt(variables.pkg_count, 0), succeeded())
 
 - task: CopyFiles@2
-  displayName: "Copy build logs"
+  displayName: "Copy base tools build log"
   inputs:
     targetFolder: '$(Build.ArtifactStagingDirectory)'
     SourceFolder: 'BaseTools/BaseToolsBuild'
