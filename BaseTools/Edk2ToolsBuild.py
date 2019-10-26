@@ -128,6 +128,9 @@ class Edk2ToolsBuild(BaseAbstractInvocable):
             self.OutputDir = os.path.join(
                 shell_env.get_shell_var("EDK_TOOLS_PATH"), "Bin", "Win32")
 
+            # compiled tools need to be added to path because antlr is referenced
+            shell_env.insert_path(self.OutputDir)
+
             # Actually build the tools.
             ret = RunCmd('nmake.exe', None,
                          workingdir=shell_env.get_shell_var("EDK_TOOLS_PATH"))
