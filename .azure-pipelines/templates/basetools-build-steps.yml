@@ -9,18 +9,18 @@ parameters:
   tool_chain_tag: ''
 
 steps:
-- ${{ if eq(parameters.tool_chain_tag, 'GCC5') }}:
+- ${{ if contains(parameters.tool_chain_tag, 'GCC') }}:
   - bash: sudo apt-get update
     displayName: Update apt
-    condition: gt(variables.pkg_count, 0)
+    condition: and(gt(variables.pkg_count, 0), succeeded())
 
   - bash: sudo apt-get install gcc g++ make uuid-dev
     displayName: Install required tools
-    condition: gt(variables.pkg_count, 0)
+    condition: and(gt(variables.pkg_count, 0), succeeded())
 
 - task: CmdLine@1
   displayName: Build Tool
   inputs:
     filename: python
     arguments: Basetools/Edk2ToolsBuild.py -t ${{ parameters.tool_chain_tag }} 
-  condition: gt(variables.pkg_count, 0)
+  condition: and(gt(variables.pkg_count, 0), succeeded())
