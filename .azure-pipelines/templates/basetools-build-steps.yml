@@ -21,6 +21,6 @@ steps:
 - task: CmdLine@1
   displayName: Build Tool
   inputs:
-    filename: Basetools/Edk2ToolsBuild.py
-    arguments: -t ${{ parameters.tool_chain_tag }} 
+    filename: python
+    arguments: Basetools/Edk2ToolsBuild.py -t ${{ parameters.tool_chain_tag }} 
   condition: gt(variables.pkg_count, 0)
