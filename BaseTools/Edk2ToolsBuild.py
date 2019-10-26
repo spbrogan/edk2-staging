@@ -143,7 +143,7 @@ class Edk2ToolsBuild(BaseAbstractInvocable):
                 raise Exception("Failed to build.")
 
             self.OutputDir = os.path.join(
-                shell_env.get_shell_var("EDK_TOOLS_PATH"), "Bin", "Linux")
+                shell_env.get_shell_var("EDK_TOOLS_PATH"), "Source", "C", "Bin")
 
             self.WritePathEnvFile(self.OutputDir)
             return ret
