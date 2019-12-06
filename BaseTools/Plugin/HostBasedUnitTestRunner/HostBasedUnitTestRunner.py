@@ -1,5 +1,8 @@
 # @file HostBasedUnitTestRunner.py
-# Plugin to located any host-based unit tests in the output directory and execute them.
+#
+# Plugin to support building and executing modules of type HOST-APPLICATION.
+# This module type is used for writing Host Based Unit Tests on a Microsoft Windows Host.
+#
 ##
 # Copyright (c) Microsoft Corporation.
 # SPDX-License-Identifier: BSD-2-Clause-Patent
@@ -18,6 +21,28 @@ from edk2toollib.utility_functions import RunCmd
 
 class HostBasedUnitTestRunner(IUefiBuildPlugin):
 
+    FILE_NAME_GLOB_PATTERN_FOR_TEST_EXECUTABLES = "*Test*.exe"
+    FILE_NAME_EXT_FOR_TEST_RESULT = ".result.xml"
+
+    SUPPORTED_TOOL_CHAIN_TAGS = ("VS2017", "VS2019")
+
+    def _check_if_should_run(self, thebuilder):
+        '''
+        determine if the build environment has been configured to build and execute
+        host based unit tests
+
+        RETURNS:
+            True == Configured to run
+            False = Not configured to run
+        '''
+        if not thebuilder.env.GetValue('CI_BUILD_TYPE') == 'host_unit_test':
+            return False
+
+        if thebuilder.env.GetValue("TOOL_CHAIN_TAG") not in self.SUPPORTED_TOOL_CHAIN_TAGS:
+            return False
+
+        return True
+
     def do_pre_build(self, thebuilder):
         '''
         Works with the compiler (either the HostBasedCompilerPlugin or an other Builder) to set
@@ -31,8 +56,7 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
         - Shell Path - Updated from QueryVcVariables()
         - Shell Var 'CMOCKA_MESSAGE_OUTPUT'
         '''
-        ci_type = thebuilder.env.GetValue('CI_BUILD_TYPE')
-        if ci_type != 'host_unit_test':
+        if not self._check_if_should_run(thebuilder):
             return 0
 
         shell_env = shell_environment.GetEnvironment()
@@ -40,15 +64,11 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
         interesting_keys = ["ExtensionSdkDir", "INCLUDE", "LIB", "LIBPATH", "UniversalCRTSdkDir",
                             "UCRTVersion", "WindowsLibPath", "WindowsSdkBinPath", "WindowsSdkDir", "WindowsSdkVerBinPath",
                             "WindowsSDKVersion", "VCToolsInstallDir"]
-        vs_vars = locate_tools.QueryVcVariables(interesting_keys, "amd64")
-        for (k, v) in vs_vars.items():
-            if k.upper() == "PATH":
-                shell_env.append_path(v)
-            else:
-                shell_env.set_shell_var(k, v)
 
-        # Set up the reporting type for Cmocka.
-        shell_env.set_shell_var('CMOCKA_MESSAGE_OUTPUT', 'xml')
+        # set the vs_version so the libs and sdk align with the toolchain being used
+        vs_vars = locate_tools.QueryVcVariables(interesting_keys, "amd64", vs_version=thebuilder.env.GetValue("TOOL_CHAIN_TAG").lower())
+        for (k, v) in vs_vars.items():
+            shell_env.set_shell_var(k, v)
         return 0
 
     def do_post_build(self, thebuilder):
@@ -62,11 +82,14 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
         UPDATES:
         - Shell Var 'CMOCKA_XML_FILE'
         '''
-        ci_type = thebuilder.env.GetValue('CI_BUILD_TYPE')
-        if ci_type != 'host_unit_test':
+        if not self._check_if_should_run(thebuilder):
             return 0
 
         shell_env = shell_environment.GetEnvironment()
+
+        # Set up the reporting type for Cmocka.
+        shell_env.set_shell_var('CMOCKA_MESSAGE_OUTPUT', 'xml')
+
         logging.log(edk2_logging.get_section_level(),
                     "Run Host based Unit Tests")
         path = thebuilder.env.GetValue("BUILD_OUTPUT_BASE")
@@ -79,15 +102,15 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
             cp = os.path.join(path, arch)
 
             # If any old results XML files exist, clean them up.
-            for old_result in glob.iglob(os.path.join(cp, "*.result.xml")):
+            for old_result in glob.iglob(os.path.join(cp, "*" + self.FILE_NAME_EXT_FOR_TEST_RESULT)):
                 os.remove(old_result)
 
             # Determine whether any tests exist.
-            testList = glob.glob(os.path.join(cp, "*Test*.exe"))
+            testList = glob.glob(os.path.join(cp, self.FILE_NAME_GLOB_PATTERN_FOR_TEST_EXECUTABLES))
             for test in testList:
                 # Configure output name.
                 shell_env.set_shell_var(
-                    'CMOCKA_XML_FILE', test + ".%g." + arch + ".result.xml")
+                    'CMOCKA_XML_FILE', test + ".%g." + arch + self.FILE_NAME_EXT_FOR_TEST_RESULT)
 
                 # Run the test.
                 ret = RunCmd('"' + test + '"', "", workingdir=cp)
@@ -97,7 +120,7 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
                 else:
                     logging.info("UnitTest Completed: " +
                                  os.path.basename(test))
-                    file_match_pattern = test + ".*." + arch + ".result.xml"
+                    file_match_pattern = test + ".*." + arch + self.FILE_NAME_EXT_FOR_TEST_RESULT
                     xml_results_list = glob.glob(file_match_pattern)
                     for xml_result_file in xml_results_list:
                         root = xml.etree.ElementTree.parse(
@@ -111,5 +134,9 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
                                         logging.warning(
                                             "  %s - %s" % (case.attrib['name'], result.text))
                                         failure_count += 1
+        # Clean up
+        shell_env.set_shell_var('CMOCKA_XML_FILE', '')
+        shell_env.set_shell_var('CMOCKA_MESSAGE_OUTPUT', '')
+
 
         return failure_count

@@ -18,9 +18,9 @@ well as provide different implementations that support different use cases.
 The main "framework" library. This provides the framework init, suite init, and add test case
 functionality. It also supports the running of the suites and logging/reporting of results.
 
-### UnitTestAssetLib
+### UnitTestAssertLib
 
-The UnitTestAssetLib provides helper macros and functions for checking test conditions and
+The UnitTestAssertLib provides helper macros and functions for checking test conditions and
 reporting errors. Status and error info will be logged into the test context. There are a number
 of Assert macros that make the unit test code friendly to view and easy to understand.
 
@@ -228,5 +228,5 @@ At the end, if all test criteria pass, you should return `UNIT_TEST_PASSED`.
 
 ## Copyright
 
-Copyright (c) Microsoft Corporation.  
+Copyright (c) Microsoft Corporation.
 SPDX-License-Identifier: BSD-2-Clause-Patent
