@@ -29,6 +29,7 @@
         # For UEFI shell based apps
         "AcceptableDependencies-UEFI_APPLICATION":[
             "MdeModulePkg/MdeModulePkg.dec",
+            "XmlSupportPkg/XmlSupportPkg.dec",
             "ShellPkg/ShellPkg.dec"
         ],
         "IgnoreInf": []
@@ -68,7 +69,8 @@
             "pytool",
             "pytools",
             "NOFAILURE",
-            "DHAVE" # build flag for cmocka in the INF
+            "DHAVE", # build flag for cmocka in the INF
+            "junit"
         ],
         "IgnoreStandardPaths": [],   # Standard Plugin defined paths that should be ignore
         "AdditionalIncludePaths": [] # Additional paths to spell check (wildcards supported)

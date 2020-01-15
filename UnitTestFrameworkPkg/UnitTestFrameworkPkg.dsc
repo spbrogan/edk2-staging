@@ -23,6 +23,7 @@
   UnitTestFrameworkPkg/Library/UnitTestLib/UnitTestLib.inf
   UnitTestFrameworkPkg/Library/UnitTestPersistenceLibNull/UnitTestPersistenceLibNull.inf
   UnitTestFrameworkPkg/Library/UnitTestResultReportLib/UnitTestResultReportLibDebugLib.inf
+  UnitTestFrameworkPkg/Library/UnitTestResultReportJUnitFormatLib/UnitTestResultReportLib.inf
   UnitTestFrameworkPkg/Library/UnitTestBootLibNull/UnitTestBootLibNull.inf
   UnitTestFrameworkPkg/Library/UnitTestResultReportLib/UnitTestResultReportLibConOut.inf
   UnitTestFrameworkPkg/Library/UnitTestBootLibUsbClass/UnitTestBootLibUsbClass.inf
