@@ -27,6 +27,7 @@
 | StandaloneMmPkg     |
 | UefiCpuPkg          | :heavy_check_mark: | :heavy_check_mark: | Spell checking in audit mode, 2 binary modules not being built by DSC
 | UefiPayloadPkg      |
+| UnitTestFrameworkPkg| :heavy_check_mark: | :heavy_check_mark: |
 
 For more detailed status look at the test results of the latest CI run on the
 repo readme.
@@ -137,11 +138,31 @@ location makes more sense for the community.
 
 ### Module Inclusion Test - DscCompleteCheck
 
-This test scans all available modules (via INF files) and compares them to the
-package-level DSC file for the package each module is contained within. The test
-considers it an error if any module does not appear in the `Components` section
-of at least one package-level DSC (indicating that it would not be built if the
-package were built).
+This scans all INF files from a package and confirms they are
+listed in the package level DSC file. The test considers it an error if any INF
+does not appear in the `Components` section of the package-level DSC (indicating
+that it would not be built if the package were built). This is critical because
+much of the CI infrastructure assumes that all modules will be listed in the DSC
+and compiled.
+
+This test will ignore INFs in the following cases:
+
+1. When `MODULE_TYPE` = `HOST_APPLICATION`
+2. When a Library instance **only** supports the `HOST_APPLICATION` environment
+
+### Host Module Inclusion Test - HostUnitTestDscCompleteCheck
+
+This test scans all INF files from a package for those related to host
+based unit tests and confirms they are listed in the unit test DSC file for the package.
+The test considers it an error if any INF meeting the requirements does not appear
+in the `Components` section of the unit test DSC. This is critical because
+much of the CI infrastructure assumes that  modules will be listed in the DSC
+and compiled.
+
+This test will only require INFs in the following cases:
+
+1. When `MODULE_TYPE` = `HOST_APPLICATION`
+2. When a Library instance explicitly supports the `HOST_APPLICATION` environment
 
 ### Code Compilation Test - CompilerPlugin
 
@@ -149,6 +170,11 @@ Once the Module Inclusion Test has verified that all modules would be built if
 all package-level DSCs were built, the Code Compilation Test simply runs through
 and builds every package-level DSC on every toolchain and for every architecture
 that is supported. Any module that fails to build is considered an error.
+
+### Host Unit Test Compilation and Run Test - HostUnitTestCompilerPlugin
+
+A test that compiles the dsc for host based unit test apps.
+On Windows this will also enable a build plugin to execute that will run the unit tests and verify the results.
 
 ### GUID Uniqueness Test - GuidCheck
 
@@ -207,6 +233,8 @@ few standard scopes.
 | global-nix | edk2_invocable++                                     | Running on Linux based OS    |
 | edk2-build |                                                      | This indicates that an invocable is building EDK2 based UEFI code |
 | cibuild    | set in .pytool/CISettings.py                         | Suggested target for edk2 continuous integration builds.  Tools used for CiBuilds can use this scope.  Example: asl compiler |
+| host-based-test | set in .pytool/CISettings.py                    | Turns on the host based tests and plugin |
+| host-test-win | set in .pytool/CISettings.py                      | Enables the host based test runner for Windows |
 
 ## Future investments
 
