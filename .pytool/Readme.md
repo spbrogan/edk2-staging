@@ -28,6 +28,7 @@
 | UefiCpuPkg          | :heavy_check_mark: | :heavy_check_mark: | Spell checking in audit mode, 2 binary modules not being built by DSC
 | UefiPayloadPkg      |
 | UnitTestFrameworkPkg| :heavy_check_mark: | :heavy_check_mark: |
+| XmlSupportPkg       | :heavy_check_mark: | :heavy_check_mark: |
 
 For more detailed status look at the test results of the latest CI run on the
 repo readme.
