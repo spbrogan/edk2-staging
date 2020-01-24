@@ -27,6 +27,14 @@
   UnitTestLib|UnitTestFrameworkPkg/Library/UnitTestLib/UnitTestLib.inf
   UnitTestPersistenceLib|UnitTestFrameworkPkg/Library/UnitTestPersistenceLibNull/UnitTestPersistenceLibNull.inf
   UnitTestResultReportLib|UnitTestFrameworkPkg/Library/UnitTestResultReportLib/UnitTestResultReportLibDebugLib.inf
+  DevicePathLib|MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf
+  UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
+  HiiLib|MdeModulePkg/Library/UefiHiiLib/UefiHiiLib.inf
+  SortLib|MdeModulePkg/Library/BaseSortLib/BaseSortLib.inf
+  UefiHiiServicesLib|MdeModulePkg/Library/UefiHiiServicesLib/UefiHiiServicesLib.inf
+  UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
+  UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib.inf
+  UefiRuntimeLib|MdePkg/Library/UefiRuntimeLib/UefiRuntimeLib.inf
 
 [LibraryClasses.ARM, LibraryClasses.AARCH64]
   #
@@ -48,7 +56,11 @@
   PeiServicesTablePointerLib|MdePkg/Library/PeiServicesTablePointerLib/PeiServicesTablePointerLib.inf
 
 [LibraryClasses.common.UEFI_APPLICATION]
-  UnitTestResultReportLib|UnitTestFrameworkPkg/Library/UnitTestResultReportLib/UnitTestResultReportLibConOut.inf
+  XmlTreeLib|XmlSupportPkg/Library/XmlTreeLib/XmlTreeLib.inf
+  XmlTreeQueryLib|XmlSupportPkg/Library/XmlTreeQueryLib/XmlTreeQueryLib.inf
+  UnitTestResultReportLib|UnitTestFrameworkPkg/Library/UnitTestResultReportJUnitFormatLib/UnitTestResultReportLib.inf
+  ShellLib|ShellPkg/Library/UefiShellLib/UefiShellLib.inf
+  FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
 
 [PcdsFixedAtBuild]
   gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0x17
