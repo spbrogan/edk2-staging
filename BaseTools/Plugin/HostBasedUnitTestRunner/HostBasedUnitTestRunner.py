@@ -8,12 +8,14 @@
 import os
 import logging
 import glob
+import stat
 import xml.etree.ElementTree
 from edk2toolext.environment.plugintypes.uefi_build_plugin import IUefiBuildPlugin
 from edk2toolext import edk2_logging
 import edk2toollib.windows.locate_tools as locate_tools
 from edk2toolext.environment import shell_environment
 from edk2toollib.utility_functions import RunCmd
+from edk2toollib.utility_functions import GetHostInfo
 
 
 class HostBasedUnitTestRunner(IUefiBuildPlugin):
@@ -35,6 +37,14 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
         if ci_type != 'host_unit_test':
             return 0
 
+        tct = thebuilder.env.GetValue('TOOL_CHAIN_TAG')
+        if tct is not None and (tct.upper().startswith("VS2017") or tct.upper().startswith("VS2019")):
+            pass
+
+        else:
+            # nothing to do in the pre-build step
+            return 0
+
         shell_env = shell_environment.GetEnvironment()
         # Use the tools lib to determine the correct values for the vars that interest us.
         interesting_keys = ["ExtensionSdkDir", "INCLUDE", "LIB", "LIBPATH", "UniversalCRTSdkDir",
@@ -46,9 +56,6 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
                 shell_env.append_path(v)
             else:
                 shell_env.set_shell_var(k, v)
-
-        # Set up the reporting type for Cmocka.
-        shell_env.set_shell_var('CMOCKA_MESSAGE_OUTPUT', 'xml')
         return 0
 
     def do_post_build(self, thebuilder):
@@ -73,6 +80,9 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
 
         failure_count = 0
 
+        # Set up the reporting type for Cmocka.
+        shell_env.set_shell_var('CMOCKA_MESSAGE_OUTPUT', 'xml')
+
         for arch in thebuilder.env.GetValue("TARGET_ARCH").split():
             logging.log(edk2_logging.get_subsection_level(),
                         "Testing for architecture: " + arch)
@@ -82,8 +92,29 @@ class HostBasedUnitTestRunner(IUefiBuildPlugin):
             for old_result in glob.iglob(os.path.join(cp, "*.result.xml")):
                 os.remove(old_result)
 
-            # Determine whether any tests exist.
-            testList = glob.glob(os.path.join(cp, "*Test*.exe"))
+            # Find and Run any Host Tests
+            if GetHostInfo().os.upper() == "LINUX":
+                testList = glob.glob(os.path.join(cp, "*Test*"))
+                for a in testList[:]:
+                    p = os.path.join(cp, a)
+                    # It must be a file
+                    if not os.path.isfile(p):
+                        testList.remove(a)
+                        logging.debug(f"Remove directory file: {p}")
+                        continue
+                    # It must be executable
+                    if os.stat(p).st_mode & (stat.S_IEXEC | stat.S_IXGRP | stat.S_IXOTH) == 0:
+                        testList.remove(a)
+                        logging.debug(f"Remove non-executable file: {p}")
+                        continue
+                    
+                    logging.info(f"Test file found: {p}")
+
+            elif GetHostInfo().os.upper() == "WINDOWS":
+                testList = glob.glob(os.path.join(cp, "*Test*.exe"))
+            else:
+                raise NotImplementedError("Unsupported Operating System")
+
             for test in testList:
                 # Configure output name.
                 shell_env.set_shell_var(
