@@ -16,6 +16,8 @@
 
 [BuildOptions]
   GCC:*_*_*_CC_FLAGS = -fno-pie
+  GCC:*_GCC5_*_CC_FLAGS = --coverage
+  GCC:*_GCC5_*_DLINK_FLAGS = --coverage
 
 [BuildOptions.common.EDKII.HOST_APPLICATION]
   #
@@ -41,6 +43,9 @@
   GCC:*_*_IA32_DLINK_FLAGS == -o $(BIN_DIR)/$(BASE_NAME) -m32
   GCC:*_*_X64_DLINK_FLAGS  == -o $(BIN_DIR)/$(BASE_NAME) -m64
   GCC:*_*_*_DLINK2_FLAGS   == -lgcov
+
+  GCC:*_GCC5_*_CC_FLAGS = --coverage
+  GCC:*_GCC5_*_DLINK_FLAGS = --coverage
 
   #
   # Need to do this link via gcc and not ld as the pathing to libraries changes from OS version to OS version
